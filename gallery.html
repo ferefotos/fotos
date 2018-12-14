@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>weboldal</title>
+    <link rel="stylesheet" href="gallery.css">
+    <link href="https://fonts.googleapis.com/css?family=Gentium+Book+Basic" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <aside>
+            <div id="logo">
+                <h2>ferefoto</h2>
+                <img src="items/lens-g_32x32.png" alt="">
+            </div>
+            <nav>
+                <form action="" method="get">
+                    <input type="search" name="kereso" id="kereso" title="keresés">
+                    <button type="submit" name="keres" value="">
+                        <img src="items/find_24x24.png" alt="keresés" title="keresés">
+                    </button>
+                </form>
+
+                <h3>Kategóriák</h3>
+
+                <ul>
+                    <li><a href="#">Állat</a></li>
+                    <li><a href="#">Tájkép</a></li>
+                    <li><a href="#">Makró</a></li>
+                    <li><a href="#">Portré</a></li>
+                    <li><a href="#">Város</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main>
+            <header>
+                <div id="top-left">
+                    <div id="top-cat" onmouseover="mainover(this)" onmouseout="mainout()">
+                        <p>Kategóriák</p>
+                        <!--<img src="items/menu-icon.png" alt="">-->
+                        <ul id="top-cat-sub" onmouseover="subover()" onmouseout="subout()">
+                            <li><a href="#">Állat</a></li>
+                            <li><a href="#">Tájkép</a></li>
+                            <li><a href="#">Makró</a></li>
+                            <li><a href="#">Portré</a></li>
+                            <li><a href="#">Város</a></li>
+                        </ul>
+                    </div>
+
+                    <p>Ismertető</p>
+                </div>
+                <div id="top-center">
+                     <!--------------------->
+                </div>
+
+                <div id="top-right">
+                    <div id="login" onmouseover="mainover(this)" onmouseout="mainout()">
+                        <img src="items/user_32x32.png" alt="">
+                        <p>Felhasználó</p>
+                        <ul id="login-sub" onmouseover="subover()" onmouseout="subout()">
+                            <li><a href="#">Bejelentkezés</a></li>
+                            <li id="reglink" onclick="openreg(this)"><a href="#">Regisztráció</a></li>
+                            <li><a href="#">Feltöltés</a></li>
+                            <li><a href="#">Profil</a></li>
+                            <li><a href="#">Kedvencek</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <h2>Galéria</h2>
+
+            <div id="gallery">
+                <div class="image" id="o2414" onmousemove="showinfo(this)"><img src="kep/IMG_2414.JPG" alt="2414">
+                    <div class="info">
+                        <div class="user">
+                            <img src="profil.jpg" alt="img">
+                            <p>Szatmári Ferenc</p>
+                        </div>
+                        <div class="info-right">
+                            <div class="kedvenc">
+                                <img src="items/star_c.png" alt="img">
+                            </div>
+                            <div class="like">
+                                <img src="items/heart-c.png" alt="img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="image portrait" id="o2231" onmousemove="showinfo(this)"><img src="kep/IMG_2231.JPG" alt="2414">
+                    <div class="info">
+                        <div class="user">
+                            <img src="profil.jpg" alt="img">
+                            <p>Szatmári Ferenc</p>
+                        </div>
+                        <div class="info-right">
+                            <div class="kedvenc">
+                                <img src="items/star_c.png" alt="img">
+                            </div>
+                            <div class="like">
+                                <img src="items/heart-c.png" alt="img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="image wide" id="o2766w" onmouseover="showinfo(this)"><img src="kep/IMG_2766w.JPG" alt="2414">
+                    <div class="info">
+                        <div class="user">
+                            <img src="profil.jpg" alt="img">
+                            <p>Szatmári Ferenc</p>
+                        </div>
+                        <div class="info-right">
+                            <div class="kedvenc">
+                                <img src="items/star_c.png" alt="img">
+                            </div>
+                            <div class="like">
+                                <img src="items/heart-c.png" alt="img">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="image square"><img src="kep/IMG_22161.JPG" alt="2414">
+                    <div class="info">Értékelés</div>
+                </div>
+                <div class="image portrait"><img src="kep/IMG_2367.JPG" alt="2414"></div>
+                <div class="image"><img src="kep/IMG_2510.JPG" alt="2414">
+                    <div class="info">Értékelés</div>
+                </div>
+                <div class="image portrait"><img src="kep/IMG_2545.JPG" alt="2414"></div>
+                <div class="image"><img src="kep/IMG_2572.JPG" alt="2414"></div>
+                <div class="image wide"><img src="kep/IMG_2692w.JPG" alt="2414"></div>
+                <div class="image"><img src="kep/IMG_2612.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2326.JPG" alt="2414"></div>
+                <div class="image"><img src="kep/IMG_2460.JPG" alt="2414"></div>
+
+                <div class="image"><img src="kep/IMG_2288.JPG" alt="2414"></div>
+                <div class="image"><img src="kep/IMG_2364.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2538.JPG" alt="2414"></div>
+                <div class="image wide"><img src="kep/IMG_2557.JPG" alt="2414"></div>
+                <div class="image"><img src="kep/IMG_2565.JPG" alt="2414"></div>
+                <div class="image wide"><img src="kep/IMG_2578.JPG" alt="2414"></div>
+                <div class="image"><img src="kep/IMG_2599.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2367.JPG" alt="2414"></div>
+                <div class="image"><img src="kep/IMG_2216.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2538.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2326.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2367.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2538.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2326.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2538.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2326.JPG" alt="2414"></div>
+                <div class="image portrait"><img src="kep/IMG_2538.JPG" alt="2414"></div>
+                <div class="image"><img src="kep/IMG_2216.JPG" alt="2414"></div>
+
+
+
+                <div class="image blank"></div>
+                <div class="image blank"></div>
+            </div>
+        </main>
+    </div>
+
+    <div id="elsotetit" onclick="openreg(this)"></div>
+     
+    <fieldset id="reg" name="regisztracio">
+        <legend>Regisztráció</legend>
+            <form method="post" enctype="multipart/form-data" action="">
+
+                <div id="reg-top">
+                    <div>
+                        <p>
+                            <label for="user">Felhasználónév: *</label><br>
+                            <input type="text" name="username" id="user" required autofocus value="" title="Minimum 6 karakter!">
+                        </p>
+                        <p>
+                            <label for="jelszo">Jelszó: *</label><br>
+                            <input type="password" name="password" id="jelszo" required value="" title="Minimum 8 karakter!">
+                        </p>
+                        <p>
+                            <label for="jelszo2">Jelszó ismét: *</label><br>
+                            <input type="password" name="password2" id="jelszo2" required value="" title="Jelszó megismétlése!">
+                        </p>
+                        <p>
+                            <label for="email">E-mail cím: *</label><br>
+                            <input type="email" name="email" id="email" value="" title="e-mail címed">
+                        </p>
+                        <p>
+                            <label for="nev">Név: *</label><br>
+                            <input type="text" name="nev" id="nev" value="" required title="Ez a név lesz látható a profilodban!">
+                        </p>
+                        <p>Profilkép:</p>              
+                    </div>
+        
+                    <div>
+                        <p>
+                            <label for="cam">Fényképezőgép típusa:</label><br>
+                            <input type="text" name="cam" id="cam" value="" title="A fényképezőgéped típusa">
+                        </p>
+                        <p>
+                            <label for="obi">Objektív típusa:</label><br>
+                            <input type="text" name="obi" id="obi" value="" title="Az objektív típusa">
+                        </p>
+                        <p>
+                            <label for="rolam">Bemutatkozás:</label><br>
+                            <textarea name="rolam" id="rolam" cols="30" rows="8" placeholder="Írj egy pár sort magadról!"></textarea> 
+                        </p>
+                        <p class="star">A *-al jelölt mezők kitöltése kötelező!</p>               
+                    </div>
+                </div> 
+           
+                <div id="reg-bottom">
+
+                    <div id="profilkep"><img src="items/user_128x128.png" alt="profilkép"></div>
+                        
+                    <div id="reg-bottom-right">
+                        <div id="hibak">
+                            <div></div>
+                            <ul>
+                                <li>hiba 1</li>
+                                <li>hiba 2</li>
+                                <li>hiba 3</li>
+                            </ul>
+                        </div>
+
+                        <div id="gombok">
+                            <label class="gomb">Képfeltöltés<input type="file" name="file" id="pkep" onchange="this.form.submit();"></label>
+                            <p><input class="gomb" type="reset" name="reset" id="reset" value="Mégsem" onclick="openreg(this)">
+                            <input class="gomb" type="submit" name="elkuld" id="elkuld" value="Elküld"></p>
+                        </div>
+                    </div>
+                </div>
+            </form>          
+    </fieldset>
+
+
+</body>
+
+</html>

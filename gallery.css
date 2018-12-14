@@ -1,0 +1,378 @@
+body{
+    background-color: #8a8a8a;
+    margin: 0;
+    font-family: 'Gentium Book Basic', serif;
+    font-size: 1.3em;
+    color: #b4b4b4;
+}
+.container{display:flex;}
+h2{margin: 15px 17px;}
+.star{font-size: 0.7em;}
+main{
+    background-color: #3d3d3d;
+    flex: 1 1550px;
+    margin: 0 auto; 
+  }
+/*Fejléc*/
+header, #logo{
+    height: 50px;
+    background-color: #5a5a5a;
+    position: sticky;
+    z-index: 3;
+    top: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+}
+#logo{
+    padding: 0 15px;
+    align-items: center;
+    min-width: 190px;
+}
+#logo h2{margin-right: 15px;}
+/*Fejléc elemei*/
+#top-left{display: flex;}
+#top-left p{padding: 0 10px;}
+/*#top-right{display:flex; align-items: center;}*/
+#login{
+    display:flex; 
+    align-items: center;
+    margin-right: 10px;
+}
+#login img{margin: 0 5px;}
+#top-cat-sub, #login-sub{
+    position: absolute; 
+    top:46px;
+    background-color: rgba(36, 36, 36, 0.7);
+    margin: 0;
+    padding: 10px;
+    list-style-type: none;
+    display: none;
+    animation: subcat ease-in 0.5s 0s 1;
+    transform-origin: top;
+}
+@keyframes subcat {
+    from{
+        transform: scale(1,0);
+    }
+    to{
+        transform: scale(1,1);
+    }
+}
+@keyframes close {
+    from{
+        transform: scale(1,1);
+    }
+    to{
+        transform: scale(1,0);
+    }
+}
+#top-cat li, #login-sub li{
+    min-width: 100px;
+    padding: 0 0 2px 0;
+    margin: 0 0 2px 4px;
+    font-size: 1.0em;
+}
+/**************************************************************/
+/*Oldalsáv*/
+aside{
+    flex: 2 130px;
+    background-color: #242424;
+}
+nav{
+    /*background-color: #999797;*/
+    margin: 10px;
+    padding: 5px;
+    position: fixed; overflow: auto;
+}
+nav ul{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+nav li{
+    width: 130px;
+    padding: 0 0 2px 0;
+    margin: 0 0 2px 4px;
+    border-bottom: 1px groove #2e2e2e;
+    font-size: 1.1em;
+    text-indent: 5px;
+}
+nav a, #top-cat a, #login-sub a{
+    display: block;
+    text-decoration: none;
+    color: #b4b4b4;
+}
+nav a:hover, #top-cat a:hover, #login-sub a:hover{
+    color: #fff;
+    font-size: 1.05em;
+}
+nav h3{
+    margin-left: 10px;
+}
+/*Kereső*/
+nav form{
+    display: flex;
+    align-items: center;
+    margin-top: 5px; 
+}
+input[title]{
+    border: none; 
+    border-radius: 5px;
+    height: 20px;
+    padding: 5px;
+    font-size: 0.8em;
+}
+button[name="keres"]{
+    background: none;
+    border: none;
+}
+#kereso{
+    width: 10vw; 
+    min-width: 160px;
+    height: 30px;
+}
+
+/*************************************************************/
+/*Galéria*/  
+#gallery{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    background-color: #333333;
+    margin: 0 10px;
+    padding: 10px;
+}
+.image{
+    /*background-color: #999797;*/
+    margin: 3px;
+    flex: 3 320px;
+    display: flex;
+    flex-flow : column;
+    padding: 5px;
+    justify-content: center;
+    position: relative;
+    border: 1px solid #999797;
+    border-radius: 5px;
+}
+
+.portrait{
+   flex: 1 140px;
+  }
+.square{
+    flex: 2 230px;
+}
+.wide{
+    flex: 4 420px;
+}
+
+.blank{
+    background-color: none;
+    border: none;
+}
+
+#gallery img{
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+@media only screen and (max-width: 1065px){
+    .image{
+        flex: 3 270px;}
+    .portrait{
+        flex: 1 120px;}
+    .square{
+        flex: 2 200px;}
+    .wide{
+        flex: 4 400px;}
+}
+@media only screen and (max-width: 900px){
+    #container{padding: 20px;}
+    .image{
+        flex: 3 230px;}
+    .portrait{
+        flex: 1 110px;}
+    .square{
+        flex: 2 180px;}
+    .wide{
+        flex: 4 380px;}
+}
+@media only screen and (max-width: 470px){
+     .portrait img{
+        height: 100%;
+        width: 100%;}
+
+        #container{
+            max-width: 320px;
+            padding: 30px;
+          }   
+}
+/*********Információs sáv**************/
+.info{
+    /*background-color: #d1d1d1;
+    opacity: 0.9;*/
+     background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 100%);
+
+     font-size: 1.0em;
+    color: #fff;
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    width: calc(100% - 8px);
+    height: 46px;
+    border-radius: 4px;
+    display: none;
+    animation: show ease-in 0.5s 0s 1;
+    transform-origin: bottom;
+    justify-content: space-between;
+    align-items: center; 
+}
+
+@keyframes show {
+    from{
+        transform: scale(1,0);
+    }
+    to{
+        transform: scale(1,1);
+    }
+}
+
+.user{
+    display: flex;
+    align-items: center; 
+}
+.user img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.user img, .user p, .kedvenc, .like{
+    margin: 0 5px;
+    display: flex; 
+    align-items: flex-end;
+}
+.kedvenc, .like{
+    width: 26px;
+    height: 25px;
+}
+.info .info-right{
+    display: flex;
+    flex-flow: row;
+}
+.portrait .user p{
+    display: none;
+} 
+
+/*******Regisztrációs űrlap**********/
+fieldset{
+    width: 37vw;
+    position: absolute;
+    top: 12vh;
+    left: 34vw;
+    z-index:1;
+    display: none;
+}
+fieldset[name=regisztracio]{
+    background-color: #333333;
+    padding: 15px;
+    border-radius: 8px;    
+    border: 2px solid #999797;
+    font-size: 1.1em;
+}
+legend{
+    text-align: center;
+    padding: 5px 10px;
+    color: #242424;
+    background-color: #c4c4c4;
+    border-radius: 4px;
+}
+form p{margin: 0 0 10px 0;}
+label{font-size: 0.9em;}
+input{ margin: 5px 0;}
+textarea{
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 0.9em;
+}
+
+#reg-top{
+    display: flex;
+    margin-top: 10px;
+}
+#reg-top div:first-child{width: 50%;}
+#reg-top div:first-child input{width: 13vw;}
+#reg-top div:nth-child(2) input, 
+#reg-top div:nth-child(2) textarea {width: 15vw;}
+#reg-top div:nth-child(2) textarea{margin-top: 5px;}
+
+#reg-bottom{display: flex;}
+#reg-bottom input{margin: 0;}
+
+#profilkep{
+    height: 130px;
+    min-width: 130px;
+    margin-right: 10px;
+    background: #fff url('items/user_128x128.png') no-repeat center;
+    border-radius: 5px;
+}
+#profilkep img{
+    height:130px;
+    width:130px;
+    border-radius: 5px;
+}
+
+#reg-bottom-right{
+    width: 80%;
+    height: 130px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+#reg-bottom-right p{margin: 0;}
+
+#hibak{display: flex;}
+#hibak ul{
+    font-size: 0.8em;
+    color: rgb(255, 0, 0);
+    margin: 0;
+    padding: 0;
+}
+#hibak li{margin-bottom: 5px;}
+#hibak div{width: 38%;}
+
+#gombok{
+    display: flex;
+    justify-content: space-between;
+}
+
+input[type="file"] {
+    display: none;
+}
+.gomb {
+    font-family: 'Gentium Book Basic', serif;
+    font-size: 0.7em;
+    color: #000;
+    border: 2px solid #d4d4d4;
+    border-radius: 2px;
+    background-color: #e0e0e0;
+    display: inline-block;
+    padding: 3px 8px;
+    cursor: pointer;
+}
+#gombok #reset{
+    margin-right: 10px;
+}
+
+/*Háttér sötétítés.......................................*/
+#elsotetit{
+    background-color: rgba(63, 63, 63, 0.7);
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: none;
+}

@@ -43,36 +43,42 @@
         <main>
             <header>
                 <div id="top-left">
-                    <div id="top-cat" onmouseover="mainover(this)" onmouseout="mainout()">
-                        <p>Kategóriák</p>
+                    
                         <!--<img src="items/menu-icon.png" alt="">-->
-                        <ul id="top-cat-sub" onmouseover="subover()" onmouseout="subout()">
-                            <li><a href="#">Állat</a></li>
-                            <li><a href="#">Tájkép</a></li>
-                            <li><a href="#">Makró</a></li>
-                            <li><a href="#">Portré</a></li>
-                            <li><a href="#">Város</a></li>
+                        <ul class="rollmenu" id="top-cat" onmouseover="menuover(this)" onmouseout="menuout()">
+                            <li class="mainmenu"><a href="#">Kategóriák</a></li>
+                            <div class="submenu" id="top-cat-sub">
+                                <li><a href="#">Állat</a></li>
+                                <li><a href="#">Tájkép</a></li>
+                                <li><a href="#">Makró</a></li>
+                                <li><a href="#">Portré</a></li>
+                                <li><a href="#">Város</a></li>
+                            </div>
                         </ul>
-                    </div>
 
+                        
                     <p>Ismertető</p>
                 </div>
                 <div id="top-center">
-                     <!--------------------->
+                    <!--------------------->
                 </div>
 
                 <div id="top-right">
-                    <div id="login" onmouseover="mainover(this)" onmouseout="mainout()">
+
+                    <div id="login">
                         <img src="items/user_32x32.png" alt="">
-                        <p>Felhasználó</p>
-                        <ul id="login-sub" onmouseover="subover()" onmouseout="subout()">
-                            <li><a href="#">Bejelentkezés</a></li>
-                            <li id="reglink" onclick="openreg(this)"><a href="#">Regisztráció</a></li>
-                            <li><a href="#">Feltöltés</a></li>
-                            <li><a href="#">Profil</a></li>
-                            <li><a href="#">Kedvencek</a></li>
+                        <ul class="rollmenu" id="usermenu" onmouseover="menuover(this)" onmouseout="menuout()">
+                            <li class="mainmenu"><a href="#">Felhasználó</a></li>
+                            <div class="submenu" id="usermenu-sub">
+                                <li><a href="#">Bejelentkezés</a></li>
+                                <li id="reglink" onclick="openreg(this)"><a href="#">Regisztráció</a></li>
+                                <li><a href="#">Feltöltés</a></li>
+                                <li><a href="#">Profil</a></li>
+                                <li><a href="#">Kedvencek</a></li>
+                            </div>
                         </ul>
                     </div>
+
                 </div>
             </header>
 
@@ -169,76 +175,163 @@
     </div>
 
     <div id="elsotetit" onclick="openreg(this)"></div>
-     
+
     <fieldset id="reg" name="regisztracio">
         <legend>Regisztráció</legend>
-            <form method="post" enctype="multipart/form-data" action="">
+        <form method="post" enctype="multipart/form-data" action="">
 
-                <div id="reg-top">
-                    <div>
-                        <p>
-                            <label for="user">Felhasználónév: *</label><br>
-                            <input type="text" name="username" id="user" required autofocus value="" title="Minimum 6 karakter!">
-                        </p>
-                        <p>
-                            <label for="jelszo">Jelszó: *</label><br>
-                            <input type="password" name="password" id="jelszo" required value="" title="Minimum 8 karakter!">
-                        </p>
-                        <p>
-                            <label for="jelszo2">Jelszó ismét: *</label><br>
-                            <input type="password" name="password2" id="jelszo2" required value="" title="Jelszó megismétlése!">
-                        </p>
-                        <p>
-                            <label for="email">E-mail cím: *</label><br>
-                            <input type="email" name="email" id="email" value="" title="e-mail címed">
-                        </p>
-                        <p>
-                            <label for="nev">Név: *</label><br>
-                            <input type="text" name="nev" id="nev" value="" required title="Ez a név lesz látható a profilodban!">
-                        </p>
-                        <p>Profilkép:</p>              
+            <div id="reg-top">
+                <div>
+                    <p>
+                        <label for="user">Felhasználónév: *</label><br>
+                        <input type="text" name="username" id="user" required autofocus value="" title="Minimum 6 karakter!">
+                    </p>
+                    <p>
+                        <label for="jelszo">Jelszó: *</label><br>
+                        <input type="password" name="password" id="jelszo" required value="" title="Minimum 8 karakter!">
+                    </p>
+                    <p>
+                        <label for="jelszo2">Jelszó ismét: *</label><br>
+                        <input type="password" name="password2" id="jelszo2" required value="" title="Jelszó megismétlése!">
+                    </p>
+                    <p>
+                        <label for="email">E-mail cím: *</label><br>
+                        <input type="email" name="email" id="email" value="" title="e-mail címed">
+                    </p>
+                    <p>
+                        <label for="nev">Név: *</label><br>
+                        <input type="text" name="nev" id="nev" value="" required title="Ez a név lesz látható a profilodban!">
+                    </p>
+                    <p>Profilkép:</p>
+                </div>
+
+                <div>
+                    <p>
+                        <label for="cam">Fényképezőgép típusa:</label><br>
+                        <input type="text" name="cam" id="cam" value="" title="A fényképezőgéped típusa">
+                    </p>
+                    <p>
+                        <label for="obi">Objektív típusa:</label><br>
+                        <input type="text" name="obi" id="obi" value="" title="Az objektív típusa">
+                    </p>
+                    <p>
+                        <label for="rolam">Bemutatkozás:</label><br>
+                        <textarea name="rolam" id="rolam" cols="30" rows="8" placeholder="Írj egy pár sort magadról!"></textarea>
+                    </p>
+                    <p class="star">A *-al jelölt mezők kitöltése kötelező!</p>
+                </div>
+            </div>
+
+            <div id="reg-bottom">
+
+                <div id="profilkep"><img src="items/user_128x128.png" alt="profilkép"></div>
+
+                <div id="reg-bottom-right">
+                    <div id="hibak">
+                        <div></div>
+                        <ul>
+                            <li>hiba 1</li>
+                            <li>hiba 2</li>
+                            <li>hiba 3</li>
+                        </ul>
                     </div>
-        
-                    <div>
-                        <p>
-                            <label for="cam">Fényképezőgép típusa:</label><br>
-                            <input type="text" name="cam" id="cam" value="" title="A fényképezőgéped típusa">
-                        </p>
-                        <p>
-                            <label for="obi">Objektív típusa:</label><br>
-                            <input type="text" name="obi" id="obi" value="" title="Az objektív típusa">
-                        </p>
-                        <p>
-                            <label for="rolam">Bemutatkozás:</label><br>
-                            <textarea name="rolam" id="rolam" cols="30" rows="8" placeholder="Írj egy pár sort magadról!"></textarea> 
-                        </p>
-                        <p class="star">A *-al jelölt mezők kitöltése kötelező!</p>               
-                    </div>
-                </div> 
-           
-                <div id="reg-bottom">
 
-                    <div id="profilkep"><img src="items/user_128x128.png" alt="profilkép"></div>
-                        
-                    <div id="reg-bottom-right">
-                        <div id="hibak">
-                            <div></div>
-                            <ul>
-                                <li>hiba 1</li>
-                                <li>hiba 2</li>
-                                <li>hiba 3</li>
-                            </ul>
-                        </div>
-
-                        <div id="gombok">
-                            <label class="gomb">Képfeltöltés<input type="file" name="file" id="pkep" onchange="this.form.submit();"></label>
-                            <p><input class="gomb" type="reset" name="reset" id="reset" value="Mégsem" onclick="openreg(this)">
+                    <div id="gombok">
+                        <label class="gomb">Képfeltöltés
+                            <input type="file" name="file" id="pkep" onchange="this.form.submit()">
+                        </label>
+                        <p><input class="gomb" type="reset" name="reset" id="reset" value="Mégsem" onclick="openreg(this)">
                             <input class="gomb" type="submit" name="elkuld" id="elkuld" value="Elküld"></p>
-                        </div>
                     </div>
                 </div>
-            </form>          
+            </div>
+        </form>
     </fieldset>
+
+    <fieldset id="upload" name="upload">
+        <legend>Fénykép feltöltése</legend>
+        <form method="post" enctype="multipart/form-data" action="">
+
+            <div id="foto-top">
+                <div id="foto-pre">
+                    <div><img src="kepek/IMG_2231.JPG" alt=""></div>
+                    <div>
+                        <label class="gomb" for="foto" id="talloz">Kép választás
+                            <input type="file" name="foto" id="foto" onchange="this.form.submit()">
+                        </label>
+                        
+                    </div>
+                </div>
+                <div id="foto-data">
+                    <p><label for="cim">Kép címe:</label>
+                        <input type="text" name="cim" id="cim" title="A kép címe" value="">
+                    </p>
+                    <p><label for="kategoria">Kategória:*</label>
+                        <select name="kategoria" id="kategoria" title="Kategória választás">
+                            <OPTIon value="allat">Állat</OPTIon>
+                            <OPTIon value="tajkep">Tájkép</OPTIon>
+                            <OPTIon value="makro">Makró</OPTIon>
+                            <OPTIon value="portre">Portré</OPTIon>
+                        </select>
+                    </p>
+
+                    <p>
+                        <label for="leiras">Leírás a képről:</label><br>
+                        <textarea name="leiras" id="leiras" cols="33" rows="8" placeholder="Itt írhatsz a kép készítéséről"></textarea>
+                    </p>
+                    <label><input type="checkbox" name="public" id="public"> Nem publikus</label>
+                </div>
+            </div>
+
+            <div id="foto-bottom">
+                <div>
+                    <div class="foto-exif">
+                        <div>
+                            <p><label for="zar">Záridő (s):</label><br>
+                                <input type="text" name="zar" id="zar" title="Zársebesség" value="">
+                            </p>
+                            <p><label for="blende">Rekesz:</label><br>
+                                <input type="text" name="blende" id="blende" title="Rekeszérték" value="">
+                            </p>
+                        </div>
+                        <div>
+                            <p><label for="iso">ISO:</label><br>
+                                <input type="number" name="iso" id="iso" title="ISO érték" value="">
+                            </p>
+                            <p><label for="fokusz">Fókusz (mm):</label><br>
+                                <input type="number" name="fokusz" id="fokusz" title="Fókusztávolság" value="">
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="foto-exif">
+                        <div>
+                            <p><label for="cam">Kamera:</label><br>
+                                <input type="text" name="cam" id="cam" title="A gép típusa" value="">
+                            </p>
+                            <p><label for="obi">Objektív:</label><br>
+                                <input type="text" name="obi" id="obi" title="Az objektív típusa" value="">
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="gombok">
+                    <div><label for="datum">Készült:</label><br>
+                        <input type="date" name="datum" id="datum" title="A készítés dátuma" value="">
+                    </div>
+                    <div><input class="gomb" type="reset" name="reset" id="reset" value="Mégsem" onclick="openreg(this)">
+                        <input class="gomb" type="submit" name="elkuld" id="elkuld" value="Elküld">
+                    </div>
+                </div>
+            </div>
+
+
+
+        </form>
+    </fieldset>
+
 
 
 </body>

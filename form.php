@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>form</title>
+    <script src="script.js"></script>
 </head>
 <body>
 <br>
@@ -74,7 +75,7 @@ a kép adat a többi adattal együtt kezelve kerüljön az adatbázisba.-->
     <?php if (isset($hibalista)) echo $hibalista;?>
     <br>
     <input type="hidden" name="filename" value="<?php if (isset($foto)) echo $foto ?>">
-    <input type="file" id="foto" name="foto" onchange="this.form.submit()"><br>
+    <input type="file" id="foto" name="foto" onchange="this.form.submit()" ><br>
     <label for="nev">Név</label>
     <input type="text" name="nev" id="nev"><br>
     <?php if(isset($urlap)) echo $urlap?>

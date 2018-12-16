@@ -15,7 +15,7 @@ main{
   }
 /*Fejléc*/
 header, #logo{
-    height: 50px;
+    height: 60px;
     background-color: #5a5a5a;
     position: sticky;
     z-index: 3;
@@ -35,23 +35,50 @@ header, #logo{
 #top-left{display: flex;}
 #top-left p{padding: 0 10px;}
 /*#top-right{display:flex; align-items: center;}*/
-#login{
-    display:flex; 
-    align-items: center;
-    margin-right: 10px;
-}
-#login img{margin: 0 5px;}
-#top-cat-sub, #login-sub{
-    position: absolute; 
-    top:46px;
-    background-color: rgba(36, 36, 36, 0.7);
-    margin: 0;
-    padding: 10px;
+
+
+/*****Top menü****************************/
+
+.rollmenu {  
+    position: relative;
+    top: 10px;
+    margin: 0;   
+    padding: 10px; 
     list-style-type: none;
+  } 
+.mainmenu{margin-bottom: 5px;}
+.mainmenu a:hover{color:#fff;}
+.submenu{
+    background-color: rgba(36, 36, 36, 0.7);
+    padding: 10px;    
+    min-width: 100px;
     display: none;
-    animation: subcat ease-in 0.5s 0s 1;
+    position: absolute;  
+    left: 10px; 
     transform-origin: top;
 }
+.submenu li {  
+    padding: 5px 0;
+    margin: 0;
+    font-size: 1.0em; 
+} 
+.submenu a:hover{  
+    color: #fff;
+    font-size: 1.05em;
+} 
+.rollmenu a{
+    display: block;
+    text-decoration: none;
+    color: #b4b4b4;
+}
+#usermenu{top: 4px;}
+
+/*#top-cat:hover #sub-menu{  
+    display: block;
+    animation: subcat ease-in 0.5s 0s 1;
+    transform-origin: top;      
+}  */
+
 @keyframes subcat {
     from{
         transform: scale(1,0);
@@ -68,14 +95,16 @@ header, #logo{
         transform: scale(1,0);
     }
 }
-#top-cat li, #login-sub li{
-    min-width: 100px;
-    padding: 0 0 2px 0;
-    margin: 0 0 2px 4px;
-    font-size: 1.0em;
+
+#login{
+    display:flex; 
+    align-items: center;
+    margin-right: 10px;
 }
-/**************************************************************/
-/*Oldalsáv*/
+#login img{margin: 0 5px;}
+
+
+/******  Aside nav ********************************************************/
 aside{
     flex: 2 130px;
     background-color: #242424;
@@ -99,12 +128,12 @@ nav li{
     font-size: 1.1em;
     text-indent: 5px;
 }
-nav a, #top-cat a, #login-sub a{
+nav a{
     display: block;
     text-decoration: none;
     color: #b4b4b4;
 }
-nav a:hover, #top-cat a:hover, #login-sub a:hover{
+nav a:hover{
     color: #fff;
     font-size: 1.05em;
 }
@@ -198,7 +227,13 @@ button[name="keres"]{
         flex: 2 180px;}
     .wide{
         flex: 4 380px;}
+    #upload{top: 60px; left: 220px;}   
 }
+@media only screen and (max-width: 820px){
+    aside{display: none;}
+    #upload{top: 60px; left: 10px;} 
+}
+
 @media only screen and (max-width: 470px){
      .portrait img{
         height: 100%;
@@ -267,20 +302,22 @@ button[name="keres"]{
 
 /*******Regisztrációs űrlap**********/
 fieldset{
-    width: 37vw;
+    
     position: absolute;
     top: 12vh;
     left: 34vw;
     z-index:1;
-    display: none;
-}
-fieldset[name=regisztracio]{
     background-color: #333333;
     padding: 15px;
     border-radius: 8px;    
     border: 2px solid #999797;
     font-size: 1.1em;
 }
+fieldset[name="regisztracio"]{
+    width: 37vw;
+    display: none;
+}
+
 legend{
     text-align: center;
     padding: 5px 10px;
@@ -289,23 +326,26 @@ legend{
     border-radius: 4px;
 }
 form p{margin: 0 0 10px 0;}
-label{font-size: 0.9em;}
+label{font-size: 0.9em; margin-right: 10px;}
 input{ margin: 5px 0;}
+input:focus{
+    border: 2px solid #0077ff;
+}
 textarea{
     border-radius: 5px;
     padding: 5px;
     font-size: 0.9em;
+    margin-top: 5px;
 }
 
 #reg-top{
     display: flex;
     margin-top: 10px;
 }
-#reg-top div:first-child{width: 50%;}
-#reg-top div:first-child input{width: 13vw;}
+#reg-top div:first-child{width: 50%; margin-right: 10px;}
+#reg-top div:first-child input{width: 200px;}
 #reg-top div:nth-child(2) input, 
-#reg-top div:nth-child(2) textarea {width: 15vw;}
-#reg-top div:nth-child(2) textarea{margin-top: 5px;}
+#reg-top div:nth-child(2) textarea {width: 220px;}
 
 #reg-bottom{display: flex;}
 #reg-bottom input{margin: 0;}
@@ -363,6 +403,60 @@ input[type="file"] {
 }
 #gombok #reset{
     margin-right: 10px;
+}
+/* képfeltöltés*/
+
+fieldset[name="upload"]{
+    display: block; 
+}
+#upload legend{display:none;}
+
+#upload form{
+/*max-width: 820px;*/
+    display: flex;
+    flex-flow: column;
+}
+.foto-exif{
+
+    display: flex;
+    flex-flow: row wrap;
+}
+.foto-exif div:first-child, .foto-exif div:nth-child(2){
+    display: flex;
+    flex-flow: row wrap;
+
+}
+#foto-bottom{
+    margin-top: 15px;
+}
+#gombok{
+    display: flex;
+    align-items: flex-end;
+}
+
+#foto-top{
+    display: flex;
+    flex-flow: row wrap;
+}
+#foto-pre{
+    display: flex;
+    flex-flow: column;
+    align-items: flex-start;
+}
+
+#foto-pre img{
+    margin: 0 15px 15px 0;
+    max-width: 450px;
+    border: 1px solid #999797;
+}
+.foto-exif input{margin-right: 15px;}
+#zar, #blende, #iso, #fokusz{width: 111px} /*110px*/
+#cam, #obi{width: 247px;} /*245px*/
+select{
+    width: 212px; 
+    height: 28px; 
+    border-radius: 4px; 
+    margin: 5px 0 5px 0;
 }
 
 /*Háttér sötétítés.......................................*/

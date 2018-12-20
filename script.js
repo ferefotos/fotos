@@ -9,7 +9,7 @@ function esemeny(){
 
 function openreg(clicked){
     var d="";
-    if (clicked.id=="reglink") { /*reglink*/
+    if (clicked.id=="reglink" || clicked.id=="uplink") { /*reglink*/
         d="block";
         /*swidth=screen.width;
         if(swidth<900){
@@ -18,10 +18,22 @@ function openreg(clicked){
         }*/
     }
     
-     if (clicked.id=="elsotetit")
+     if (clicked.id=="elsotetit"){
         d="none";
+        
+        document.getElementById("reg").style.display=d;
+        document.getElementById("upform").style.display=d;
 
-     document.getElementById("reg").style.display=d;
+     }
+
+     if(clicked.id=="reglink"){
+        document.getElementById("reg").style.display=d;
+     }
+     
+     if(clicked.id=="uplink"){
+        document.getElementById("upform").style.display=d;
+     }
+     
      document.getElementById("elsotetit").style.display=d;
  }
 

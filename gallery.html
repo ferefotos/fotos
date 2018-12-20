@@ -43,21 +43,21 @@
         <main>
             <header>
                 <div id="top-left">
-                    
-                        <!--<img src="items/menu-icon.png" alt="">-->
-                        <ul class="rollmenu" id="top-cat" onmouseover="menuover(this)" onmouseout="menuout()">
-                            <li class="mainmenu"><a href="#">Kategóriák</a></li>
-                            <div class="submenu" id="top-cat-sub">
-                                <li><a href="#">Állat</a></li>
-                                <li><a href="#">Tájkép</a></li>
-                                <li><a href="#">Makró</a></li>
-                                <li><a href="#">Portré</a></li>
-                                <li><a href="#">Város</a></li>
-                            </div>
-                        </ul>
 
-                        
-                    <p>Ismertető</p>
+                    <!--<img src="items/menu-icon.png" alt="">-->
+                    <ul class="rollmenu" id="top-cat" onmouseover="menuover(this)" onmouseout="menuout()">
+                        <li class="mainmenu"><a href="#">Kategóriák</a></li>
+                        <div class="submenu" id="top-cat-sub">
+                            <li><a href="#">Állat</a></li>
+                            <li><a href="#">Tájkép</a></li>
+                            <li><a href="#">Makró</a></li>
+                            <li><a href="#">Portré</a></li>
+                            <li><a href="#">Város</a></li>
+                        </div>
+                    </ul>
+
+
+                    <p>Ism</p>
                 </div>
                 <div id="top-center">
                     <!--------------------->
@@ -72,7 +72,7 @@
                             <div class="submenu" id="usermenu-sub">
                                 <li><a href="#">Bejelentkezés</a></li>
                                 <li id="reglink" onclick="openreg(this)"><a href="#">Regisztráció</a></li>
-                                <li><a href="#">Feltöltés</a></li>
+                                <li id="uplink" onclick="openreg(this)"><a href="#">Feltöltés</a></li>
                                 <li><a href="#">Profil</a></li>
                                 <li><a href="#">Kedvencek</a></li>
                             </div>
@@ -120,7 +120,7 @@
                 <div class="image wide" id="o2766w" onmouseover="showinfo(this)"><img src="kep/IMG_2766w.JPG" alt="2414">
                     <div class="info">
                         <div class="user">
-                            <img src="profil.jpg" alt="img">
+                            <img id="pk" src="profil.jpg" alt="img">
                             <p>Szatmári Ferenc</p>
                         </div>
                         <div class="info-right">
@@ -207,12 +207,12 @@
 
                 <div>
                     <p>
-                        <label for="cam">Fényképezőgép típusa:</label><br>
-                        <input type="text" name="cam" id="cam" value="" title="A fényképezőgéped típusa">
+                        <label for="camera">Fényképezőgép típusa:</label><br>
+                        <input type="text" name="camera" id="camera" value="" title="A fényképezőgéped típusa">
                     </p>
                     <p>
-                        <label for="obi">Objektív típusa:</label><br>
-                        <input type="text" name="obi" id="obi" value="" title="Az objektív típusa">
+                        <label for="lens">Objektív típusa:</label><br>
+                        <input type="text" name="lens" id="lens" value="" title="Az objektív típusa">
                     </p>
                     <p>
                         <label for="rolam">Bemutatkozás:</label><br>
@@ -224,10 +224,10 @@
 
             <div id="reg-bottom">
 
-                <div id="profilkep"><img src="items/user_128x128.png" alt="profilkép"></div>
+                <div id="profkep"><img src="items/user_128x128.png" alt="profilkép"></div>
 
                 <div id="reg-bottom-right">
-                    <div id="hibak">
+                    <div class="hibak" id="reg-hibak">
                         <div></div>
                         <ul>
                             <li>hiba 1</li>
@@ -236,56 +236,59 @@
                         </ul>
                     </div>
 
-                    <div id="gombok">
+                    <div class="gombok" id="reg-gombok">
                         <label class="gomb">Képfeltöltés
                             <input type="file" name="file" id="pkep" onchange="this.form.submit()">
                         </label>
                         <p><input class="gomb" type="reset" name="reset" id="reset" value="Mégsem" onclick="openreg(this)">
-                            <input class="gomb" type="submit" name="elkuld" id="elkuld" value="Elküld"></p>
+                            <input class="gomb" type="submit" name="submit" id="submit" value="Elküld"></p>
                     </div>
                 </div>
             </div>
         </form>
     </fieldset>
-
-    <fieldset id="upload" name="upload">
+    <!-----------------------Képfeltöltés------------------------------------------------->
+    <fieldset class="upload  up-square" id="upform" name="upload">
         <legend>Fénykép feltöltése</legend>
         <form method="post" enctype="multipart/form-data" action="">
 
-            <div id="foto-top">
+            <div id="upform-top">
                 <div id="foto-pre">
-                    <div><img src="kepek/IMG_2231.JPG" alt=""></div>
+                    <div><img src="kepek/IMG_22161.jpg" alt=""></div>
                     <div>
-                        <label class="gomb" for="foto" id="talloz">Kép választás
+                        <label class="gomb" for="foto" id="talloz">Képválasztás
                             <input type="file" name="foto" id="foto" onchange="this.form.submit()">
                         </label>
-                        
+                        <label><input type="checkbox" name="public" id="publicw"> Nem publikus</label>
                     </div>
                 </div>
                 <div id="foto-data">
-                    <p><label for="cim">Kép címe:</label>
-                        <input type="text" name="cim" id="cim" title="A kép címe" value="">
-                    </p>
-                    <p><label for="kategoria">Kategória:*</label>
-                        <select name="kategoria" id="kategoria" title="Kategória választás">
-                            <OPTIon value="allat">Állat</OPTIon>
-                            <OPTIon value="tajkep">Tájkép</OPTIon>
-                            <OPTIon value="makro">Makró</OPTIon>
-                            <OPTIon value="portre">Portré</OPTIon>
-                        </select>
-                    </p>
+                    <div>
+                        <p><label for="cim">Kép címe:</label>
+                            <input type="text" name="cim" id="cim" title="A kép címe" value="">
+                        </p>
+                        <p><label for="kategoria">Kategória: *</label>
+                            <select name="kategoria" id="kategoria" title="Kategória választás">
+                                <OPTIon value="allat">Állat</OPTIon>
+                                <OPTIon value="tajkep">Tájkép</OPTIon>
+                                <OPTIon value="makro">Makró</OPTIon>
+                                <OPTIon value="portre">Portré</OPTIon>
+                            </select>
+                        </p>
+                    </div>
 
-                    <p>
+                    <div>
                         <label for="leiras">Leírás a képről:</label><br>
                         <textarea name="leiras" id="leiras" cols="33" rows="8" placeholder="Itt írhatsz a kép készítéséről"></textarea>
-                    </p>
-                    <label><input type="checkbox" name="public" id="public"> Nem publikus</label>
+                    </div>
+                   <!--Publikus jelölő helye--->
+                   <label><input type="checkbox" name="public" id="public"> Nem publikus</label>
                 </div>
             </div>
 
-            <div id="foto-bottom">
+            <div id="upform-bottom">
                 <div>
-                    <div class="foto-exif">
+                    <div class="foto-exif" id="made-exif">
                         <div>
                             <p><label for="zar">Záridő (s):</label><br>
                                 <input type="text" name="zar" id="zar" title="Zársebesség" value="">
@@ -302,10 +305,9 @@
                                 <input type="number" name="fokusz" id="fokusz" title="Fókusztávolság" value="">
                             </p>
                         </div>
-
                     </div>
 
-                    <div class="foto-exif">
+                    <div class="foto-exif" id="cam-exif">
                         <div>
                             <p><label for="cam">Kamera:</label><br>
                                 <input type="text" name="cam" id="cam" title="A gép típusa" value="">
@@ -315,20 +317,25 @@
                             </p>
                         </div>
                     </div>
-
                 </div>
-                <div id="gombok">
+                <div class="gombok" id="up-gombok">
                     <div><label for="datum">Készült:</label><br>
                         <input type="date" name="datum" id="datum" title="A készítés dátuma" value="">
                     </div>
-                    <div><input class="gomb" type="reset" name="reset" id="reset" value="Mégsem" onclick="openreg(this)">
-                        <input class="gomb" type="submit" name="elkuld" id="elkuld" value="Elküld">
+                    <div><input class="gomb" type="reset" name="cancel" id="cancel" value="Mégsem" onclick="openreg(this)">
+                        <input class="gomb" type="submit" name="enter" id="enter" value="Elküld">
                     </div>
                 </div>
             </div>
-
-
-
+            <!--Hibalista
+                <div class="hibak" id="up-hibak">
+                    <ul>
+                        <li>hiba 1</li>
+                        <li>hiba 2</li>
+                        <li>hiba 3</li>
+                    </ul>
+                </div>
+            -->
         </form>
     </fieldset>
 

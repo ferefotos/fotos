@@ -201,7 +201,7 @@ button[name="keres"]{
     border: none;
 }
 
-#gallery img{
+.image img{
     max-width: 100%;
     height: auto;
     border-radius: 5px;
@@ -227,13 +227,8 @@ button[name="keres"]{
         flex: 2 180px;}
     .wide{
         flex: 4 380px;}
-    #upload{top: 60px; left: 220px;}   
+      
 }
-@media only screen and (max-width: 820px){
-    aside{display: none;}
-    #upload{top: 60px; left: 10px;} 
-}
-
 @media only screen and (max-width: 470px){
      .portrait img{
         height: 100%;
@@ -302,19 +297,18 @@ button[name="keres"]{
 
 /*******Regisztrációs űrlap**********/
 fieldset{
-    
     position: absolute;
-    top: 12vh;
-    left: 34vw;
+    top: 130px;  
     z-index:1;
-    background-color: #333333;
+    background-color: rgb(51, 51, 51, 0.95);
     padding: 15px;
     border-radius: 8px;    
     border: 2px solid #999797;
     font-size: 1.1em;
 }
-fieldset[name="regisztracio"]{
-    width: 37vw;
+#reg{
+    left: calc(50% - 260px);
+    width: 700px;
     display: none;
 }
 
@@ -328,9 +322,8 @@ legend{
 form p{margin: 0 0 10px 0;}
 label{font-size: 0.9em; margin-right: 10px;}
 input{ margin: 5px 0;}
-input:focus{
-    border: 2px solid #0077ff;
-}
+input:focus{border: 2px solid #0077ff;}
+
 textarea{
     border-radius: 5px;
     padding: 5px;
@@ -346,18 +339,17 @@ textarea{
 #reg-top div:first-child input{width: 200px;}
 #reg-top div:nth-child(2) input, 
 #reg-top div:nth-child(2) textarea {width: 220px;}
-
 #reg-bottom{display: flex;}
 #reg-bottom input{margin: 0;}
 
-#profilkep{
+#profkep{
     height: 130px;
     min-width: 130px;
     margin-right: 10px;
     background: #fff url('items/user_128x128.png') no-repeat center;
     border-radius: 5px;
 }
-#profilkep img{
+#prokep img{
     height:130px;
     width:130px;
     border-radius: 5px;
@@ -372,69 +364,48 @@ textarea{
 }
 #reg-bottom-right p{margin: 0;}
 
-#hibak{display: flex;}
-#hibak ul{
+#reg-hibak{display: flex;}
+.hibak ul{
     font-size: 0.8em;
     color: rgb(255, 0, 0);
     margin: 0;
     padding: 0;
 }
-#hibak li{margin-bottom: 5px;}
-#hibak div{width: 38%;}
+.hibak li{margin-bottom: 5px;}
+#reg-hibak div{width: 38%;}
 
-#gombok{
+input[type="file"] {display: none;} /*Az eredeti feltöltés gombot láthatatlanná kell tenni*/
+
+.gombok{
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
 }
 
-input[type="file"] {
-    display: none;
-}
 .gomb {
-    font-family: 'Gentium Book Basic', serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 0.7em;
-    color: #000;
-    border: 2px solid #d4d4d4;
+    width: 80px;
+    color: #fff;
+    border: 2px solid #0053a0;
     border-radius: 2px;
-    background-color: #e0e0e0;
+    background-color: #0787ff; /*#e0e0e0*/
     display: inline-block;
     padding: 3px 8px;
     cursor: pointer;
 }
-#gombok #reset{
-    margin-right: 10px;
-}
-/* képfeltöltés*/
+.gombok #reset{margin-right: 10px;}
 
-fieldset[name="upload"]{
-    display: block; 
-}
-#upload legend{display:none;}
+/********* képfeltöltés ****************/
 
-#upload form{
-/*max-width: 820px;*/
+.upload{display: block;} /*width: 791px; height: 520px;*/
+ 
+.upload legend{display:none;}
+.upload form{
     display: flex;
     flex-flow: column;
 }
-.foto-exif{
-
-    display: flex;
-    flex-flow: row wrap;
-}
-.foto-exif div:first-child, .foto-exif div:nth-child(2){
-    display: flex;
-    flex-flow: row wrap;
-
-}
-#foto-bottom{
-    margin-top: 15px;
-}
-#gombok{
-    display: flex;
-    align-items: flex-end;
-}
-
-#foto-top{
+#upform-top{
     display: flex;
     flex-flow: row wrap;
 }
@@ -443,25 +414,180 @@ fieldset[name="upload"]{
     flex-flow: column;
     align-items: flex-start;
 }
-
 #foto-pre img{
     margin: 0 15px 15px 0;
-    max-width: 450px;
+    max-width: 100%;
     border: 1px solid #999797;
 }
-.foto-exif input{margin-right: 15px;}
-#zar, #blende, #iso, #fokusz{width: 111px} /*110px*/
-#cam, #obi{width: 247px;} /*245px*/
+#foto-pre div:nth-child(2){
+    display: flex; 
+    justify-content: space-between; 
+    width: 97%;
+}
+#upform-bottom{
+    display: flex; 
+    margin-top: 15px;
+}
+.foto-exif{
+    max-width: 550px;
+    display: flex;
+    flex-flow: row wrap;
+}
+.foto-exif div:first-child, .foto-exif div:nth-child(2){
+    display: flex;
+    flex-flow: row wrap;
+}
+
+#cim{width: 213px;}
+#zar, #blende, #iso, #cam{margin-right: 15px;}
+#zar, #blende, #iso, #fokusz{width: 114px;}
+#cam, #obi{width:254px;} 
 select{
-    width: 212px; 
+    width: 205px; 
     height: 28px; 
     border-radius: 4px; 
     margin: 5px 0 5px 0;
 }
+#datum{width: 145px;}
+#cancel{margin-right: 10px;}
+#talloz{padding: 5px 20px 5px 5px;} 
+#up-hibak{margin: 10px 0 0 25px;}
 
-/*Háttér sötétítés.......................................*/
+/**** Feltöltés ablak kép oldalarány szerinti formázása ***/
+#foto-data label:nth-last-child(1){display: none;}
+.up-portrait #foto-data label:nth-last-child(1), 
+.up-square #foto-data label:nth-last-child(1){display: block;}
+.up-portrait #foto-pre label:nth-child(2),
+.up-square #foto-pre label:nth-child(2){display: none;}
+.up-square{left: calc(50% - 255px);}
+.up-landscape{left: calc(43% - 235px);}
+.up-landscape #up-gombok{flex-flow: column; width: 240px; align-items: flex-end;}
+.up-landscape #up-gombok div{margin-bottom: 10px;}
+.up-portrait #upform-bottom, .up-square #upform-bottom{flex-flow: column;}
+.up-wide{left: calc(42% - 250px);}
+.up-wide #foto-pre img{max-width: 550px;}
+
+@media only screen and (min-width: 1251px){
+    .up-wide #up-gombok{flex-flow: column;}
+    .up-wide #up-gombok div:first-child{align-self: flex-end;}
+    .up-wide #up-gombok div:nth-child(2){margin-bottom: 10px;}
+    .up-wide #upform-bottom{justify-content: space-between;}
+}
+
+@media only screen and (max-width: 1250px){
+    .up-wide{left: calc(50% - 185px);}
+    .up-wide #upform-top{flex-flow: column;}
+    .up-wide{padding-right: 0;}
+    .up-wide #foto-data{margin-top: 15px; display: flex; flex-flow: row; max-width: 554px;}
+    .up-wide #foto-data div:first-child{width: 50%; margin-right: 15px;}
+    .up-wide #foto-data div:nth-child(2){width: 50%; margin-right: 15px;}    
+    .up-wide #leiras{width: 99%; height: 95px;}
+    .up-wide #cim{width: 95%;}
+    .up-wide #kategoria{width: 99%;}
+    .up-wide #enter{margin-right: 15px;}
+    .up-wide #upform-bottom{flex-flow: column;}
+}
+
+@media only screen and (max-width: 1079px){ 
+    #reg{width: 550px; left: calc(50% - 180px);}  
+    .up-landscape{max-width: 455px;} 
+    .up-landscape{left: calc(62% - 235px);} 
+    .up-landscape #foto-data, .up-square #foto-data{width: 100%; margin-top: 15px;} 
+    .up-landscape .foto-exif, .up-square .foto-exif{max-width: 330px;}   
+    .up-landscape #foto-data #cim, .up-square #foto-data #cim {width: 97%;}
+    .up-landscape #foto-data #kategoria, .up-square #foto-data #kategoria {width: 99%;}
+    .up-landscape #foto-data #leiras, .up-square #foto-data #leiras {width: 97%;}
+    .up-landscape #made-exif input, .up-square #made-exif input{max-width: 100%;} 
+    .up-landscape #cam-exif input, .up-square #cam-exif input{max-width: 100%;} 
+    .up-landscape #blende, .up-landscape #fokusz,
+    .up-square #blende, .up-square #fokusz{margin-right: 0;}
+    .up-square{max-width: 402px;}
+    .up-square{left: calc(63% - 220px);}
+}
+
+@media only screen and (min-width: 511px) and (max-width:1079px){
+    .up-landscape #upform-bottom{max-width: 430px;}
+    .up-landscape #up-gombok{flex-flow: column; }
+    .up-landscape #up-gombok div:nth-child(2){display: flex; flex-flow: row; margin-bottom: 10px; align-self: flex-end;}
+}
+
+@media only screen and (min-width: 821px){
+    .up-portrait{left: calc(56% - 235px);}
+}
+
+@media only screen and (max-width: 820px){
+    aside{display: none;}
+    #reg{width: 500px; left: calc((100% - 550px)/2);} 
+    .up-landscape{left: calc((100% - 490px)/2)}
+    .up-portrait{left: calc((100% - 580px)/2)}
+    .up-wide{left: calc((100% - 585px)/2);}
+    .up-square{left: calc((100% - 436px)/2);}
+}
+
+@media only screen and (max-width: 620px){
+    .up-portrait{max-width: 330px; left: calc((100% - 370px)/2); top:65px;}
+    .up-portrait #foto-pre img{max-width: 330px;}   
+    .up-portrait .foto-exif{flex-wrap: nowrap;}
+    .up-portrait #made-exif input{width: 86%;} 
+    .up-portrait #cam-exif input{width: 100%;} 
+    .up-portrait #iso, .up-portrait #fokusz{margin-right: 0;}
+    .up-wide{left: 0; top: 65px;}
+    .up-wide #foto-pre img{max-width: 100%;}
+    .up-wide{padding-right: 15px;}
+    .up-wide #upform-bottom{flex-flow: row; justify-content: flex-start;}
+    .up-wide #up-gombok{flex-flow: column; width: 48%;}
+    .up-wide #up-gombok div:first-child{align-self: flex-start;}
+    .up-wide #up-gombok div:nth-child(2){margin-bottom: 10px;}
+    .up-wide .foto-exif{max-width: 278px;}
+    .up-wide #enter{margin-right: 0;}
+}
+
+@media only screen and (max-width: 510px){
+    #reg-top, #reg-bottom{flex-flow: column;}
+    #reg{left: 0; max-width: 90%;}
+    #profkep{width: 130px; margin-bottom: 20px;}
+    #reg-bottom-right{width:100%; height: auto;}
+    #hibak{margin-bottom:15px;}
+    #hibak div{width: 130px;}
+    .up-landscape{left: 0; top:65px;}
+    .up-landscape #upform-bottom{flex-flow: column; }
+    .up-landscape #up-gombok{align-items: flex-start;}
+    .up-wide #foto-data{flex-flow: column;}
+    .up-wide #upform-bottom{display: block;}
+    .up-wide #up-gombok{align-items: flex-start;}
+    .up-wide #datum{margin-bottom: 15px;}
+    .up-wide #foto-data div:first-child{width: 100%;}
+    .up-wide #foto-data div:nth-child(2){width: 98%;}    
+    .up-wide #cim{width: 97%;}
+    .up-wide #kategoria{width: 99%;}
+    .up-wide #up-gombok{width: 100%;}
+    .up-wide #up-gombok div:nth-child(2){width: 200px;}
+}
+
+@media only screen and (max-width: 450px) and (max-width:619px){
+    .up-square {left: 0;}
+}
+
+@media only screen and (min-width: 381px) and (max-width:619px){
+    .up-portrait #foto-pre{flex-flow: row;}
+}
+
+@media only screen and (max-width: 380px){
+    .upload{left: 0;}
+    #cim, #kategoria, #leiras{width: 100%;}
+    #foto-pre div:nth-child(2){flex-wrap: wrap;}
+    .up-landscape .foto-exif{max-width: 200px;}
+    .up-landscape #upform-top{margin-right: 0;}
+    .up-portrait #upform-top{margin-right: 15px;}
+    .up-portrait #up-gombok, .up-square #up-gombok{flex-flow: column; align-items: flex-start;} 
+    .up-portrait #up-gombok div:nth-child(2),
+    .up-square #up-gombok div:nth-child(2){margin-top: 10px; }
+    .up-portrait #talloz, .up-wide #talloz{margin-bottom: 15px;}
+    }
+
+/*Háttér elsötétítés.......................................*/
 #elsotetit{
-    background-color: rgba(63, 63, 63, 0.7);
+    background-color: rgba(39, 39, 39, 0.8);
     z-index: 1;
     width: 100%;
     height: 100%;

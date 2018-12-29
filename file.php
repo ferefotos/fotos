@@ -3,14 +3,14 @@ function upload($path, $prefix){
      // Engedályezett MIME típusok
     $mime = array("image/jpeg", "image/pjpeg", "image/gif", "image/png");
      //Vizsgálat
-    if ($_FILES['foto']['error'] > 0 && $_FILES['foto']['error'] !=1) {
-        $result=array("error" => true, "hiba" => "Hiba történt a fájlfeltöltés során: ".$_FILES['foto']['error']);
+    if ($_FILES['foto']['error'] > 0 && $_FILES['foto']['error'] != 1) {
+        $result = array("error" => true, "hiba" => "Hiba történt a fájlfeltöltés során: " . $_FILES['foto']['error']);
     }
-    if ($_FILES['foto']['size'] > 3048000 || $_FILES['foto']['error'] ==1) {
-        $result=array("error" => true, "hiba" => "A feltölthető fájl maximális mérete 3MB lehet!");
+    if ($_FILES['foto']['size'] > 8048000 || $_FILES['foto']['error'] == 1) {
+        $result = array("error" => true, "hiba" => "A feltölthető fájl maximális mérete 3MB lehet!");
     }
     if ($_FILES['foto']['error'] == 0 && !in_array($_FILES['foto']['type'], $mime)) {
-        $result=array("error" => true, "hiba" => "Nem megfelelő képformátum! Feltölthető: .jpg .png .gif");
+        $result = array("error" => true, "hiba" => "Nem megfelelő képformátum! Feltölthető: .jpg .png .gif");
     }
     
      // Ha van hiba
@@ -29,14 +29,14 @@ function upload($path, $prefix){
             default:
                 $ext = ".jpg";
                 break;
-            }
-        $filename = $prefix. $ext;
+        }
+        $filename = $prefix . $ext;
         
         // Kép mozgatása a végleges helyére
         move_uploaded_file($_FILES['foto']['tmp_name'], "$path$filename");
         
         //Visszaadja hogy nem volt hiba, és a file nevét
-        return $result=array("error" => false, "file" => $filename);            
+        return $result = array("error" => false, "file" => $filename);
     }
 } 
 //A bélyegkép elkészítése
@@ -48,7 +48,7 @@ function resize($path, $n_path, $n_height){
     $n_width = round($n_height * $width / $height);
 
     $ujkep = imagecreatetruecolor($n_width, $n_height);
-     $ext=$_FILES['foto']['type'];
+    $ext = $_FILES['foto']['type'];
 
     switch ($ext) {
         case "image/gif":
@@ -76,5 +76,169 @@ function resize($path, $n_path, $n_height){
             break;
     }
 }
+
+//Képarány számítása
+function rate($path){
+    $size = getimagesize($path);
+    $width = $size[0];
+    $height = $size[1];
+    $per=$width/$height;
+    if($per<=0.8){
+        $rate="portrait";
+    }elseif($per>0.8 && $per<1.2){
+        $rate="square";
+    }elseif($per>=1.2 && $per<=1.7){
+        $rate="landscape";
+    }elseif($per>1.7){
+        $rate="wide";
+    }
+    return $rate;
+}
+
+/*Exif adatok lekérdezése és feldolgozása*/
+function exifData($path){
+
+    if ((isset($path)) and (file_exists($path))) {
+        @$exif = exif_read_data($path);
+
+        //Záridő
+        /*A megfelelő formátumra alakítás:
+         * másodpercben 1s -nál kisebb érték esetén pl. 1/250 
+         * 1s-felett pedig egy egész szám, pl. 5.  
+         */
+        if (@array_key_exists('ExposureTime', $exif)) {
+            $expTime = $exif['ExposureTime'];
+            $cut = strtok($expTime, "/");
+            $e1 = $cut;
+            $cut = strtok("/");
+            $e2 = $cut;
+            if ($e1 == 10 && $e2 > $e1) {
+                $expTime = ($e1 / 10) . "/" . ($e2 / 10);
+            }
+            if ($e1 > $e2) {
+                $expTime = $e1 / $e2;
+            }
+            $exifdata['zarido'] = $expTime;
+        } else {
+            $exifdata['zarido'] = "";
+        }
+
+        //blende
+        /* A megfelelő formátum pl.: f/1.2  f4  f5.6   f11 */
+        if (@array_key_exists('ApertureFNumber', $exif['COMPUTED'])) {
+            $aperture = $exif['COMPUTED']['ApertureFNumber'];
+            $cut = strtok($aperture, "/");
+            $cut = strtok("/");
+            $a2 = $cut;
+            if (substr($a2, strlen($a2) - 2) == ".0")
+                $a2 = (int)$a2;
+            if ($a2 > 1) {
+                $aperture = "f/" . $a2;
+            } else {
+                $aperture = "";
+            }
+            $exifdata['blende'] = $aperture;
+        } else {
+            $exifdata['blende'] = "";
+        }
+
+        //ISO
+        if (@array_key_exists('ISOSpeedRatings', $exif)) {
+            $exifdata['iso'] = $exif['ISOSpeedRatings'];
+        } else {
+            $exifdata['iso'] = "";
+        }
+
+        // Fókusztávolság
+        /* A megfelelő formátumra alakítás: A fókusztávolság egy egész szám mm-ben, pl. 80 mm*/
+        if (@array_key_exists('FocalLength', $exif)) {
+            $focus = $exif['FocalLength'];
+            $cut = strtok($focus, "/");
+            $f1 = $cut;
+            $cut = strtok("/");
+            $f2 = $cut;
+            $focus = $f1 / $f2;
+            $exifdata['focus'] = $focus;
+        } else {
+            $exifdata['focus'] = "";
+        }
+
+        // Kamera gyártója
+        if (@array_key_exists('Make', $exif)) {
+            $make = $exif['Make'];
+        } else {
+            $make = "";
+        }
+                       
+        // Kamera model
+        if (@array_key_exists('Model', $exif)) {
+            $model = $exif['Model'];
+        } else {
+            $model = "";
+        }
+
+        // Kamera típusa: gyártó & model
+        /* Két exif adatból áll. 
+         * Típusonként eltérően a modelnél vagy szerepel a márka is, vagy csak a típius név.
+         * A gyártónál teljes cégnév is lehet, pl. Nikon corporation. 
+         * A 2 adatból úgy kell a típust generálni, hogy a márkanév (csak egyszer), és a gép típusa szerepeljen.
+        */ 
+        if ($make != "" || $model != "") {
+            $cams = array('Canon', 'Nikon', 'Olympus', 'Panasonic', 'Sony', 'Pentax', 'Fuji ', 'Samsung', 'Huawei', 'Leica');
+            $N = count($cams);
+            $i = 0;
+            while ($i < $N && substr_count(strtolower($model), strtolower($cams[$i])) == 0) {
+                $i++;
+            }
+
+            if ($i == $N) {
+                $i = 0;
+                while ($i < $N && substr_count(strtolower($make), strtolower($cams[$i])) != 1) {
+                    $i++;
+                }
+                if ($i < $N) {
+                    $make = $cams[$i] . " ";
+                } else {
+                    $make = strtok($make, " ") . " ";
+                }
+                $model = $make . $model;
+            }
+            $exifdata['kamera'] = $model;
+        } else {
+            $exifdata['kamera'] = "";
+        }
+
+        //objektív
+        if (@array_key_exists('UndefinedTag:0xA434', $exif)) {
+            $exifdata['obi'] = $exif['UndefinedTag:0xA434'];
+          } else {
+            $exifdata['obi'] = "";
+          }
+
+        // készítés dátuma
+        /*A kinyert adatból csak a dátum kell, az idő nem. A dátumot : helyett .-al kell elválasztani*/
+        if (@array_key_exists('DateTimeOriginal', $exif)) {
+            $date = $exif['DateTimeOriginal'];
+            $cut = strtok($date, " ");
+            $exifdata['date'] = strtr($cut, ':', '.');
+        } else {
+            $exifdata['date'] = "";
+        }
+
+    }else{
+        $exifdata=array('zarido' => '', 'blende' => '', 'focus' => '', 'iso' => '', 'camera' => '', 'obi' => '', 'date' => '');
+    }
+    return $exifdata;
+}
+/*$exifd = exifData("kepek/L/teszt/IMG_20180628_211207-1.jpg");
+echo "Záridő: " . $exifd['zarido'] . "<br />";
+echo "Blende: " . $exifd['blende'] . "<br />";
+echo "Fókusztáv: " . $exifd['focus'] . "<br />";
+echo "ISO: " . $exifd['iso'] . "<br />";
+echo "Kamera: " . $exifd['kamera'] . "<br />";
+echo "Objektív: " . $exifd['obi'] . "<br />";
+echo "Készült: " . $exifd['date'] . "<br />";*/
+
+
 
 ?>

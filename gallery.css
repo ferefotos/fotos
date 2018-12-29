@@ -5,16 +5,18 @@ body{
     font-size: 1.3em;
     color: #b4b4b4;
 }
-.container{display:flex;}
+.container{display:flex; }
 h2{margin: 15px 17px;}
 .star{font-size: 0.7em;}
 main{
     background-color: #3d3d3d;
-    flex: 1 1550px;
     margin: 0 auto; 
+    width: 100%;
+    min-height: 100vh;
   }
+
 /*Fejléc*/
-header, #logo{
+header, .logo{
     height: 60px;
     background-color: #5a5a5a;
     position: sticky;
@@ -23,30 +25,30 @@ header, #logo{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 25px;
+    padding: 0 10px;
 }
-#logo{
-    padding: 0 15px;
-    align-items: center;
-    min-width: 190px;
-}
-#logo h2{margin-right: 15px;}
-/*Fejléc elemei*/
-#top-left{display: flex;}
-#top-left p{padding: 0 10px;}
-/*#top-right{display:flex; align-items: center;}*/
+.logo{padding: 0 15px;}
+.logo img{margin: 0 10px;}
 
+/*Fejléc elemei*/
+#top-left, #top-right{
+    display: flex; 
+    align-items: center; 
+    margin-top: 20px;
+}
+#top-center{display: none;}
 
 /*****Top menü****************************/
-
-.rollmenu {  
+.ddmenu {
     position: relative;
-    top: 10px;
-    margin: 0;   
-    padding: 10px; 
-    list-style-type: none;
+    margin: 0;
+    padding: 10px;
   } 
-.mainmenu{margin-bottom: 5px;}
+.ddmenu a{
+    display: block;
+    text-decoration: none;
+    color: #b4b4b4;
+}
 .mainmenu a:hover{color:#fff;}
 .submenu{
     background-color: rgba(36, 36, 36, 0.7);
@@ -54,30 +56,33 @@ header, #logo{
     min-width: 100px;
     display: none;
     position: absolute;  
-    left: 10px; 
+    list-style-type: none;
     transform-origin: top;
+    left: 10px; 
+    top: 20px;
 }
-.submenu li {  
+.submenu li{  
     padding: 5px 0;
     margin: 0;
     font-size: 1.0em; 
-} 
+}  
 .submenu a:hover{  
     color: #fff;
     font-size: 1.05em;
-} 
-.rollmenu a{
-    display: block;
-    text-decoration: none;
-    color: #b4b4b4;
 }
-#usermenu{top: 4px;}
-
-/*#top-cat:hover #sub-menu{  
-    display: block;
-    animation: subcat ease-in 0.5s 0s 1;
-    transform-origin: top;      
-}  */
+.logmenu{
+    padding: 10px 15px; 
+    left: -80px; 
+}
+.logmenu ul{list-style-type: none; margin: 0; padding: 0;}
+#catmenu-resp{display: none;}
+#usermenu{margin-right: 15px;}
+#usermenu-sub{margin-top: 27px;}
+#usermenu .mainmenu{display: flex; align-items: center;}
+#menu-avatar{margin: 0 0 5px 5px;}
+#infomenu-resp{display: none;}
+#uploadmenu{margin-right: 15px;}
+#reglink{border-top: oldlace solid 1px; padding-top: 10px;}
 
 @keyframes subcat {
     from{
@@ -96,25 +101,18 @@ header, #logo{
     }
 }
 
-#login{
-    display:flex; 
-    align-items: center;
-    margin-right: 10px;
-}
-#login img{margin: 0 5px;}
-
 
 /******  Aside nav ********************************************************/
 aside{
-    flex: 2 130px;
+   min-width: 250px;
     background-color: #242424;
 }
 nav{
     /*background-color: #999797;*/
     margin: 10px;
     padding: 5px;
-    position: fixed; overflow: auto;
-}
+    position: fixed;
+} 
 nav ul{
     padding: 0;
     margin: 0;
@@ -156,12 +154,142 @@ input[title]{
 button[name="keres"]{
     background: none;
     border: none;
+    cursor: pointer;
 }
 #kereso{
-    width: 10vw; 
-    min-width: 160px;
+    width: 185px;
+    margin-right: 5px;
     height: 30px;
 }
+/****************************************************************/
+
+.p-port, .p-land{
+    display: flex; 
+    margin: 0;
+    padding: 25px;
+}
+    
+#photoframe{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2c2c2c;
+    margin-right: 25px;
+    width: 100%;
+    height: 80vh;
+    position: relative;
+}
+
+#photoframe img{
+    max-height: 100%;
+    max-width: 100%;
+}
+#navi{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+#next, #prev{
+    width: 30%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+#next{align-items: flex-end;}
+#prev{align-items: flex-start;}
+#next img{margin: 5px 5px 0 0; padding: 5px;}
+#prev img{margin: 5px 0 0 5px; padding: 5px;}
+#next img:hover, #prev img:hover{background-color: #8f8f8f; border-radius: 50%;}
+#next div,#prev div{height: 48px;}
+/*exif*/
+
+#dataframe{
+    background-color: #eeeeee;
+    color: #242424;
+    min-width: 310px;
+    padding: 10px; 
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+#auth, .exif div{display: flex; align-items: center;}
+#auth img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+#data-header h4{margin: 20px 10px;}
+.exif div{width: max-content;}
+#exif{display:flex; flex-flow: column;}
+#exif p{margin: 0;}
+#exif img, #desc img{margin: 0 5px 3px 3px;}
+#desc{display: flex; align-items: flex-start;}
+#desc p{max-width: 300px; }
+#mark{
+    display:flex; 
+    justify-content: flex-end;  
+}
+#star-mark, #like-mark{
+    display: flex; 
+    align-items: center;
+    margin-right: 15px;
+}
+#mark img{margin-right: 8px;}
+#edit-data{display: flex; align-items: center; justify-content: space-between;}
+
+@media only screen and (min-width: 620px) and (max-width: 1500px){ 
+    .p-land{flex-flow: column;}
+    .p-land #photoframe{height: auto;}
+    .p-land #dataframe{
+        min-height: 250px;
+        margin-top: 25px;
+    }
+    .p-land #data-header{
+        display: flex; 
+        justify-content: space-between;  
+        margin-bottom: 10px;
+    }
+    .p-land #mark{align-self: flex-end;}
+    .p-land #exif{display: flex; flex-flow: row; align-items: flex-start;}
+    .p-land .exif{display: flex; flex-flow: column; width: 30%; margin-right: 10px;}
+}
+@media only screen and (min-width: 620px) and (max-width: 1300px){
+    .p-port{flex-flow: column;}
+    .p-port #dataframe{
+        min-height: 250px;
+        margin-top: 25px;
+    }
+    .p-port #data-header{
+        display: flex; 
+        justify-content: space-between;  
+        margin-bottom: 10px;
+    }
+    .p-port #mark{align-self: flex-end;}
+    .p-port #exif{display: flex; flex-flow: row; align-items: flex-start;}
+    .p-port .exif{display: flex; flex-flow: column; width: 30%; margin-right: 10px;}
+    
+}
+@media only screen and (max-width: 1079px){
+    .p-land .exif{width: 25%;}
+    .exif div{width: auto;}
+    #desc p{max-width: 220px;}
+}
+@media only screen and (max-width: 819px){
+    #enlarge{display:none;}  
+}
+@media only screen and (max-width: 619px){
+    .p-land, .p-port{flex-flow: column;}
+    #photoframe{height: auto;}
+    #dataframe{min-width: auto; margin-top: 25px;}
+    .exif div{width: max-content;}
+    #desc p{max-width: 450px;}
+}
+
 
 /*************************************************************/
 /*Galéria*/  
@@ -365,12 +493,11 @@ textarea{
 #reg-bottom-right p{margin: 0;}
 
 #reg-hibak{display: flex;}
-.hibak ul{
+.hibak{
     font-size: 0.8em;
     color: rgb(255, 0, 0);
-    margin: 0;
-    padding: 0;
 }
+.hibak ul{margin: 0; padding: 0;}
 .hibak li{margin-bottom: 5px;}
 #reg-hibak div{width: 38%;}
 
@@ -398,7 +525,7 @@ input[type="file"] {display: none;} /*Az eredeti feltöltés gombot láthatatlan
 
 /********* képfeltöltés ****************/
 
-.upload{display: block;} /*width: 791px; height: 520px;*/
+.upload{display: none;} /*width: 791px; height: 520px;*/
  
 .upload legend{display:none;}
 .upload form{
@@ -513,10 +640,22 @@ select{
 
 @media only screen and (min-width: 821px){
     .up-portrait{left: calc(56% - 235px);}
+    .p-land #photoframe{padding: 60px 0;}
 }
 
 @media only screen and (max-width: 820px){
     aside{display: none;}
+    #top-center{display: block;}
+    .mainmenu a{display: none;}
+    #catmenu-resp{display: block; margin: 0 5px 20px 0;}
+    #usermenu{margin-right: 5px; margin-bottom: 10px;}
+    #usermenu-sub{margin-top: 30px;}
+    .submenu-user{left: -90px;}
+    .logmenu{left: -180px;}
+    #catmenu-sub{top: 40px;}
+    #uploadmenu{  margin: 0 0 5px 0;}
+    #infomenu{display: none;}
+    #infomenu-resp{display: block; margin-bottom: 12px;}
     #reg{width: 500px; left: calc((100% - 550px)/2);} 
     .up-landscape{left: calc((100% - 490px)/2)}
     .up-portrait{left: calc((100% - 580px)/2)}
@@ -573,6 +712,8 @@ select{
 }
 
 @media only screen and (max-width: 380px){
+    .logo{margin-right: 15px;}
+    .logo img{width: 100%;}
     .upload{left: 0;}
     #cim, #kategoria, #leiras{width: 100%;}
     #foto-pre div:nth-child(2){flex-wrap: wrap;}

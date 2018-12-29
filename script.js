@@ -38,15 +38,15 @@ function openreg(clicked){
  }
 
 
- /* Legördülő menü *****************************************/
+ /* Drop-down menü *****************************************/
  var cid = "";
  var over = false;
- var ismet=true; 
+ var ismet=false; 
  function menuover(clicked) {
      over = true;
      cid = clicked.id;
-     if(ismet){
-        ismet=false; 
+     if(!ismet){
+        ismet=true; 
         disp_mod("block");
         anim("subcat ease-in 0.5s 0s 1"); 
     }
@@ -56,13 +56,13 @@ function openreg(clicked){
      setTimeout(hide, 5);  
  }
  function hide() {
-    if (!over) {
+    if (!over && !log) {
         anim("close ease-in 0.5s 0s 1");
         setTimeout(disp_none, 480);    
     }
  }
  function disp_none() {
-    ismet=true;
+    ismet=false;
     disp_mod("none")
 }
  function disp_mod(disp) {
@@ -72,7 +72,18 @@ function openreg(clicked){
  function anim(a) {
      document.getElementById(cid + "-sub").style.animation = a;
  }
-
+ /*Kiegészítés a drop-down menühöz
+  *A login ablaknál figyeli hogy a felhasználónév vagy jelszó mezőbe klikkeltek -e
+  *  és ha igen, akkor nem engedi visszacsukódni az ablakot, ha az egér nem lenne felette,
+  *  csak akkor ha máshova klikkelnek.
+  */
+ var log=false;
+ function inlog(){log=true;}
+ function outlog(){
+     log=false;
+     if(!over)
+       hide();
+ }
 
 
  /*Info sáv a képek alján*/

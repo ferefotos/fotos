@@ -18,15 +18,27 @@ if (isset($_POST['upload'])) {
     if ($_POST['filename'] != ""){
     // itt kell vizsgálni a mezőket, majd ha minden OK, mehet az adattáblába.
     echo "név: " . $_POST['nev'] . "<br>";
-    echo "kép: " . $_POST['filename'];
+    echo "kép: " . $_POST['filename']. "<br>";
+
+    //Exif adatok tesztelése
+    echo "Exif adatok: <br>";
+    $exif=exifData("kepek/L/".$_POST['filename']);
+
+    echo "Záridő: " . $exif['zarido'] . "<br />";
+    echo "Blende: " . $exif['blende'] . "<br />";
+    echo "Fókusztáv: " . $exif['focus'] . "<br />";
+    echo "ISO: " . $exif['iso'] . "<br />";
+    echo "Kamera: " . $exif['kamera'] . "<br />";
+    echo "Objektív: " . $exif['obi'] . "<br />";
+    echo "Készült: " . $exif['date'] . "<br />";
 
 
     }else{$errors[]="Nem töltöttél fel képet!";}
 
 } elseif (isset($_POST['reset'])) {
     if($_POST['filename'] != ""){
-    unlink("kepek/" . $_POST['filename']);
-    unlink("kepek/L/" . $_POST['filename']);
+    @unlink("kepek/" . $_POST['filename']);
+    @unlink("kepek/L/" . $_POST['filename']);
     }
     //header("Location: gallery.php");
     echo "itt meg kell adni, hova kerüljön a reset megnyomása után!!!";
@@ -36,20 +48,23 @@ if (isset($_POST['upload'])) {
     if (isset($_FILES['foto'])) {
         /* Ha újra választ képet, a korábban feltöltött fájlt le kell törölni, mielőtt az újat feltölti.*/
         if ($_POST['filename'] != "") {
-            unlink("kepek/" . $_POST['filename']);
-            unlink("kepek/L/" . $_POST['filename']);
+            @unlink("kepek/" . $_POST['filename']);
+            @unlink("kepek/L/" . $_POST['filename']);
         }
 
         $result = upload("kepek/L/", date("U"));
         if (!$result['error']) {
             $foto = $result['file'];
             resize("kepek/L/" . $foto, "kepek/" . $foto, 300);
+            $rate=rate("kepek/L/".$foto);
             //teszt
             $ertek=256;
             $urlap="
             <label for=\"cim\">cím</label>
-            <input type=\"text\" name=\"cim\" id=\"cim\" value=\"{$foto}\">
+            <input type=\"text\" name=\"cim\" id=\"{$rate}\" value=\"{$foto}\">
             ";
+
+
         } 
         else{$errors[] = $result['hiba'];}                  
     }  

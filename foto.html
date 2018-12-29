@@ -9,8 +9,9 @@
     <link rel="stylesheet" href="gallery.css">
     <link href="https://fonts.googleapis.com/css?family=Gentium+Book+Basic" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    
+
 </head>
+
 <body>
     <div class="container">
         <aside>
@@ -34,6 +35,7 @@
                     <li><a href="#">Makró</a></li>
                     <li><a href="#">Portré</a></li>
                     <li><a href="#">Város</a></li>
+
 
                 </ul>
             </nav>
@@ -67,25 +69,29 @@
 
                 <div id="top-right">
 
-                   <!--  -->
-                   <div id="uploadmenu"><img src="items/upload.png" id="uplink" onclick="openreg(this)" alt="feltöltés"></div>
+                    <!--  -->
+                    <div id="uploadmenu"><img src="items/upload.png" id="uplink" onclick="openreg(this)" alt="feltöltés"></div>
                     <div class="ddmenu" id="usermenu" onmouseover="menuover(this)" onmouseout="menuout()">
                         <div class="mainmenu"><a href="#">Felhasználó</a>
                             <img id="menu-avatar" src="items/avatar.png" alt="avatar">
                         </div>
 
-                      <form class="submenu logmenu" id="usermenu-sub" method="post">
+                        <form class="submenu logmenu" id="usermenu-sub" method="post">
                             <p>
                                 <label for="username">Felhasználónév:</label><br>
-                                <input type="text" name="username" id="username" onclick="inlog()" onblur="outlog()" required autofocus value="" title="Felhasználónév">
+                                <input type="text" name="username" id="username" onclick="inlog()" onblur="outlog()"
+                                    required autofocus value="" title="Felhasználónév">
                             </p>
                             <p>
                                 <label for="password">Jelszó:</label><br>
-                                <input type="password" name="password" id="password" onclick="inlog()" onblur="outlog()" required value="" title="Jelszó">
+                                <input type="password" name="password" id="password" onclick="inlog()" onblur="outlog()"
+                                    required value="" title="Jelszó">
                             </p>
                             <p><input class="gomb" type="submit" name="login" id="login" value="Belépés"></p>
                             <p class="hibak">Hábás felhasználónév vagy jelszó!</p>
-                            <ul><li id="reglink" onclick="openreg(this)"><a href="#">Regisztráció</a></li></ul>
+                            <ul>
+                                <li id="reglink" onclick="openreg(this)"><a href="#">Regisztráció</a></li>
+                            </ul>
                         </form>
 
                         <!--<ul class="submenu submenu-user" id="usermenu-sub">
@@ -100,95 +106,88 @@
 
             </header>
 
-            <h2>Galéria</h2>
+            <article class="p-port">
 
-            <div id="gallery">
-                <div class="image" id="o2414" onmousemove="showinfo(this)"><img src="kep/IMG_2414.JPG" alt="2414">
-                    <div class="info">
-                        <div class="user">
-                            <img src="profil.jpg" alt="img">
-                            <p>Szatmári Ferenc</p>
+                <div id="photoframe">
+                    <img src="kepek/L/IMG_2231.JPG" alt="">
+                    <div id="navi">
+                        <div id="prev">
+                            <img src="items/close36x.png" alt="">
+                            <img src="items/prev.png" alt="">
+                            <div></div>
                         </div>
-                        <div class="info-right">
-                            <div class="kedvenc">
-                                <img src="items/star_c.png" alt="img">
-                            </div>
-                            <div class="like">
-                                <img src="items/heart-c.png" alt="img">
-                            </div>
+                        <div id="next">
+                            <div><img id="enlarge" src="items/enlarge.png" alt=""></div>
+                            <img src="items/next.png" alt="">
+                            <div></div>
                         </div>
                     </div>
                 </div>
-                <div class="image portrait" id="o2231" onmousemove="showinfo(this)"><img src="kep/IMG_2231.JPG" alt="2414">
-                    <div class="info">
-                        <div class="user">
-                            <img src="profil.jpg" alt="img">
-                            <p>Szatmári Ferenc</p>
-                        </div>
-                        <div class="info-right">
-                            <div class="kedvenc">
-                                <img src="items/star_c.png" alt="img">
+
+                <div id="dataframe">
+                    <div id="photodata">
+                        <div id="data-header">
+                            <div id="auth">
+                                <img src="profil.jpg" alt="">
+                                <p>felhasználó neve</p>
                             </div>
-                            <div class="like">
-                                <img src="items/heart-c.png" alt="img">
+                            <h4>A kép címe</h4>
+                        </div>
+                        <div id="exif">
+                            <div class="exif">
+                                <div>
+                                    <img src="items/blende.png" alt="">
+                                    <p>f8</p>
+                                </div>
+                                <div>
+                                    <img src="items/time.png" alt="">
+                                    <p>1/500 s</p>
+                                </div>
+                                <div>
+                                    <img src="items/iso.png" alt="">
+                                    <p>200</p>
+                                </div>
+                            </div>
+
+                            <div class="exif">
+                                <div>
+                                    <img src="items/zoom.png" alt="">
+                                    <p>120 mm</p>
+                                </div>
+                                <div>
+                                    <img src="items/cam.png" alt="">
+                                    <p>Canon EOS 70D</p>
+                                </div>
+                                <div>
+                                    <img src="items/lens.png" alt="">
+                                    <p>Canon EF 24-105 f4L</p>
+                                </div>
+                            </div>
+                            <div id="desc">
+                                <img src="items/pen32.png" alt="">
+                                <p>A kép leírása sfgysfgsdf ygsdfhdyhdyx hxdfhdxfhdy hdhdcg fxhjdgx jgfdj ssd faFA FAADFADFD FAADFAFADF AFDADFADFADF AFADF AFAEDFA FAAFADF </p>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="image wide" id="o2766w" onmouseover="showinfo(this)"><img src="kep/IMG_2766w.JPG" alt="2414">
-                    <div class="info">
-                        <div class="user">
-                            <img id="pk" src="profil.jpg" alt="img">
-                            <p>Szatmári Ferenc</p>
-                        </div>
-                        <div class="info-right">
-                            <div class="kedvenc">
-                                <img src="items/star_c.png" alt="img">
+
+                    <div id="edit-data">
+                        <div id="mark">
+                            <div id="star-mark">
+                                <img src="items/star40.png" alt="img">
+                                <p>5</p>
                             </div>
-                            <div class="like">
-                                <img src="items/heart-c.png" alt="img">
+                            <div id="like-mark">
+                                <img src="items/heart40.png" alt="img">
+                                <p>23</p>
                             </div>
                         </div>
+                        <img src="items/menu-dot.png" alt="">
                     </div>
+
                 </div>
-                <div class="image square"><img src="kep/IMG_22161.JPG" alt="2414">
-                    <div class="info">Értékelés</div>
-                </div>
-                <div class="image portrait"><img src="kep/IMG_2367.JPG" alt="2414"></div>
-                <div class="image"><img src="kep/IMG_2510.JPG" alt="2414">
-                    <div class="info">Értékelés</div>
-                </div>
-                <div class="image portrait"><img src="kep/IMG_2545.JPG" alt="2414"></div>
-                <div class="image"><img src="kep/IMG_2572.JPG" alt="2414"></div>
-                <div class="image wide"><img src="kep/IMG_2692w.JPG" alt="2414"></div>
-                <div class="image"><img src="kep/IMG_2612.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2326.JPG" alt="2414"></div>
-                <div class="image"><img src="kep/IMG_2460.JPG" alt="2414"></div>
 
-                <div class="image"><img src="kep/IMG_2288.JPG" alt="2414"></div>
-                <div class="image"><img src="kep/IMG_2364.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2538.JPG" alt="2414"></div>
-                <div class="image wide"><img src="kep/IMG_2557.JPG" alt="2414"></div>
-                <div class="image"><img src="kep/IMG_2565.JPG" alt="2414"></div>
-                <div class="image wide"><img src="kep/IMG_2578.JPG" alt="2414"></div>
-                <div class="image"><img src="kep/IMG_2599.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2367.JPG" alt="2414"></div>
-                <div class="image"><img src="kep/IMG_2216.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2538.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2326.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2367.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2538.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2326.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2538.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2326.JPG" alt="2414"></div>
-                <div class="image portrait"><img src="kep/IMG_2538.JPG" alt="2414"></div>
-                <div class="image"><img src="kep/IMG_2216.JPG" alt="2414"></div>
+            </article>
 
-
-
-                <div class="image blank"></div>
-                <div class="image blank"></div>
-            </div>
         </main>
     </div>
 
@@ -272,7 +271,7 @@
 
             <div id="upform-top">
                 <div id="foto-pre">
-                    <div><img src="kepek/IMG_2231.jpg" alt=""></div>
+                    <div><img src="kepek/IMG_22161.jpg" alt=""></div>
                     <div>
                         <label class="gomb" for="foto" id="talloz">Képválasztás
                             <input type="file" name="foto" id="foto" onchange="this.form.submit()">
@@ -356,7 +355,7 @@
             -->
         </form>
     </fieldset>
-   
+
     <script src="script.js"></script>
 
 </body>

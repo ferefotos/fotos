@@ -14,8 +14,8 @@ main{
     width: 100%;
     min-height: 100vh;
   }
-
-/*Fejléc*/
+/**************************************************************************/
+/* TOP *************************************************************/
 header, .logo{
     height: 60px;
     background-color: #5a5a5a;
@@ -38,7 +38,7 @@ header, .logo{
 }
 #top-center{display: none;}
 
-/*****Top menü****************************/
+/*****Top menü*******************/
 .ddmenu {
     position: relative;
     margin: 0;
@@ -58,8 +58,7 @@ header, .logo{
     position: absolute;  
     list-style-type: none;
     transform-origin: top;
-    left: 10px; 
-    top: 20px;
+    top: 20px;    
 }
 .submenu li{  
     padding: 5px 0;
@@ -72,16 +71,16 @@ header, .logo{
 }
 .logmenu{
     padding: 10px 15px; 
-    left: -80px; 
+    right: 15px;
 }
 .logmenu ul{list-style-type: none; margin: 0; padding: 0;}
 #catmenu-resp{display: none;}
 #usermenu{margin-right: 15px;}
-#usermenu-sub{margin-top: 27px;}
+#usermenu-sub{margin-top: 27px; right: 5px;}
 #usermenu .mainmenu{display: flex; align-items: center;}
-#menu-avatar{margin: 0 0 5px 5px;}
+#menu-pkep{margin: 0 0 5px 10px; width: 36px; height: 36px; border-radius: 50%;}
 #infomenu-resp{display: none;}
-#uploadmenu{margin-right: 15px;}
+#uploadmenu{margin-right: 15px; cursor: pointer;}
 #reglink{border-top: oldlace solid 1px; padding-top: 10px;}
 
 @keyframes subcat {
@@ -100,11 +99,10 @@ header, .logo{
         transform: scale(1,0);
     }
 }
-
-
+/**************************************************************************/
 /******  Aside nav ********************************************************/
 aside{
-   min-width: 350px;
+   min-width: 250px;
     background-color: #242424;
 }
 nav{
@@ -119,7 +117,7 @@ nav ul{
     list-style-type: none;
 }
 nav li{
-    width: 250px;
+    width: 180px;
     padding: 0 0 2px 0;
     margin: 0 0 2px 4px;
     border-bottom: 1px groove #2e2e2e;
@@ -138,7 +136,7 @@ nav a:hover{
 nav h3{
     margin-left: 10px;
 }
-/*Kereső*/
+/* Kereső *******************/
 nav form{
     display: flex;
     align-items: center;
@@ -161,14 +159,13 @@ button[name="keres"]{
     margin-right: 5px;
     height: 30px;
 }
-/****************************************************************/
-
+/**************************************************************************/
+/* Foto nézet -photo.php *************************************************/
 .p-port, .p-land{
     display: flex; 
     margin: 0;
     padding: 25px;
-}
-    
+}   
 #photoframe{
     display: flex;
     justify-content: center;
@@ -179,7 +176,6 @@ button[name="keres"]{
     height: 80vh;
     position: relative;
 }
-
 #photoframe img{
     max-height: 100%;
     max-width: 100%;
@@ -205,8 +201,8 @@ button[name="keres"]{
 #prev img{margin: 5px 0 0 5px; padding: 5px;}
 #next img:hover, #prev img:hover{background-color: #8f8f8f; border-radius: 50%;}
 #next div,#prev div{height: 48px;}
-/*exif*/
 
+/* Foto adatlap (exif) *************/
 #dataframe{
     background-color: #eeeeee;
     color: #242424;
@@ -289,10 +285,8 @@ button[name="keres"]{
     .exif div{width: max-content;}
     #desc p{max-width: 450px;}
 }
-
-
-/*************************************************************/
-/*Galéria*/  
+/**************************************************************************/
+/* Galéria ****************************************************/  
 #gallery{
     display: flex;
     flex-wrap: wrap;
@@ -309,6 +303,7 @@ button[name="keres"]{
     flex-flow : column;
     padding: 5px;
     justify-content: center;
+    align-items: center;
     position: relative;
     border: 1px solid #999797;
     border-radius: 5px;
@@ -422,8 +417,8 @@ button[name="keres"]{
 .portrait .user p{
     display: none;
 } 
-
-/*******Regisztrációs űrlap**********/
+/**************************************************************************/
+/******* Űrlapok - Regisztrációs űrlap ***********************************/
 fieldset{
     position: absolute;
     top: 130px;  
@@ -434,9 +429,12 @@ fieldset{
     border: 2px solid #999797;
     font-size: 1.1em;
 }
-#reg{
+.reg{
     left: calc(50% - 260px);
     width: 700px;
+    height: auto;
+}
+#reg{
     display: none;
 }
 
@@ -472,15 +470,17 @@ textarea{
 
 #profkep{
     height: 130px;
-    min-width: 130px;
+    width: 130px;
     margin-right: 10px;
-    background: #fff url('items/user_128x128.png') no-repeat center;
+    /*background: #fff url('items/user_128x128.png') no-repeat center;*/
+    background-color: #fff;
     border-radius: 5px;
+    /*position: relative;*/
+    overflow: hidden;
 }
-#prokep img{
-    height:130px;
-    width:130px;
-    border-radius: 5px;
+#profkep_image{
+    /*position: absolute;*/
+    max-height: 130px;
 }
 
 #reg-bottom-right{
@@ -499,7 +499,7 @@ textarea{
 }
 .hibak ul{margin: 0; padding: 0;}
 .hibak li{margin-bottom: 5px;}
-#reg-hibak div{width: 38%;}
+#reg-hibak div:first-child{width: 38%;}
 
 input[type="file"] {display: none;} /*Az eredeti feltöltés gombot láthatatlanná kell tenni*/
 
@@ -512,7 +512,7 @@ input[type="file"] {display: none;} /*Az eredeti feltöltés gombot láthatatlan
 .gomb {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 0.7em;
-    width: 80px;
+    width: auto;
     color: #fff;
     border: 2px solid #0053a0;
     border-radius: 2px;
@@ -523,7 +523,7 @@ input[type="file"] {display: none;} /*Az eredeti feltöltés gombot láthatatlan
 }
 .gombok #reset{margin-right: 10px;}
 
-/********* képfeltöltés ****************/
+/********* képfeltöltés űrlap ****************/
 
 .upload{display: none;} /*width: 791px; height: 520px;*/
  
@@ -616,7 +616,7 @@ select{
 }
 
 @media only screen and (max-width: 1079px){ 
-    #reg{width: 550px; left: calc(50% - 180px);}  
+    .reg{width: 550px; left: calc(50% - 180px);}  
     .up-landscape{max-width: 455px;} 
     .up-landscape{left: calc(62% - 235px);} 
     .up-landscape #foto-data, .up-square #foto-data{width: 100%; margin-top: 15px;} 
@@ -656,7 +656,7 @@ select{
     #uploadmenu{  margin: 0 0 5px 0;}
     #infomenu{display: none;}
     #infomenu-resp{display: block; margin-bottom: 12px;}
-    #reg{width: 500px; left: calc((100% - 550px)/2);} 
+    .reg{width: 500px; left: calc((100% - 550px)/2);} 
     .up-landscape{left: calc((100% - 490px)/2)}
     .up-portrait{left: calc((100% - 580px)/2)}
     .up-wide{left: calc((100% - 585px)/2);}
@@ -683,7 +683,7 @@ select{
 
 @media only screen and (max-width: 510px){
     #reg-top, #reg-bottom{flex-flow: column;}
-    #reg{left: 0; max-width: 90%;}
+    .reg{left: 0; max-width: 90%;}
     #profkep{width: 130px; margin-bottom: 20px;}
     #reg-bottom-right{width:100%; height: auto;}
     #hibak{margin-bottom:15px;}

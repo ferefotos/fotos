@@ -6,7 +6,7 @@ function upload($path, $prefix){
     if ($_FILES['foto']['error'] > 0 && $_FILES['foto']['error'] != 1) {
         $result = array("error" => true, "hiba" => "Hiba történt a fájlfeltöltés során: " . $_FILES['foto']['error']);
     }
-    if ($_FILES['foto']['size'] > 8048000 || $_FILES['foto']['error'] == 1) {
+    if ($_FILES['foto']['size'] > 3048000 || $_FILES['foto']['error'] == 1) {
         $result = array("error" => true, "hiba" => "A feltölthető fájl maximális mérete 3MB lehet!");
     }
     if ($_FILES['foto']['error'] == 0 && !in_array($_FILES['foto']['type'], $mime)) {
@@ -36,7 +36,7 @@ function upload($path, $prefix){
         move_uploaded_file($_FILES['foto']['tmp_name'], "$path$filename");
         
         //Visszaadja hogy nem volt hiba, és a file nevét
-        return $result = array("error" => false, "file" => $filename);
+        return $result = array("error" => false, "file" => $filename, "ext" => $ext);
     }
 } 
 //A bélyegkép elkészítése

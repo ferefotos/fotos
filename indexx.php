@@ -12,16 +12,7 @@ require("aside.php");
     <link rel="stylesheet" href="gallery.css">
     <link href="https://fonts.googleapis.com/css?family=Gentium+Book+Basic" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        function preview_image(event){
-            var reader = new FileReader();
-            reader.onload = function(){
-            var output = document.getElementById('profkep_image');
-            output.src = reader.result;
-            }
-        reader.readAsDataURL(event.target.files[0]);
-        }
-    </script>
+    <script src=script-top.js></script>
     
 </head>
 <body>
@@ -69,8 +60,20 @@ require("aside.php");
                 </div>
 
                 <div id="top-right">
-                   <div id="uploadmenu"><img src="items/upload.png" id="uplink" onclick="openreg(this)" alt="feltöltés"></div>
-                   
+                   <div id="uploadmenu">
+                   <?php 
+                   if(isset($_SESSION['userid'])){
+                       echo "<form id=\"foto_up_form\" method=\"post\" name=\"foto_up_form\" enctype=\"multipart/form-data\">\n";
+                       echo "<label><img src=\"items/upload.png\" alt=\"feltöltés\">\n";
+                       echo "<input type=\"file\" name=\"foto\" id=\"foto_up\" onchange=\"this.form.submit()\"></label></form>\n";
+                   }else{
+                       echo "<img src=\"items/upload.png\" id=\"uplink-notlog\" alt=\"feltöltés\">\n";
+                   }
+                   ?> 
+                   </div>
+
+                <div class="hibak" id="alertbox"><h3 id="alert"><?php if(isset($hiba)) echo $hiba; ?></h3></div>
+
                     <div class="ddmenu" id="usermenu" onmouseover="menuover(this)" onmouseout="menuout()">
                         <div class="mainmenu"><a href="#"><?php echo isset($_SESSION['keresztnev']) ? $_SESSION['keresztnev'] : "Bejelentkezés"; ?></a>
                             <img id="menu-pkep" src="<?php echo isset($_SESSION['pkep']) ? "users/".$_SESSION['pkep'] : "users/avatar.png"; ?>" alt="avatar">
@@ -79,8 +82,9 @@ require("aside.php");
                         if(isset($_SESSION['userid'])){
                             $usermenu= "
                             <ul class=\"submenu submenu-user\" id=\"usermenu-sub\">\n
-                            <li><a href=\"#\">Profil</a></li>\n
                             <li><a href=\"#\">Kedvencek</a></li>\n
+                            <li><a href=\"#\">Profil</a></li>\n
+                            <li id=\"regmod\" onclick=\"openreg(this)\"><a href=\"#\">Adatmódosítás</a></li>\n
                             <form id=\"logoutform\"><input type=\"submit\" class=\"gomb\" name=\"logout\" id=\"logout\" value=\"Kijelentkezés\"></form>\n
                             </ul>";
                         }else{
@@ -197,171 +201,24 @@ require("aside.php");
             </div>
         </main>
     </div>
+    
 <!-- Űrlapok, háttér elsötétítés ----------------------------------------->
-    <div id="elsotetit" onclick="openreg(this)"></div>
+    <div class="form_background" id="elsotetit" onclick="openreg(this)"></div>
 <!-- Regisztrációs űrlap ---------------------------------------------------->
-    <fieldset id="reg" class="reg" name="regisztracio">
-        <legend>Regisztráció</legend>
-        <form id="regform" enctype="multipart/form-data" action="#">   
-                <div id="reg-top">
-                    <div>
-                        <p>
-                            <label for="user">Felhasználónév: *</label><br>
-                            <input type="text" name="userid" id="user" autofocus value="" title="Minimum 6 karakter!">
-                        </p>
-                        <p>
-                            <label for="jelszo">Jelszó: *</label><br>
-                            <input type="password" name="jelszo" id="jelszo" value="" title="Minimum 8 karakter!">
-                        </p>
-                        <p>
-                            <label for="jelszo2">Jelszó ismét: *</label><br>
-                            <input type="password" name="jelszo2" id="jelszo2" value="" title="Jelszó megismétlése!">
-                        </p>
-                        <p>
-                            <label for="email">E-mail cím: *</label><br>
-                            <input type="email" name="email" id="email" value="" title="e-mail címed">
-                        </p>
-                        <p>
-                            <label for="nev">Név: *</label><br>
-                            <input type="text" name="nev" id="nev" value="" title="Ez a név lesz látható a profilodban!">
-                        </p>
-                        <p>Profilkép:</p>
-                    </div>
-    
-                    <div>
-                        <p>
-                            <label for="camera">Fényképezőgép típusa:</label><br>
-                            <input type="text" name="cam" id="camera" value="" title="A fényképezőgéped típusa">
-                        </p>
-                        <p>
-                            <label for="lens">Objektív típusa:</label><br>
-                            <input type="text" name="lens" id="lens" value="" title="Az objektív típusa">
-                        </p>
-                        <p>
-                            <label for="rolam">Bemutatkozás:</label><br>
-                            <textarea name="rolam" id="rolam" cols="30" rows="8" placeholder="Írj egy pár sort magadról!"></textarea>
-                        </p>
-                        <p class="star">A *-al jelölt mezők kitöltése kötelező!</p>
-                    </div>
-                </div>
-    
-                <div id="reg-bottom">
-    
-                    <div id="profkep"><img id="profkep_image" src="<?php echo isset($foto) ? "users/tmp/".$foto : "users/avatar.png" ?>"></div>
-                
-                    <div id="reg-bottom-right">
-                        <div class="hibak" id="reg-hibak">
-                            <div></div>
-                            <div id="reg-errors"></div>
-                        </div>
-    
-                       <div class="gombok" id="reg-gombok">
-                            <label class="gomb">Képfeltöltés
-                               <input type="hidden" name="filename" id="filename" value="">
-                               <input type="file" id="pkep" name="foto" onchange="preview_image(event)"><br>
-                            </label>
-                            <p><input class="gomb" type="submit" name="reset" id="reset" value="Mégsem">
-                               <input class="gomb" type="submit" name="elkuld" id="elkuld" value="Elküld"></p>
-                        </div>
-                    </div>
-                </div>
-            </form>
-    </fieldset> 
-    
+<?php 
+require("regform.php");
+echo $regform;
+?>
+      
  <!-- Képfeltöltés űrlap------------------------------------------------------>
-    <fieldset class="upload  up-square" id="upform" name="upload">
-        <legend>Fénykép feltöltése</legend>
-        <form id="uploadform" method="post" enctype="multipart/form-data" action="">
+  <?php
+    require("upload.php");
+   if(isset($uploadform)) echo $uploadform; 
+   ?>
 
-            <div id="upform-top">
-                <div id="foto-pre">
-                    <div><img src="kepek/IMG_2216.JPG" alt=""></div>
-                    <div>
-                        <label class="gomb" for="foto" id="talloz">Képválasztás
-                            <input type="file" name="foto" id="foto" onchange="this.form.submit()">
-                        </label>
-                        <label><input type="checkbox" name="public" id="publicw"> Nem publikus</label>
-                    </div>
-                </div>
-                <div id="foto-data">
-                    <div>
-                        <p><label for="cim">Kép címe:</label>
-                            <input type="text" name="cim" id="cim" title="A kép címe" value="">
-                        </p>
-                        <p><label for="kategoria">Kategória: *</label>
-                            <select name="kategoria" id="kategoria" title="Kategória választás">
-                                <OPTIon value="allat">Állat</OPTIon>
-                                <OPTIon value="tajkep">Tájkép</OPTIon>
-                                <OPTIon value="makro">Makró</OPTIon>
-                                <OPTIon value="portre">Portré</OPTIon>
-                            </select>
-                        </p>
-                    </div>
-
-                    <div>
-                        <label for="leiras">Leírás a képről:</label><br>
-                        <textarea name="leiras" id="leiras" cols="33" rows="8" placeholder="Itt írhatsz a kép készítéséről"></textarea>
-                    </div>
-                    <!--Publikus jelölő helye--->
-                    <label><input type="checkbox" name="public" id="public"> Nem publikus</label>
-                </div>
-            </div>
-
-            <div id="upform-bottom">
-                <div>
-                    <div class="foto-exif" id="made-exif">
-                        <div>
-                            <p><label for="zar">Záridő (s):</label><br>
-                                <input type="text" name="zar" id="zar" title="Zársebesség" value="">
-                            </p>
-                            <p><label for="blende">Rekesz:</label><br>
-                                <input type="text" name="blende" id="blende" title="Rekeszérték" value="">
-                            </p>
-                        </div>
-                        <div>
-                            <p><label for="iso">ISO:</label><br>
-                                <input type="number" name="iso" id="iso" title="ISO érték" value="">
-                            </p>
-                            <p><label for="fokusz">Fókusz (mm):</label><br>
-                                <input type="number" name="fokusz" id="fokusz" title="Fókusztávolság" value="">
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="foto-exif" id="cam-exif">
-                        <div>
-                            <p><label for="cam">Kamera:</label><br>
-                                <input type="text" name="cam" id="cam" title="A gép típusa" value="">
-                            </p>
-                            <p><label for="obi">Objektív:</label><br>
-                                <input type="text" name="obi" id="obi" title="Az objektív típusa" value="">
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="gombok" id="up-gombok">
-                    <div><label for="datum">Készült:</label><br>
-                        <input type="date" name="datum" id="datum" title="A készítés dátuma" value="">
-                    </div>
-                    <div><input class="gomb" type="reset" name="cancel" id="cancel" value="Mégsem" onclick="openreg(this)">
-                        <input class="gomb" type="submit" name="enter" id="enter" value="Elküld">
-                    </div>
-                </div>
-            </div>
-            <!--Hibalista
-                <div class="hibak" id="up-hibak">
-                    <ul>
-                        <li>hiba 1</li>
-                        <li>hiba 2</li>
-                        <li>hiba 3</li>
-                    </ul>
-                </div>
-            -->
-        </form>
-    </fieldset>
-
+  <script src="script.js"></script>
   
-    <script src="script.js"></script>
+    
     
 
 </body>

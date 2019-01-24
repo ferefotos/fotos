@@ -1,12 +1,13 @@
 <?php
+// A képek feltöltéséhez és feldolgozásához szükséges függvények
 function upload($path, $prefix){
      // Engedályezett MIME típusok
     $mime = array("image/jpeg", "image/pjpeg", "image/gif", "image/png");
      //Vizsgálat
-    if ($_FILES['foto']['error'] > 0 && $_FILES['foto']['error'] != 1) {
+    if ($_FILES['foto']['error'] > 1) {
         $result = array("error" => true, "hiba" => "Hiba történt a fájlfeltöltés során: " . $_FILES['foto']['error']);
     }
-    if ($_FILES['foto']['size'] > 3048000 || $_FILES['foto']['error'] == 1) {
+    if ($_FILES['foto']['size'] > 6048000 || $_FILES['foto']['error'] == 1) {
         $result = array("error" => true, "hiba" => "A feltölthető fájl maximális mérete 3MB lehet!");
     }
     if ($_FILES['foto']['error'] == 0 && !in_array($_FILES['foto']['type'], $mime)) {
@@ -30,7 +31,7 @@ function upload($path, $prefix){
                 $ext = ".jpg";
                 break;
         }
-        $filename = $prefix . $ext;
+        $filename = ekezettelen($prefix) . $ext;
         
         // Kép mozgatása a végleges helyére
         move_uploaded_file($_FILES['foto']['tmp_name'], "$path$filename");
@@ -76,6 +77,12 @@ function resize($path, $n_path, $n_height){
             break;
     }
 }
+//A fájlnév tisztítása az ékezetes karakterektől (Ha a usernévben lenne)
+function ekezettelen($szoveg) {
+	$mit  = array("á", "é", "í", "ó", "ö", "ő", "ú", "ü", "ű", "Á", "É", "Í", "Ó", "Ö", "Ő", "Ú", "Ü", "Ű", "_", " ");
+	$mire = array("a", "e", "i", "o", "o", "o", "u", "u", "u", "A", "E", "I", "O", "O", "O", "U", "U", "U", "-", "-");
+	return str_replace($mit, $mire, $szoveg);
+}
 
 //Képarány számítása
 function rate($path){
@@ -96,7 +103,7 @@ function rate($path){
 }
 
 /*Exif adatok lekérdezése és feldolgozása*/
-function exifData($path){
+function getExif($path){
 
     if ((isset($path)) and (file_exists($path))) {
         @$exif = exif_read_data($path);
@@ -216,20 +223,21 @@ function exifData($path){
           }
 
         // készítés dátuma
-        /*A kinyert adatból csak a dátum kell, az idő nem. A dátumot : helyett .-al kell elválasztani*/
+        /*A kinyert adatból csak a dátum kell, az idő nem. A dátumot : helyett kötőjellel kell elválasztani*/
         if (@array_key_exists('DateTimeOriginal', $exif)) {
             $date = $exif['DateTimeOriginal'];
             $cut = strtok($date, " ");
-            $exifdata['date'] = strtr($cut, ':', '.');
+            $exifdata['date'] = strtr($cut, ':', '-');
         } else {
             $exifdata['date'] = "";
         }
 
     }else{
-        $exifdata=array('zarido' => '', 'blende' => '', 'focus' => '', 'iso' => '', 'camera' => '', 'obi' => '', 'date' => '');
+        $exifdata=array('zarido' => '', 'blende' => '', 'focus' => '', 'iso' => '', 'kamera' => '', 'obi' => '', 'date' => '');
     }
     return $exifdata;
 }
+//Teszteléshez
 /*$exifd = exifData("kepek/L/teszt/IMG_20180628_211207-1.jpg");
 echo "Záridő: " . $exifd['zarido'] . "<br />";
 echo "Blende: " . $exifd['blende'] . "<br />";
@@ -238,7 +246,4 @@ echo "ISO: " . $exifd['iso'] . "<br />";
 echo "Kamera: " . $exifd['kamera'] . "<br />";
 echo "Objektív: " . $exifd['obi'] . "<br />";
 echo "Készült: " . $exifd['date'] . "<br />";*/
-
-
-
 ?>

@@ -80,8 +80,18 @@ header, .logo{
 #usermenu .mainmenu{display: flex; align-items: center;}
 #menu-pkep{margin: 0 0 5px 10px; width: 36px; height: 36px; border-radius: 50%;}
 #infomenu-resp{display: none;}
-#uploadmenu{margin-right: 15px; cursor: pointer;}
+#uploadmenu{margin-right: 15px;}
 #reglink{border-top: oldlace solid 1px; padding-top: 10px;}
+#uplink, #uplink-notlog{cursor: pointer;}
+#alertbox{
+    position: absolute;
+    top: 65px;
+    right: 180px;
+    background-color: rgb(51, 51, 51);
+    padding: 0px 10px; 
+    border: 1px solid #0077ff;
+    display: none;
+}
 
 @keyframes subcat {
     from{
@@ -500,7 +510,7 @@ textarea{
 .hibak ul{margin: 0; padding: 0;}
 .hibak li{margin-bottom: 5px;}
 #reg-hibak div:first-child{width: 38%;}
-
+#del{color: rgb(255, 0, 0);}
 input[type="file"] {display: none;} /*Az eredeti feltöltés gombot láthatatlanná kell tenni*/
 
 .gombok{
@@ -512,7 +522,7 @@ input[type="file"] {display: none;} /*Az eredeti feltöltés gombot láthatatlan
 .gomb {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 0.7em;
-    width: auto;
+    min-width: 80px;
     color: #fff;
     border: 2px solid #0053a0;
     border-radius: 2px;
@@ -525,7 +535,7 @@ input[type="file"] {display: none;} /*Az eredeti feltöltés gombot láthatatlan
 
 /********* képfeltöltés űrlap ****************/
 
-.upload{display: none;} /*width: 791px; height: 520px;*/
+.upload{display: block;} /*width: 791px; height: 520px;*/
  
 .upload legend{display:none;}
 .upload form{
@@ -567,8 +577,8 @@ input[type="file"] {display: none;} /*Az eredeti feltöltés gombot láthatatlan
 
 #cim{width: 213px;}
 #zar, #blende, #iso, #cam{margin-right: 15px;}
-#zar, #blende, #iso, #fokusz{width: 114px;}
-#cam, #obi{width:254px;} 
+#zar, #blende, #iso, #fokusz{width: 113px;}
+#cam, #obi{width:252px;} 
 select{
     width: 205px; 
     height: 28px; 
@@ -578,14 +588,10 @@ select{
 #datum{width: 145px;}
 #cancel{margin-right: 10px;}
 #talloz{padding: 5px 20px 5px 5px;} 
-#up-hibak{margin: 10px 0 0 25px;}
+#errors{margin: 10px 0 0 25px;}
 
 /**** Feltöltés ablak kép oldalarány szerinti formázása ***/
-#foto-data label:nth-last-child(1){display: none;}
-.up-portrait #foto-data label:nth-last-child(1), 
-.up-square #foto-data label:nth-last-child(1){display: block;}
-.up-portrait #foto-pre label:nth-child(2),
-.up-square #foto-pre label:nth-child(2){display: none;}
+
 .up-square{left: calc(50% - 255px);}
 .up-landscape{left: calc(43% - 235px);}
 .up-landscape #up-gombok{flex-flow: column; width: 240px; align-items: flex-end;}
@@ -728,6 +734,10 @@ select{
 
 /*Háttér elsötétítés.......................................*/
 #elsotetit{
+    display: none;
+}
+
+.form_background{
     background-color: rgba(39, 39, 39, 0.8);
     z-index: 1;
     width: 100%;
@@ -735,5 +745,4 @@ select{
     position: fixed;
     left: 0;
     top: 0;
-    display: none;
 }

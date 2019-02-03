@@ -8,7 +8,7 @@ if (isset($_FILES['foto']) && !isset($_POST['file'])) {
         $photo = $result['file'];
         resize("kepek/L/" . $photo, "kepek/" . $photo, 300);
         //Kép oldalarány számítása
-        $rate = "up-" . rate("kepek/L/" . $photo);
+        $class = "up-" . ratio("kepek/L/" . $photo);
         //exif adatok kinyerése a képfájlból
         $exifdatas = getExif("kepek/L/" . $photo);
         //
@@ -20,20 +20,20 @@ if (isset($_FILES['foto']) && !isset($_POST['file'])) {
                 $kategoriak .= "<option value=\"{$sor['id']}\">{$sor['kategoria']}</option>\n";
             }
 
-            if ($rate == "up-landscape" || $rate == "up-wide") {
+            if ($class == "up-landscape" || $class == "up-wide") {
                 $checkbox1 = "<label><input type=\"checkbox\" name=\"public\" id=\"public\"> Nem publikus</label>\n";
             } else {
                 $checkbox1 = "";
             }
 
-            if ($rate == "up-portrait" || $rate == "up-square") {
+            if ($class == "up-portrait" || $class == "up-square") {
                 $checkbox2 = "<label><input type=\"checkbox\" name=\"public\" id=\"public\"> Nem publikus</label>\n";
             } else {
                 $checkbox2 = "";
             }
 
             $uploadform = "<div class=\"form_background\"></div>\n
-                <fieldset class=\"upload {$rate}\" id=\"upform\" name=\"upload\">\n
+                <fieldset class=\"upload {$class}\" id=\"upform\" name=\"upload\">\n
                 <form id=\"uploadform\" method=\"post\" enctype=\"multipart/form-data\">\n
                 <div id=\"upform-top\">\n
                 <div id=\"foto-pre\">\n
@@ -104,7 +104,4 @@ if (isset($_FILES['foto']) && !isset($_POST['file'])) {
         $hiba = $result['hiba'];
     }
 }
-
-
-
 ?>

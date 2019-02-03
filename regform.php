@@ -1,5 +1,4 @@
 <?php
-//require("connect.php");
 
 $foto= "users/avatar.png";
 $userid="";
@@ -28,7 +27,6 @@ if(isset($_SESSION['userid'])){
         $errors[] = "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
     }
 }
-
 
 $regform="
 <fieldset id=\"reg\" class=\"reg\" name=\"regisztracio\">\n

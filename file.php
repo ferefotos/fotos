@@ -7,7 +7,7 @@ function upload($path, $prefix){
     if ($_FILES['foto']['error'] > 1) {
         $result = array("error" => true, "hiba" => "Hiba történt a fájlfeltöltés során: " . $_FILES['foto']['error']);
     }
-    if ($_FILES['foto']['size'] > 6048000 || $_FILES['foto']['error'] == 1) {
+    if ($_FILES['foto']['size'] > 3048000 || $_FILES['foto']['error'] == 1) {
         $result = array("error" => true, "hiba" => "A feltölthető fájl maximális mérete 3MB lehet!");
     }
     if ($_FILES['foto']['error'] == 0 && !in_array($_FILES['foto']['type'], $mime)) {
@@ -17,7 +17,6 @@ function upload($path, $prefix){
      // Ha van hiba
     if (isset($result)) {
         return $result;
-
     } else {
      // Ha nincs hiba: Fájlnév elkészítése
         switch ($_FILES['foto']['type']) {
@@ -40,7 +39,14 @@ function upload($path, $prefix){
         return $result = array("error" => false, "file" => $filename, "ext" => $ext);
     }
 } 
-//A bélyegkép elkészítése
+//A fájlnév tisztítása az ékezetes karakterektől (Ha a usernévben lenne)
+function ekezettelen($szoveg) {
+	$mit  = array("á", "é", "í", "ó", "ö", "ő", "ú", "ü", "ű", "Á", "É", "Í", "Ó", "Ö", "Ő", "Ú", "Ü", "Ű", "_", " ");
+	$mire = array("a", "e", "i", "o", "o", "o", "u", "u", "u", "A", "E", "I", "O", "O", "O", "U", "U", "U", "-", "-");
+	return str_replace($mit, $mire, $szoveg);
+}
+
+//Kép átméretezése
 function resize($path, $n_path, $n_height){
     $size = getimagesize($path);
     $width = $size[0];
@@ -77,15 +83,9 @@ function resize($path, $n_path, $n_height){
             break;
     }
 }
-//A fájlnév tisztítása az ékezetes karakterektől (Ha a usernévben lenne)
-function ekezettelen($szoveg) {
-	$mit  = array("á", "é", "í", "ó", "ö", "ő", "ú", "ü", "ű", "Á", "É", "Í", "Ó", "Ö", "Ő", "Ú", "Ü", "Ű", "_", " ");
-	$mire = array("a", "e", "i", "o", "o", "o", "u", "u", "u", "A", "E", "I", "O", "O", "O", "U", "U", "U", "-", "-");
-	return str_replace($mit, $mire, $szoveg);
-}
 
 //Képarány számítása
-function rate($path){
+function ratio($path){
     $size = getimagesize($path);
     $width = $size[0];
     $height = $size[1];
@@ -104,7 +104,6 @@ function rate($path){
 
 /*Exif adatok lekérdezése és feldolgozása*/
 function getExif($path){
-
     if ((isset($path)) and (file_exists($path))) {
         @$exif = exif_read_data($path);
 
@@ -122,7 +121,7 @@ function getExif($path){
             if ($e1 == 10 && $e2 > $e1) {
                 $expTime = ($e1 / 10) . "/" . ($e2 / 10);
             }
-            if ($e1 > $e2) {
+            if ($e1 >= $e2) {
                 $expTime = $e1 / $e2;
             }
             $exifdata['zarido'] = $expTime;

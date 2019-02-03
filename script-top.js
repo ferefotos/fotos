@@ -7,9 +7,11 @@ function preview_image(event) {
     }
     reader.readAsDataURL(event.target.files[0]);
 }
+// Ez úgy néz ki nem kell már!!!!!!!
 // fénykép feltöltés, automatikus submit a kép választásra 
-$("#foto").change(function () {
+/*$("#foto").change(function () {
     $("#uploadform").submit();
-    //document.getElementById("elsotetit").style.display = "block";
     location.reload();
-});
+});*/
+
+

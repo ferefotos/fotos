@@ -22,17 +22,26 @@ if (isset($_POST['feltolt'])) {
     } else {
         $public = 1;
     }
-    $class = rate("kepek/L/" . $_POST['file']);
+    $class = ratio("kepek/L/" . $_POST['file']);
     //$newfilename = substr_replace($_POST['file'], strtok($_POST['file'], ".") . date('U'), 0, -4);
     $newfilename = substr_replace($_POST['file'], date('U') . rand(100,999), 0, -4);
 
     if ($kategoria == "") {
         $hiba = "Válassz kategóriát!";
     } else {
-        $sql = "INSERT INTO foto 
-                VALUES ('{$newfilename}', '{$_SESSION['userid']}', {$kategoria}, '{$cim}', '{$leiras}', '{$blende}',
-                 '{$zar}', {$iso}, {$fokusz}, '{$cam}', '{$obi}', '{$datum}', '{$class}', {$public}) ";
-
+       $fields="INSERT INTO foto (file, artist, katid, cim, story, blende, zarido, ";
+       $values="VALUES ('{$newfilename}', '{$_SESSION['userid']}', {$kategoria}, '{$cim}', '{$leiras}', '{$blende}', '{$zar}',";
+       if($iso != ""){
+            $fields .= "iso, ";
+            $values .= $iso.", ";
+       }     
+       if($fokusz != ""){
+            $fields .= "focus, ";
+            $values .= $fokusz.", ";
+       } 
+       $fields .="kamera, obi, date, class, public)";
+       $values .="'{$cam}', '{$obi}', '{$datum}', '{$class}', {$public})";
+       $sql = $fields . $values;
         if (mysqli_query($dbconn, $sql)) {
             rename("kepek/" . $_POST['file'], "kepek/" . $newfilename);
             rename("kepek/L/" . $_POST['file'], "kepek/L/" . $newfilename);
@@ -43,6 +52,7 @@ if (isset($_POST['feltolt'])) {
 }
 
 if (isset($_POST['reset'])) {
+    $hiba=NULL;
     @unlink("kepek/" . $_POST['file']);
     @unlink("kepek/L/" . $_POST['file']);
 }

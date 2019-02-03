@@ -293,7 +293,6 @@ if (!isset($_SESSION['userid'])) {
             }
         }
     }
-
 }
 //Válasz az ajax felé
 echo json_encode(

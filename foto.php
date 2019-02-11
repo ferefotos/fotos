@@ -15,8 +15,8 @@ require_once("fejlec.php");
                 <?php require("header.php"); ?>
             </header>
 <?php
-/*A bejelentkezett felhasználónak a nem publikus saját képeit is meg kell jeleníteni a galériában
-  * Itt a lapozás miatt szükséges ez a feltétel*/
+/* A bejelentkezett felhasználónak a nem publikus saját képeit is meg kell jeleníteni a galériában
+  * Itt a lapozás miatt szükséges ez a feltétel */
 if (isset($_SESSION['userid'])) {
     $term = "OR artist='{$_SESSION['userid']}' AND public=0";
 } else {$term = "";}
@@ -43,7 +43,7 @@ if ($_GET['list'] == "katid") {
             AND (public=1 $term)";
 } elseif (($_GET['list'] == "kedvenc")){
     $sql = "SELECT max(file) AS max, min(file) AS min FROM foto
-            JOIN kedvenc ON filename=file
+            JOIN kedvencek ON filename=file
             WHERE jelolo='{$_SESSION['userid']}'";
 } else{$sql = "SELECT max(file) AS max, min(file) AS min FROM foto";}
 $eredmeny = mysqli_query($dbconn, $sql);
@@ -51,7 +51,7 @@ $sor = mysqli_fetch_assoc($eredmeny);
 $max = $sor['max'];
 $min = $sor['min'];
 //Előre lapozáshoz 
-/*A jelenlegi fájlhoz képest a következő fájl lekérdezése a szűrés szerint*/
+/*A következő fájl lekérdezése a szűrés szerint*/
 if (isset($_GET['next'])) {
     if ($_GET['list'] == "katid") {
         $sql = "SELECT file FROM foto 
@@ -78,7 +78,7 @@ if (isset($_GET['next'])) {
             ORDER BY file DESC LIMIT 1";
     } elseif (($_GET['list'] == "kedvenc")){
         $sql = "SELECT file FROM foto
-                JOIN kedvenc ON filename=file
+                JOIN kedvencek ON filename=file
                 WHERE jelolo='{$_SESSION['userid']}'
                 AND file<'{$_GET['file']}'
                 ORDER BY file DESC LIMIT 1";
@@ -92,7 +92,7 @@ if (isset($_GET['next'])) {
     $sor = mysqli_fetch_assoc($eredmeny);
     $file = $sor['file'];
 //Vissza lapozáshoz 
-/*A jelenlegi fájlhoz képest az előző fájl lekérdezése a szűrés szerint*/   
+/*Az előző fájl lekérdezése a szűrés szerint*/   
 } elseif(isset($_GET['prev'])){
     if ($_GET['list'] == "katid") {
         $sql = "SELECT file FROM foto 
@@ -119,7 +119,7 @@ if (isset($_GET['next'])) {
             ORDER BY file LIMIT 1";
     } elseif (($_GET['list'] == "kedvenc")){
         $sql = "SELECT file FROM foto
-                JOIN kedvenc ON filename=file
+                JOIN kedvencek ON filename=file
                 WHERE jelolo='{$_SESSION['userid']}'
                 AND file>'{$_GET['file']}'
                 ORDER BY file LIMIT 1";
@@ -168,16 +168,16 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
 //Az előre és a hátra léptető nyilak meghatározása. A kódba lesz illesztve.
 /*Ha a végére ér, akkor nincs nyíl, és nem lehet túl léptetni*/
     if ($sor['file'] == $min) {
-        $next_btn = "<div id=\"next\"></div>\n";
+        $next_btn = "<div class=\"next\"></div>\n";
     } else {
         $next_btn = "<a href=\"foto.php?next=&file={$sor['file']}&katid={$sor['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}\">\n
-                    <div id=\"next\"><img src=\"items/next.png\" id=\"nextarrow\" alt=\"kovetkezo\"></div></a>\n";
+                    <div class=\"next\"><img src=\"items/next.png\" class=\"nextarrow\" alt=\"kovetkezo\"></div></a>\n";
     }
     if ($sor['file'] == $max) {
-        $prev_btn = "<div id=\"prev\"></div>\n";
+        $prev_btn = "<div class=\"prev\"></div>\n";
     } else {
         $prev_btn ="<a href=\"foto.php?prev=&file={$sor['file']}&katid={$sor['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}\">\n
-                    <div id=\"prev\"><img src=\"items/prev.png\" id=\"prevarrow\" alt=\"elozo\"></div></a>\n";
+                    <div class=\"prev\"><img src=\"items/prev.png\" class=\"prevarrow\" alt=\"elozo\"></div></a>\n";
     }
 
 //bezárás esetén vissza abba a galériába, ahonnan jött, keresés esetén a főoldalra
@@ -203,16 +203,16 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
 echo "<article class=\"$cls\">\n
     <div id=\"photoframe\">\n
         <img src=\"kepek/L/{$sor['file']}\" id=\"photo\" alt=\"kep\">\n
-        <div id=\"navi\">\n
-            <div id=\"navi-top\">\n
+        <div class=\"navi\">\n
+            <div class=\"navi-top\">\n
                 <a href=\"$closelink\"><img src=\"items/close.png\" alt=\"bezar\"></a>\n
                 <div><img id=\"enlarge\" src=\"items/enlarge.png\" alt=\"nagyit\"></div>\n
             </div>\n 
-            <div id=\"navi-center\">\n
+            <div class=\"navi-center\">\n
                 $prev_btn
                 $next_btn
             </div>\n
-            <div id=\"navi-bottom\"></div>\n
+            <div class=\"navi-bottom\"></div>\n
         </div>\n
     </div>\n
 
@@ -268,7 +268,7 @@ echo "<article class=\"$cls\">\n
         </div>\n 
         <div id=\"dataframe_bottom\">\n
             <form id=\"foto_like\" method=\"post\">\n
-                <input type=hidden name=liked value=$file>\n
+                <input type=\"hidden\" name=\"liked\" value=$file>\n
                 <div id=\"star-mark\">\n
                     <button type=\"submit\" name=\"kedvencˇ\" class=\"like_button kedvenc\">
                         <img src=\"items/$kedvenc_img\" id=\"kedvenc_img\" alt=\"kedvenc\" onmouseover=\"like_hover(this)\" onmouseout=\"like_out(this)\">\n
@@ -277,9 +277,9 @@ echo "<article class=\"$cls\">\n
                     <span class=\"like_alert\" id=\"kedvenc_alert\">Jelentkezz be!</span>\n
                 </div>\n
                 <div id=\"like-mark\">\n
-                    <button type=submit name=like class=\"like_button like\">\n
+                    <button type=\"submit\" name=\"like\" class=\"like_button like\">\n
                         <img src=\"items/$like_img\" id=\"like_img\" alt=\"like\" onmouseover=\"like_hover(this)\" onmouseout=\"like_out(this)\">\n
-                        <span id=count_like>$db_like</span>\n
+                        <span id=\"count_like\">$db_like</span>\n
                     </button>\n
                     <span class=\"like_alert\" id=\"like_alert\">Jelentkezz be!</span>\n
                 </div>\n
@@ -306,8 +306,94 @@ if(isset($_POST['delete'])){
     }
 }
 ?>
+<!--Hozzászólás a képhez -->
+            <div id="commentframe">
+                <div id="komment_list">
+                    <!--Új hozzászólás megjelenítése-->
+                    <div id=post_box_empty></div><br>
+                    <!-- -->
+
+                    <?php 
+                    //hozzászólások lekérdezése
+                    $sql="SELECT userid, nev, pkep, komment, datum FROM user
+                        JOIN kommentek ON userid=ertekelo
+                        WHERE kep='$file' 
+                        ORDER BY datum DESC";
+
+                    //hozzászólások kiírása    
+                    if($eredmeny=mysqli_query($dbconn, $sql)){
+                        while($sor=mysqli_fetch_assoc($eredmeny)){       
+                            echo "<div class=post_box>
+                                        <div class=post_pkep><a href=\"gallery.php?userid={$sor['userid']}\"><img src=\"users/{$sor['pkep']}\"></a></div>
+                                        <div class= post_right>
+                                            <div class=post_header>
+                                            <a href=\"gallery.php?userid={$sor['userid']}\">{$sor['nev']}</a>
+                                            <span>{$sor['datum']}</span>
+                                            </div>
+                                            <p class=post>{$sor['komment']}</p>
+                                        </div>
+                                    </div><br>";
+                        }
+                    } else{
+                    echo "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
+                    }     
+                    ?>
+                </div>
+                <details>
+                    <summary>Új hozzászólás</summary>
+                    <?php 
+                    // új hozzászólás űrlap
+                    if(isset($_SESSION['userid'])){
+                        echo "
+                        <form id=\"komment_form\" method=\"post\">\n
+                        <input type=\"hidden\" name=\"kep\" value=$file>\n
+                        <textarea name=\"komment\" id=\"komment\" cols=\"30\" rows=\"10\" placeholder=\"Mondj véleményt a képről!\"></textarea>\n
+                        <input class=\"gomb\" type=\"submit\" name=\"hozzaszol\" id=\"hozzaszol\" value=\"Elküld\">\n       
+                        </form>\n";
+                    }else{
+                        echo "<p class=hibak>Jelentkezz be!</p>";
+                    }    
+                    ?>
+                </details>    
+            </div>
         </main>
     </div>
+<!--Kép teljes nézetben-->
+        <?php 
+/* Az előtérben jelenik meg, display kapcsolásával, ugyan azokkal a léptetés gombokkal, amivel a
+ * kisebb nézetben is léptetünk. Viszont paraméter átadásnál jelezni kell, hogy teljes nézetben 
+ * léptetünk, és így tudunk a befoglaló div elemnek egy id-t adni (big), amelynek display:flex
+ * van megadva, így léptetésnél nem záródik vissza. 
+ *  Mikor bezárjuk a nagykép nézetet, mögötte az a kép lesz, ami előtte nagy nézetben volt*/
+
+    //A léptetés gomboknál a linkhez beszúrjuk a next=big illetve prev=big paramétereket
+        if ($file != $max){
+            $prev_btn=substr_replace($prev_btn,"big",23,0);
+        }
+        if ($file != $min){
+            $next_btn=substr_replace($next_btn,"big",23,0);
+        }
+    //Beállítjuk az id-t a képet befoglaló div-hez    
+        $big="";
+        if(isset($_GET['next']) && $_GET['next']=="big" || isset($_GET['prev']) && $_GET['prev']=="big"){
+            $big="id=big";
+        }
+    // Kép teljes nézetben    
+       echo "<div class=\"nagykep_div\" $big>\n
+                <img src=\"kepek/L/$file\" id=\"nagykep\">\n
+                    <div class=\"navi\" id=\"navi\">\n
+                        <div class=\"navi-top\" id=\"close_div\">\n
+                            <div></div>\n    
+                            <img src=\"items/close.png\" id=\"close\" alt=\"bezar\">\n
+                        </div>\n 
+                        <div class=\"navi-center\">\n
+                            $prev_btn
+                            $next_btn
+                        </div>\n
+                        <div class=\"navi-bottom\"></div>\n
+                    </div>\n
+             </div>\n";
+        ?>
     
 <!-- Űrlapok, háttér elsötétítés ----------------------------------------->
     <div class="form_background" id="elsotetit" onclick="openreg(this)"></div>

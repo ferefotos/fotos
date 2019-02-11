@@ -7,7 +7,7 @@ require_once("fejlec.php");
 <body>
     <div class="container">
         <aside>
-        <?php require("aside.php"); ?>
+             <?php require("aside.php"); ?>
         </aside>
 
         <main>
@@ -73,11 +73,7 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
     echo "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
 }
 ?>
-                <div class="image blank"></div>
-                <div class="image blank"></div>
-                <div class="image blank"></div>
-                <div class="image blank"></div>
-                <div class="image blank"></div>
+
             </div>
         </main>
     </div>

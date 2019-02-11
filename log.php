@@ -3,7 +3,7 @@ session_start();
 require("connect.php");
 
 //Bejelentkezés
-if (!isset($_POST['logout'])) {
+if (isset($_POST['login'])) {
  // Változók tisztítása
     $userid = mysqli_real_escape_string($dbconn, strip_tags(trim($_POST['userid'])));
     $jelszo = sha1($_POST['jelszo']);
@@ -19,6 +19,7 @@ if (!isset($_POST['logout'])) {
         if (mysqli_num_rows($eredmeny) == 1) {
             $_SESSION['userid'] = $userid;
             $sor = mysqli_fetch_assoc($eredmeny);
+            $_SESSION['nev'] = $sor['nev'];
             $_SESSION['keresztnev'] = mb_substr($sor['nev'], mb_strpos($sor['nev'], " "));
             $_SESSION['pkep'] = $sor['pkep'];
         }

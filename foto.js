@@ -1,19 +1,53 @@
-// kép léptető nyilakra hover
-document.getElementById("next").onmouseover = function(){
-    document.getElementById("nextarrow").style.background="#8f8f8f";
+// Kép léptető nyilakra hover
+document.getElementsByClassName("next")[0].onmouseover = function(){
+    background("nextarrow", 0, "#8f8f8f");
 }
-document.getElementById("next").onmouseleave = function(){
-    document.getElementById("nextarrow").style.background="none";
+document.getElementsByClassName("next")[0].onmouseleave = function(){
+    background("nextarrow", 0, "none");
+}
+document.getElementsByClassName("prev")[0].onmouseover = function(){
+    background("prevarrow", 0, "#8f8f8f");
+}
+document.getElementsByClassName("prev")[0].onmouseleave = function(){
+    background("prevarrow", 0, "none");
+}
+document.getElementsByClassName("next")[1].onmouseover = function(){
+    background("nextarrow", 1, "#8f8f8f");
+}
+document.getElementsByClassName("next")[1].onmouseleave = function(){
+    background("nextarrow", 1, "none");
+}
+document.getElementsByClassName("prev")[1].onmouseover = function(){
+    background("prevarrow", 1, "#8f8f8f");
+}
+document.getElementsByClassName("prev")[1].onmouseleave = function(){
+    background("prevarrow", 1, "none");
 }
 
-document.getElementById("prev").onmouseover = function(){
-    document.getElementById("prevarrow").style.background="#8f8f8f";
-}
-document.getElementById("prev").onmouseleave = function(){
-    document.getElementById("prevarrow").style.background="none";
+function background(cls, i, bg){
+    document.getElementsByClassName(cls)[i].style.background=bg;
 }
 
-// kép módosítás, törlés menü kapcsolása
+//Kép teljes nézetre váltás és vissza
+document.getElementById("close_div").onmouseover =function(){
+    document.getElementById("close").style.background="#8f8f8f";
+}
+document.getElementById("close_div").onmouseleave =function(){
+    document.getElementById("close").style.background="none";
+}
+
+document.getElementById("enlarge").onclick = function(){
+    nagyit_bezar("flex");
+}
+document.getElementById("close_div").onclick = function(){
+    nagyit_bezar("none");
+}
+
+function nagyit_bezar(disp){
+    document.getElementsByClassName("nagykep_div")[0].style.display=disp;
+}
+
+// Kép módosítás, törlés menü kapcsolása
 function show_modmenu(){
     document.getElementById("dotmenu-sub").style.display="block";
     document.getElementById("keptorles").style.display="none";

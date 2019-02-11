@@ -2,44 +2,45 @@
 /* Attól függően melyik formból történik a submit, beállítja az AJAX számára a megfelelő paramétereket*/
 
 //Regisztráció és login:
-var reset = false;
+var formid = "";
+var phpurl = "";
+var button = "";
 $("#reset").click(function () {
     formid = "#regform";
     phpurl = "reg.php";
     errors = "reg-errors";
-    reset = true;
+    button = "reset";
 });
-var formid = "";
 $("#elkuld").click(function () {
     formid = "#regform";
     phpurl = "reg.php";
     errors = "reg-errors";
     hidden_input = $("#filename");
+    button = "elkuld";
 });
 $("#login").click(function () {
     formid = "#usermenu-sub";
     phpurl = "log.php";
     errors = "error";
+    button = "login";
 });
-var logout = false;
 $("#logout").click(function () {
     formid = "#logoutform";
     phpurl = "log.php";
-    logout = true;
+    button = "logout";
 });
 
 //Paraméterek megadása a kép feltöltő űrlaphoz
-var upload = false;
 $("#feltolt").click(function () {
-    upload = true;
     formid = "#uploadform";
     phpurl = "uploadform.php";
     errors = "up-errors";
+    button = "feltolt";
 });
 $("#cancel").click(function () {
-    reset = true;
     formid = "#uploadform";
     phpurl = "uploadform.php";
+    button = "reset";
 });
 
 //Üzenet, ha nincs bejelentkezve és képet akar feltölteni
@@ -68,67 +69,75 @@ $("#foto_up").change(function () {
     document.getElementById("loading").style.display = "flex";
 });
 
-//like és kedvencnek jelöléshez a paraméterek beállítása:
-var like_id="";
-var like=false;
-var kedvenc=false;
+//lájkoláshoz, kedvencnek jelöléshez és kép hozzászóláshoz a paraméterek beállítása:
+
+/*A galériában lájkolásnál (csak ott kell, a kép nézetben ez üres)
+  * az id-ból határozzok meg a file nevet amelyikre lájkoltunk (vagy kedvencnek jelöltük)
+  * és ezt fogjuk elküldeni a feldolgozó php-nak.
+  * (Azért nem rejtett input mezőből, mert akkor annak is minden képnél egyedi azonosító kellene)
+  * Kép nézetben a fájlnév a rejtett input mezőből kerül elküldésre.*/
+ var file=""; 
+ var like_id=""; // a like gombok képének cseréjéhez is kell
+ function liked(clicked){
+     like_id=clicked.id;
+     file=like_id.replace(like_id.charAt(like_id.length -1), "");
+     if(like_id.charAt(like_id.length -1) == "K"){
+         kedvenc_param();
+     }
+     if(like_id.charAt(like_id.length -1) == "L"){
+         like_param();
+     }
+ }
+// foto nézetben lájk vagy kedvencnek jelölés:
 $(".like").click(function () {
-    formid = "#foto_like";
-    phpurl = "like.php";
-    kedvenc=false;
-    like=true;
-    alert_id="#like_alert";
+    like_param();
 });
 $(".kedvenc").click(function () {
+    kedvenc_param();
+});
+//form paraméterek beállítása
+function like_param(){
     formid = "#foto_like";
     phpurl = "like.php";
-    like=false;
-    kedvenc=true;
-    alert_id="#kedvenc_alert";
-});
-/*A galériában lájkolásnál az id-ból határozzok meg a file nevet amelyikre lájkoltunk 
-  * (vagy kedvencnek jelöltük) és ezt fogjuk elküldeni a feldolgozó php-nak.
-  * (Azért nem rejtett input mezőből, mert akkor annak is minden képnél egyedi azonosító kellene)*/
-var file="";
-function liked(clicked){
-    like_id=clicked.id;
-    file=like_id.replace(like_id.charAt(like_id.length -1), "");
+    button = "like";
+    alert_id="#like_alert";
 }
+function kedvenc_param(){
+    formid = "#foto_like";
+    phpurl = "like.php";
+    button = "kedvenc";
+    alert_id = "#kedvenc_alert";
+}
+
+$("#hozzaszol").click(function () {
+    formid = "#komment_form";
+    phpurl = "comment.php";
+    button = "hozzaszol";
+});
+
 
 //Ajax---------------------------------------- 
 $('form' + formid).on('submit', function (e) {
-    if (formid != "") {
-        e.preventDefault();
-    }
+    //letiltja az alapértelmezett submit eseményt
+    if (formid != "") {e.preventDefault();}
+    
+    //új formData objektum, az űrlapmezők ebben kerülnek elküldésre
     var formData = new FormData($('form' + formid)[0]);
+
     //gombok hozzáadása az elküldendő form adatokhoz
-    if (reset) {
-        formData.append('reset', 'reset');
+    if(button !=""){
+        formData.append(button, '');
     }
-
-    if (logout) {
-        formData.append('logout', 'logout');
-    }
-
-    if (upload) {
-        formData.append('feltolt', 'feltolt');
-    }
-    //Like és kedvenc gombok hozzáadása
-    if (like) {
-        formData.append('like', 'like');
-    }
-    if (kedvenc) {
-        formData.append('kedvenc', 'kedvenc');
-    }
-    //file hozzáadása 
+    //fájlnév hozzáadása like vagy kedvencnek jelölés esetén
     /* A galériában lájkolásnál külön hozzá kell adni, mert nem rejtett input mezőből küldjük */
     if(file != ""){
         formData.append('liked', file);
     }
-    //teszt vizsgálat
+    //teszt - a formData adatait kiírja a konzolra
     for (var pair of formData.entries()) {
         console.log(pair[0] + ', ' + pair[1]);
     }
+
     $.ajax({
         type: "POST",
         url: phpurl,
@@ -166,17 +175,36 @@ $('form' + formid).on('submit', function (e) {
                 //location.reload();
                 window.location.replace("index.php"); 
             }
+            // Sikeres hozzászólás a képhez
+            if (response.status == "KOMMENT_OK") {
+                formid=""; phpurl="";
+                // Az űrlap textarea mezőjét kiüríti
+                document.getElementById("komment").value="";
+                // Új hozzászólás megjelenítése              
+                $("#post_box_empty").append(
+                    "<div class=post_box>" +
+                    "<div class=post_pkep><img src=\"users/" + response.pkep + "\"></div>" +
+                    "<div class= post_right>" +
+                        "<div class=post_header>" +
+                            "<a href=\"gallery.php?userid=" + response.userid + "\">" + response.nev + "</a>" +
+                            "<span>" + response.date +  "</span>" +
+                        "</div>" +
+                        "<p class=post>" + response.komment + "</p>"+
+                    "</div></div><br>");    
+            }
             //Sikeres lájkolás és kedvencnek jelölés (vagy jelölés törlés) esetén:
             if(response.status == "like_be"){
+                formid=""; phpurl=""; 
                 if(like_id == ""){
                     document.getElementById("like_img").src="items/heart40cb.png";
                     document.getElementById("count_like").innerHTML=response.db;
                 }else{
                     document.getElementById(like_id + "i").src="items/heart24cb.png";
                     document.getElementById(like_id + "c").innerHTML=response.db;
-                }
+                } 
             }
             if(response.status == "like_ki"){
+                formid=""; phpurl=""; 
                 if(like_id == ""){
                     document.getElementById("like_img").src="items/heart40c.png";
                     document.getElementById("count_like").innerHTML=response.db;
@@ -186,6 +214,7 @@ $('form' + formid).on('submit', function (e) {
                 }
             }
             if(response.status == "kedvenc_be"){
+                formid=""; phpurl=""; 
                 if(like_id == ""){
                     document.getElementById("kedvenc_img").src="items/star40cy.png";
                     document.getElementById("count_kedvenc").innerHTML=response.db;
@@ -195,17 +224,19 @@ $('form' + formid).on('submit', function (e) {
                 }
             }
             if(response.status == "kedvenc_ki"){
+                formid=""; phpurl=""; 
                 if(like_id == ""){ 
                     document.getElementById("kedvenc_img").src="items/star40c.png";
                     document.getElementById("count_kedvenc").innerHTML=response.db;
                 }else{ 
                     document.getElementById(like_id + "i").src="items/star24c.png";
                     document.getElementById(like_id + "c").innerHTML=response.db;
-                }  
+                }
             }
             /* Ha nincs bejelentkezve a felhasználó, nem tud lájkolni, vagy kedvencnek jelölni
              * ilyenkor üzenetet kap.*/
             if (response.status == "LOGOUT") {
+                formid=""; phpurl=""; 
                 if(like_id == ""){
                     show_like_alert();
                 }else{
@@ -349,12 +380,27 @@ function showinfo(clicked) {
 
     });
 
-    $(clicked).mouseout(function () {
+    $(clicked).mouseleave(function () {
         $("#" + clicked.id + " div").css("display", "none");
 
     });
 }
 /***************************************************************************************/
+//user-info megjelenítése és elrejtése
+var d="flex";
+function show_userinfo(){
+    document.getElementById("userinfo").style.display=d;
+    if(d=="flex"){
+        document.getElementById("arrow").src="items/up.png";
+        d="none";
+    }else{
+        d="flex";
+        document.getElementById("arrow").src="items/down.png";
+    }
+}
+
+/******** */
+
 
 
 /*swidth=screen.width;

@@ -43,7 +43,6 @@
             <ul class=\"submenu submenu-user\" id=\"usermenu-sub\">\n
             <li><a href=\"gallery.php?userid={$_SESSION['userid']}\">Saját képek</a></li>\n
             <li><a href=\"gallery.php?kedvenc=\">Kedvencek</a></li>\n
-            <li><a href=\"#\">Profil</a></li>\n
             <li id=\"regmod\" onclick=\"openreg(this)\"><a href=\"#\">Adatmódosítás</a></li>\n
             <form id=\"logoutform\"><input type=\"submit\" class=\"gomb\" name=\"logout\" id=\"logout\" value=\"Kijelentkezés\"></form>\n
             </ul>";

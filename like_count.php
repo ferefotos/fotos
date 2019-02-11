@@ -8,10 +8,9 @@ $kedvenc_img=$kedvenc_img_off;
 //1. Jelölve van a felhasználó által vagy sem
 /*Ha jelölve van, akkor változik az ikon (színe)*/
 if(isset($_SESSION['userid'])){
-    $sql="SELECT count(*) AS db FROM ertekel
-    WHERE ertekelo='{$_SESSION['userid']}' 
-    AND foto='$file'
-    AND kedvel=1";
+    $sql="SELECT count(*) AS db FROM kedvelesek
+    WHERE kedvelo='{$_SESSION['userid']}' 
+    AND foto='$file'";
     if($result = mysqli_query($dbconn, $sql)){
         $row = mysqli_fetch_assoc($result);
         if($row['db']==1){
@@ -21,7 +20,7 @@ if(isset($_SESSION['userid'])){
         $hiba = "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
     } 
         
-    $sql="SELECT count(*) AS db FROM kedvenc
+    $sql="SELECT count(*) AS db FROM kedvencek
     WHERE jelolo='{$_SESSION['userid']}' 
     AND filename='$file'";
     if($result = mysqli_query($dbconn, $sql)){
@@ -34,9 +33,8 @@ if(isset($_SESSION['userid'])){
     } 
 }
 //2. A jelölések száma:
-$sql="SELECT count(*) AS db FROM ertekel
-WHERE foto='$file' 
-AND kedvel=1";
+$sql="SELECT count(*) AS db FROM kedvelesek
+WHERE foto='$file'";
 if($result = mysqli_query($dbconn, $sql)){
     $row = mysqli_fetch_assoc($result);  
     $db_like=$row['db'];
@@ -44,7 +42,7 @@ if($result = mysqli_query($dbconn, $sql)){
     $hiba = "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
 } 
 
-$sql="SELECT count(*) AS db FROM kedvenc
+$sql="SELECT count(*) AS db FROM kedvencek
 WHERE filename='$file'";
 if($result = mysqli_query($dbconn, $sql)){
     $row = mysqli_fetch_assoc($result);

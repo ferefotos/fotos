@@ -5,7 +5,7 @@ require("connect.php");
 
 if (!isset($_SESSION['userid'])) {
     //Regisztráció
-    if (!isset($_POST['reset'])) {
+    if (isset($_POST['elkuld'])) {    
         //változók tisztítása
         $userid = strip_tags(trim($_POST['userid']));
         $jelszo = strip_tags($_POST['jelszo']);
@@ -103,6 +103,7 @@ if (!isset($_SESSION['userid'])) {
             if (mysqli_query($dbconn, $sql)) {
                 //beléptetés
                 $_SESSION['userid'] = $userid;
+                $_SESSION['nev'] = $nev;
                 $_SESSION['keresztnev'] = mb_substr($nev, mb_strpos($nev, " "));
                 $_SESSION['pkep'] = $foto;
             } else {
@@ -118,7 +119,7 @@ if (!isset($_SESSION['userid'])) {
     }
 } else {
     // Adatmódosítás
-    if (!isset($_POST['reset']) && !isset($_POST['delete'])) {
+    if (isset($_POST['elkuld']) && !isset($_POST['delete'])) {    
         //változók tisztítása
         $userid = strip_tags(trim($_POST['userid']));
         $jelszo = strip_tags($_POST['jelszo']);
@@ -268,7 +269,9 @@ if (!isset($_SESSION['userid'])) {
                           Biztos ezt akarod?
                           <label id=\"del\"><input type=\"checkbox\" name=\"confirm\" id=\"confirm\"> Igen!</label></p>\n";
         if (isset($_POST['confirm'])) {
-            unlink("users/" . $_SESSION['pkep']);
+            if($_SESSION['pkep'] != "avatar.png"){
+                unlink("users/" . $_SESSION['pkep']);
+            }
             // A userhez tartozó fotók lekérdezése, mert azokat is törölni kell    
             $sql = "SELECT file FROM foto WHERE artist='{$_SESSION['userid']}'";
             if ($eredmeny = mysqli_query($dbconn, $sql)) {      

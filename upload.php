@@ -11,6 +11,7 @@ if (isset($_FILES['foto']) && !isset($_POST['file'])) {
         $class = "up-" . ratio("kepek/L/" . $photo);
         //exif adatok kinyerése a képfájlból
         $exifdatas = getExif("kepek/L/" . $photo);
+        resize("kepek/L/" . $photo, "kepek/L/" . $photo, 900);
         //
         $sql = "SELECT *
                 FROM kategoria";

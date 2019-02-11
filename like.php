@@ -5,16 +5,15 @@ require("connect.php");
 if(isset($_SESSION['userid'])){
     if(isset($_POST['like'])){
         $file=$_POST['liked'];
-        $sql="SELECT count(*) AS db FROM ertekel
-            WHERE ertekelo='{$_SESSION['userid']}' 
-            AND foto='$file'
-            AND kedvel=1";
+        $sql="SELECT count(*) AS db FROM kedvelesek
+            WHERE kedvelo='{$_SESSION['userid']}' 
+            AND foto='$file'";
         if($eredmeny = mysqli_query($dbconn, $sql)){
             $sor = mysqli_fetch_assoc($eredmeny);
             if($sor['db']==0){
-                $sql="INSERT INTO ertekel
-                    (ertekelo, foto, kedvel) 
-                    VALUES ('{$_SESSION['userid']}', '$file', 1)";
+                $sql="INSERT INTO kedvelesek
+                    (kedvelo, foto) 
+                    VALUES ('{$_SESSION['userid']}', '$file')";
                 if(mysqli_query($dbconn, $sql)){
                     $response="like_be";
                 } else {
@@ -22,10 +21,9 @@ if(isset($_SESSION['userid'])){
                 }   
             }
             if($sor['db']==1){
-                $sql="DELETE from ertekel 
-                    WHERE ertekelo='{$_SESSION['userid']}' 
-                    AND foto='$file'
-                    AND kedvel=1";
+                $sql="DELETE from kedvelesek 
+                    WHERE kedvelo='{$_SESSION['userid']}' 
+                    AND foto='$file'";
                 if(mysqli_query($dbconn, $sql)){
                     $response="like_ki";
                 } else {
@@ -36,9 +34,8 @@ if(isset($_SESSION['userid'])){
             $hiba = "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
         }    
         
-        $sql="SELECT count(*) AS db FROM ertekel
-            WHERE foto='$file' 
-            AND kedvel=1";
+        $sql="SELECT count(*) AS db FROM kedvelesek
+            WHERE foto='$file'";
             if($eredmeny = mysqli_query($dbconn, $sql)){
                 $row = mysqli_fetch_assoc($eredmeny);   
                 $db=$row['db'];
@@ -49,13 +46,13 @@ if(isset($_SESSION['userid'])){
     //Kedvencnek jelölés vagy törlés
     if(isset($_POST['kedvenc'])){
         $file=$_POST['liked'];
-        $sql="SELECT count(*) AS db FROM kedvenc
+        $sql="SELECT count(*) AS db FROM kedvencek
             WHERE jelolo='{$_SESSION['userid']}' 
             AND filename='$file'";
         if($eredmeny = mysqli_query($dbconn, $sql)){
             $sor = mysqli_fetch_assoc($eredmeny);
             if($sor['db']==0){
-                $sql="INSERT INTO kedvenc
+                $sql="INSERT INTO kedvencek
                     (jelolo, filename) 
                     VALUES ('{$_SESSION['userid']}', '$file')";
                 if(mysqli_query($dbconn, $sql)){
@@ -65,7 +62,7 @@ if(isset($_SESSION['userid'])){
                 }         
             }
             if($sor['db']==1){
-                $sql="DELETE from kedvenc 
+                $sql="DELETE from kedvencek 
                     WHERE jelolo='{$_SESSION['userid']}' 
                     AND filename='$file'";
                 if(mysqli_query($dbconn, $sql)){
@@ -78,7 +75,7 @@ if(isset($_SESSION['userid'])){
             $hiba = "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
         }      
          
-        $sql="SELECT count(*) AS db FROM kedvenc
+        $sql="SELECT count(*) AS db FROM kedvencek
             WHERE filename='$file'";
         if($eredmeny = mysqli_query($dbconn, $sql)){
             $row = mysqli_fetch_assoc($eredmeny);   

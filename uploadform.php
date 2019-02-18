@@ -1,7 +1,6 @@
 <?php
-session_start();
+require("config.php");
 require("upload.php");
-require("connect.php");
 
 if (isset($_POST['feltolt'])) {
     function tisztit($dbconn, $text){
@@ -63,5 +62,5 @@ echo json_encode(
         "error" => isset($hiba) ? $hiba : ""
     )
 );
-
+mysqli_close($dbconn);
 ?>

@@ -398,13 +398,92 @@ function show_userinfo(){
         document.getElementById("arrow").src="items/down.png";
     }
 }
+/******************************************************************************************* */
+/* Regisztrációs form profilkép */
+// előnézeti kép megjelenítése
+function preview_image(event) {
+    var reader = new FileReader();
+    reader.onload = function () {
+        var output = document.getElementById('profkep_image');
+        output.src = reader.result;
+        setTimeout(profkep_scale, 200);
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
 
-/******** */
+// Csúszka és pozíció alapállapotba állítása
+var height_value=130;
+function profkep_scale(){
+    document.getElementById("img_height").style.display = "block";
+    if($( "#profkep_image" ).width() < $( "#profkep_image" ).height()){
+        document.getElementById("img_height").value=200;
+        height_value=200;
+    }else{
+        document.getElementById("img_height").value=130;
+        height_value=130;
+    }
+    document.getElementById("profkep_image").style.height=height_value + "px";
+    document.getElementById("profkep_image").style.top="0px";
+    document.getElementById("profkep_image").style.left="0px";
+}
+
+ /* Profilkép méretezése és igazítása */    
+//A kép méretének változtatása a csúszkával
+document.getElementById("img_height").onchange= function(){
+height_value = document.getElementById("img_height").value;
+document.getElementById("profkep_image").style.height=height_value + "px";
+}
+
+// Mikor a képen lenyomva tartják az egérgombot...   
+$( "#profkep" ).mousedown(function(e) {   
+    // Profilkép aktuális helyzete a befoglaló kerethez képest 
+    getPicturePosition();
+    // Egérmutató aktuális pozíciója a gomb lenyomásakor 
+    start_cursor_x = e.pageX;
+    start_cursor_y = e.pageY;
+    // Kép méretének lekérdezése
+    p_width = $( "#profkep_image" ).width();
+    p_height = $( "#profkep_image" ).height();
+
+    e.preventDefault();
+    // Az egérmutató mozgatásakor...
+    $( "#profkep" ).on( "mousemove", function(event) {
+        document.getElementById("profkep_image").style.cursor="all-scroll";
+        cursor_x = event.pageX;
+        cursor_y = event.pageY;
+        // A kép helyzetének meghatározása az elmozdulás mértékében
+        left_pos += cursor_x - start_cursor_x; 
+        top_pos += cursor_y - start_cursor_y;   
+        //A kép pozícionálása, úgy hogy a keretben maradjon
+        if(top_pos < 0 && top_pos > 130-p_height)    
+            document.getElementById("profkep_image").style.top=top_pos +"px";
+            
+        if(left_pos < 0 && left_pos > 130-p_width )   
+            document.getElementById("profkep_image").style.left=left_pos +"px";
+            
+        // Ha felengedjük az egérgombot, akkor megszűnik a pozícionálás    
+        $(document).mouseup(function() {
+            $("#profkep").off("mousemove");
+            cursor_x =0;    
+            cursor_y =0;    
+        // kép pozíciójának lekérdezése, és a rejtett input mezőbe írása    
+           getPicturePosition();
+           document.getElementById("top_pos").value = Math.abs(top_pos);
+           document.getElementById("left_pos").value = Math.abs(left_pos);
+        });
+     });
+});
+
+// Profilkép pozíciója
+function getPicturePosition(){
+    p = $("#profkep_image");
+    position = p.position();
+    left_pos = position.left;  
+    top_pos = position.top;
+}
+
+
+  
 
 
 
-/*swidth=screen.width;
-        if(swidth<900){
-        var link="regisztracio.html"
-        window.open(link,"_self");
-        }*/

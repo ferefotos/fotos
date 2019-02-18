@@ -1,17 +1,18 @@
 <?php
-$sql="SELECT * FROM kategoria";
+$sql="SELECT * FROM kategoria
+      LEFT JOIN foto ON foto.katid=kategoria.id
+      WHERE katid IS NOT NULL
+      GROUP BY katid ORDER BY kategoria";
 $eredmeny=mysqli_query($dbconn, $sql);
-
-$kategoriak="";
+$kategoriak="<li><a href=\"gallery.php?toplist=\">TOP 60 fotó</a></li>\n";
 while($sor = mysqli_fetch_assoc($eredmeny)){
     $kategoriak .="
     <li><a href=\"gallery.php?katid={$sor['id']}\">{$sor['kategoria']}</a></li>
     ";
 }
-     
 ?>
-<div class="logo">
-    <a href="index.php"><img src="items/logo.png" alt="Zoom"></a>
+    <div class="logo">
+        <a href="index.php"><img src="items/logo.png" alt="Zoom"></a>
     </div>
     <nav>
        <form action="gallery.php" method="get" id="searchform">
@@ -19,9 +20,9 @@ while($sor = mysqli_fetch_assoc($eredmeny)){
             <button type="submit" name="keres" value="">
                 <img src="items/find.png" alt="keresés" title="keresés">
             </button>
-        </form>
+       </form>
         <h3>Kategóriák</h3>
         <ul>
-        <?php echo $kategoriak; ?>
+            <?php echo $kategoriak; ?>
         </ul>
     </nav>

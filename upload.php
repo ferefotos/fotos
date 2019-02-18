@@ -13,8 +13,7 @@ if (isset($_FILES['foto']) && !isset($_POST['file'])) {
         $exifdatas = getExif("kepek/L/" . $photo);
         resize("kepek/L/" . $photo, "kepek/L/" . $photo, 900);
         //
-        $sql = "SELECT *
-                FROM kategoria";
+        $sql = "SELECT * FROM kategoria ORDER BY kategoria";
         if ($eredmeny = mysqli_query($dbconn, $sql)) {
             $kategoriak = "<option value=\"\"></option>\n";
             while ($sor = mysqli_fetch_assoc($eredmeny)) {
@@ -33,7 +32,7 @@ if (isset($_FILES['foto']) && !isset($_POST['file'])) {
                 $checkbox2 = "";
             }
 
-            $uploadform = "<div class=\"form_background\"></div>\n
+            echo "<div class=\"form_background\"></div>\n
                 <fieldset class=\"upload {$class}\" id=\"upform\" name=\"upload\">\n
                 <form id=\"uploadform\" method=\"post\" enctype=\"multipart/form-data\">\n
                 <div id=\"upform-top\">\n

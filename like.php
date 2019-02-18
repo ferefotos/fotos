@@ -1,6 +1,5 @@
 <?php
-session_start();
-require("connect.php");
+require("config.php");
 //Lájkolás és törlés
 if(isset($_SESSION['userid'])){
     if(isset($_POST['like'])){

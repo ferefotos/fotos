@@ -1,20 +1,9 @@
 <?php
-session_start();
-require("connect.php");
+require("config.php");
+require_once("header.php");
 require("upload.php");
-require_once("fejlec.php");
-?>
-<body>
-    <div class="container">
-        <aside>
-        <?php require("aside.php"); ?>
-        </aside>
+require("regform.php");
 
-        <main>
-            <header>
-                <?php require("header.php"); ?>
-            </header>
-<?php
 //Adatmódosító űrlap a képekhez
 $file = $_GET['file'];
 //Az űrlaphoz le kell kérdezni a kategóriákat
@@ -57,7 +46,7 @@ $article = "<article class=\"$cls\">\n
         <img src=\"kepek/L/{$sor['file']}\" alt=\"kep\">\n
         <div id=\"navi\">\n
             <div id=\"navi-top\">\n
-                <a href=foto.php?file={$sor['file']}&katid={$_GET['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}><img src=\"items/close.png\" alt=\"bezar\"></a>\n
+                <div></div>\n
                 <div></div>\n
             </div>\n 
             <div id=\"navi-center\">\n
@@ -167,21 +156,10 @@ if (isset($_POST['canc'])) {
     echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
     echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
 }
+mysqli_close($dbconn);
 ?>
         </main>
     </div>
-    
-<!-- Űrlapok, háttér elsötétítés ----------------------------------------->
-    <div class="form_background" id="elsotetit" onclick="openreg(this)"></div>
-    <div class="form_background" id="loading" ><img src="items/loading.gif"></div>
-<!-- Regisztrációs űrlap ---------------------------------------------------->
-<?php 
-require("regform.php");
-echo $regform;
-?>
-      
- <!-- Képfeltöltés űrlap------------------------------------------------------>
-  <?php if (isset($uploadform)) echo $uploadform; ?>
 
   <script src="script.js"></script>
 

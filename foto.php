@@ -1,28 +1,19 @@
 <?php
-session_start();
-require("connect.php");
+require("config.php");
+require_once("header.php");
 require("upload.php");
-require_once("fejlec.php");
-?>
-<body>
-    <div class="container">
-        <aside>
-            <?php require("aside.php"); ?>
-        </aside>
+require("regform.php");
 
-        <main>
-            <header>
-                <?php require("header.php"); ?>
-            </header>
-<?php
+$file=$_GET['file'];
+
 /* A bejelentkezett felhasználónak a nem publikus saját képeit is meg kell jeleníteni a galériában
   * Itt a lapozás miatt szükséges ez a feltétel */
 if (isset($_SESSION['userid'])) {
     $term = "OR artist='{$_SESSION['userid']}' AND public=0";
 } else {$term = "";}
 /*A lapozáshoz meg kell keresni az első és az utolsó fájlt Mindezt attól függően
- * hogy mi szerint volt szűrve. Ezt úgy tudom, hogy a GET-nek adok egy list paramétert,
- * amiben az van hogy milyen szűrő volt alkalmazva a galérián. 
+ * hogy mi szerint volt listázva. A GET-ben átadott list paraméterből lehet tudni,
+ * milyen szűrő volt alkalmazva a galérián. 
 */
 if ($_GET['list'] == "katid") {
     $sql = "SELECT max(file) AS max, min(file) AS min FROM foto 
@@ -45,23 +36,46 @@ if ($_GET['list'] == "katid") {
     $sql = "SELECT max(file) AS max, min(file) AS min FROM foto
             JOIN kedvencek ON filename=file
             WHERE jelolo='{$_SESSION['userid']}'";
+} elseif (($_GET['list'] == "toplist")){
+    $sql1 = "SELECT file AS max FROM foto
+            JOIN kedvelesek ON kedvelesek.foto=foto.file
+            WHERE public=1
+            GROUP BY file
+            ORDER BY count(foto) DESC, file DESC LIMIT 1";
+    $sql2 = "SELECT file AS min FROM foto
+            JOIN kedvelesek ON kedvelesek.foto=foto.file
+            WHERE public=1
+            GROUP BY file
+            ORDER BY count(foto), file LIMIT 1";        
 } else{$sql = "SELECT max(file) AS max, min(file) AS min FROM foto";}
-$eredmeny = mysqli_query($dbconn, $sql);
-$sor = mysqli_fetch_assoc($eredmeny);
-$max = $sor['max'];
-$min = $sor['min'];
+
+/*Toplistánál nem file szerinti sorrendben vannak a képek, hanem kedvelés szerint, 
+  ezért ott 2 lekérdezés kell az első és az utolsó meghatározásához*/
+if($_GET['list'] == "toplist"){
+    $eredmeny = mysqli_query($dbconn, $sql1);
+    $sor = mysqli_fetch_assoc($eredmeny);
+    $max = $sor['max'];
+    $eredmeny = mysqli_query($dbconn, $sql2);
+    $sor = mysqli_fetch_assoc($eredmeny);
+    $min = $sor['min'];
+}else{
+    $eredmeny = mysqli_query($dbconn, $sql);
+    $sor = mysqli_fetch_assoc($eredmeny);
+    $max = $sor['max'];
+    $min = $sor['min'];
+}
 //Előre lapozáshoz 
 /*A következő fájl lekérdezése a szűrés szerint*/
 if (isset($_GET['next'])) {
     if ($_GET['list'] == "katid") {
         $sql = "SELECT file FROM foto 
             WHERE katid={$_GET['katid']} AND (public=1 $term) 
-            AND file<'{$_GET['file']}'
+            AND file<'$file'
             ORDER BY file DESC LIMIT 1";
     } elseif (($_GET['list'] == "userid")) {
         $sql = "SELECT file FROM foto 
             WHERE artist='{$_GET['userid']}' AND (public=1 $term) 
-            AND file<'{$_GET['file']}'
+            AND file<'$file'
             ORDER BY file DESC LIMIT 1";
     } elseif (($_GET['list'] == "src")){
         $sql = "SELECT file FROM foto 
@@ -73,36 +87,39 @@ if (isset($_GET['next'])) {
             OR obi LIKE '%{$_GET['search']}%'
             OR story LIKE '%{$_GET['search']}%'
             OR kategoria LIKE '%{$_GET['search']}%')
-            AND file<'{$_GET['file']}'
+            AND file<'$file'
             AND (public=1 $term)
             ORDER BY file DESC LIMIT 1";
     } elseif (($_GET['list'] == "kedvenc")){
         $sql = "SELECT file FROM foto
                 JOIN kedvencek ON filename=file
                 WHERE jelolo='{$_SESSION['userid']}'
-                AND file<'{$_GET['file']}'
+                AND file<'$file'
                 ORDER BY file DESC LIMIT 1";
-    } else {
+    } elseif (($_GET['list'] == "toplist")){
+        $sql = "SELECT file FROM foto
+                JOIN kedvelesek ON kedvelesek.foto=foto.file
+                WHERE public=1
+                GROUP BY file
+                ORDER BY count(foto) DESC, file DESC LIMIT 60";
+    }else {
         $sql = "SELECT file FROM foto 
-            WHERE file<'{$_GET['file']}'
+            WHERE file<'$file'
             AND (public=1 $term)
             ORDER BY file DESC LIMIT 1";
     }
-    $eredmeny = mysqli_query($dbconn, $sql);
-    $sor = mysqli_fetch_assoc($eredmeny);
-    $file = $sor['file'];
 //Vissza lapozáshoz 
 /*Az előző fájl lekérdezése a szűrés szerint*/   
 } elseif(isset($_GET['prev'])){
     if ($_GET['list'] == "katid") {
         $sql = "SELECT file FROM foto 
             WHERE katid={$_GET['katid']} AND (public=1 $term) 
-            AND file>'{$_GET['file']}'
+            AND file>'$file'
             ORDER BY file LIMIT 1";
     } elseif (($_GET['list'] == "userid")) {
         $sql = "SELECT file FROM foto 
             WHERE artist='{$_GET['userid']}' AND (public=1 $term) 
-            AND file>'{$_GET['file']}'
+            AND file>'$file'
             ORDER BY file LIMIT 1";
     } elseif (($_GET['list'] == "src")){
         $sql = "SELECT file FROM foto 
@@ -114,29 +131,47 @@ if (isset($_GET['next'])) {
             OR obi LIKE '%{$_GET['search']}%'
             OR story LIKE '%{$_GET['search']}%'
             OR kategoria LIKE '%{$_GET['search']}%')
-            AND file>'{$_GET['file']}' 
+            AND file>'$file' 
             AND (public=1 $term)
             ORDER BY file LIMIT 1";
     } elseif (($_GET['list'] == "kedvenc")){
         $sql = "SELECT file FROM foto
                 JOIN kedvencek ON filename=file
                 WHERE jelolo='{$_SESSION['userid']}'
-                AND file>'{$_GET['file']}'
+                AND file>'$file'
                 ORDER BY file LIMIT 1";
+    } elseif (($_GET['list'] == "toplist")){
+        $sql = "SELECT file FROM foto
+                JOIN kedvelesek ON kedvelesek.foto=foto.file
+                WHERE public=1
+                GROUP BY file
+                ORDER BY count(foto), file LIMIT 60";
     } else {
         $sql = "SELECT file FROM foto 
-            WHERE file>'{$_GET['file']}' 
+            WHERE file>'$file' 
             AND (public=1 $term)
             ORDER BY file LIMIT 1";
     }
-    $eredmeny = mysqli_query($dbconn, $sql);
-    $sor = mysqli_fetch_assoc($eredmeny);
-    $file = $sor['file'];
-// Ha nem léptetés van, a GET paraméterben kapott fájlt kell megjeleníteni
-}else {
-    $file=$_GET['file'];
 }
-//Miután meg lett határozva melyik fájlt kell betölteni, előbb le kell kérdezni a szükséges adatait:
+/* A toplistában lapozásnál csak úgy lehet tudni melyik az előző vagy a következő fájl, ha egy tömbbe 
+ * mentjük az egész listát, abban megkeressük az aktuális kép indexét, majd az előző vagy következő
+ * indexű lesz a megjelenítendő fájl.*/
+if(isset($_GET['next']) || isset($_GET['prev'])){
+    $eredmeny = mysqli_query($dbconn, $sql);
+    if($_GET['list'] == "toplist"){
+        $rekordok=array();
+        while($sor = mysqli_fetch_assoc($eredmeny)){
+            array_push($rekordok, $sor['file']);
+        }
+        $i= array_search($file, $rekordok);
+        $file=$rekordok[$i+1];
+    }else{
+        $sor = mysqli_fetch_assoc($eredmeny);
+        $file = $sor['file'];
+    }
+}
+
+//Miután meg lett határozva melyik fájlt kell betölteni, előbb le kell kérdezni az adatait:
 $sql = "SELECT file, katid, cim, story, blende, zarido, iso, focus, 
                 kamera, obi, date, class, userid, nev, pkep
                 FROM foto JOIN user ON userid=artist
@@ -155,7 +190,7 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
     <div id=\"fotomod\">\n
         <img src=\"items/menu-dot.png\" id=\"dotmenu\" onclick=\"show_modmenu()\" alt=\"modosit\">\n
         <div id=\"dotmenu-sub\" onmouseleave=\"hide_modmenu()\">\n
-            <a href=fotomod.php?file={$sor['file']}&katid={$sor['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}>Módosítás</a>\n
+            <a href=fotomod.php?file=$file&katid={$sor['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}>Módosítás</a>\n
             <p onclick=\"show_delmenu()\" >Törlés</p>\n
         </div>\n
         <form id=\"keptorles\" method=\"post\">
@@ -167,16 +202,16 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
     
 //Az előre és a hátra léptető nyilak meghatározása. A kódba lesz illesztve.
 /*Ha a végére ér, akkor nincs nyíl, és nem lehet túl léptetni*/
-    if ($sor['file'] == $min) {
+    if ($file== $min) {
         $next_btn = "<div class=\"next\"></div>\n";
     } else {
-        $next_btn = "<a href=\"foto.php?next=&file={$sor['file']}&katid={$sor['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}\">\n
+        $next_btn = "<a href=\"foto.php?next=&file=$file&katid={$sor['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}\">\n
                     <div class=\"next\"><img src=\"items/next.png\" class=\"nextarrow\" alt=\"kovetkezo\"></div></a>\n";
     }
-    if ($sor['file'] == $max) {
+    if ($file == $max) {
         $prev_btn = "<div class=\"prev\"></div>\n";
     } else {
-        $prev_btn ="<a href=\"foto.php?prev=&file={$sor['file']}&katid={$sor['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}\">\n
+        $prev_btn ="<a href=\"foto.php?prev=&file=$file&katid={$sor['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}\">\n
                     <div class=\"prev\"><img src=\"items/prev.png\" class=\"prevarrow\" alt=\"elozo\"></div></a>\n";
     }
 
@@ -188,7 +223,9 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
     } elseif ($_GET['list'] == "katid") {
         $closelink = "gallery.php?katid={$_GET['katid']}";
     } elseif ($_GET['list'] == "kedvenc") {
-        $closelink = "gallery.php?kedvenc";
+        $closelink = "gallery.php?kedvenc=";
+    } elseif ($_GET['list'] == "toplist") {
+        $closelink = "gallery.php?toplist="; 
     } else{$closelink = "index.php";}    
 
 //Like és kedvenc gombok képei változókban
@@ -202,7 +239,7 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
 //kép nézet és adatlap összeállítása és megjelenítése
 echo "<article class=\"$cls\">\n
     <div id=\"photoframe\">\n
-        <img src=\"kepek/L/{$sor['file']}\" id=\"photo\" alt=\"kep\">\n
+        <img src=\"kepek/L/$file\" id=\"photo\" alt=\"kep\">\n
         <div class=\"navi\">\n
             <div class=\"navi-top\">\n
                 <a href=\"$closelink\"><img src=\"items/close.png\" alt=\"bezar\"></a>\n
@@ -353,6 +390,7 @@ if(isset($_POST['delete'])){
                     }else{
                         echo "<p class=hibak>Jelentkezz be!</p>";
                     }    
+                    mysqli_close($dbconn);
                     ?>
                 </details>    
             </div>
@@ -395,18 +433,6 @@ if(isset($_POST['delete'])){
              </div>\n";
         ?>
     
-<!-- Űrlapok, háttér elsötétítés ----------------------------------------->
-    <div class="form_background" id="elsotetit" onclick="openreg(this)"></div>
-    <div class="form_background" id="loading" ><img src="items/loading.gif"></div>
-<!-- Regisztrációs űrlap ---------------------------------------------------->
-<?php 
-require("regform.php");
-echo $regform;
-?>
-      
- <!-- Képfeltöltés űrlap------------------------------------------------------>
-  <?php if (isset($uploadform)) echo $uploadform; ?>
-
   <script src="foto.js"></script>
   <script src="script.js"></script>
 

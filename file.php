@@ -48,11 +48,14 @@ function ekezettelen($szoveg) {
 
 //Kép átméretezése
 function resize($path, $n_path, $n_height){
+    //Eredeti kép méretének lekérdezése
     $size = getimagesize($path);
     $width = $size[0];
     $height = $size[1];
-    
+    // Az új kép szélességének számítása a magasságból
     $n_width = round($n_height * $width / $height);
+    /* A tényleges új képméretek számítása. Ha kisebb képet töltenek fel, akkor ne nagyítsa fel,
+     * csak a nagyobb képet kicsinyítse a megadott méretre. A kép tájolása (álló v. fekvő) számol. */
 
     if($height>=$width && $height<$n_height){
         $n_height=$height;
@@ -62,10 +65,10 @@ function resize($path, $n_path, $n_height){
         $n_width=$width;
         $n_height = round($n_width * $height / $width);
     }
-
+    // új (üres) képfájl létrehozása az új képmérettel.
     $ujkep = imagecreatetruecolor($n_width, $n_height);
+    // Az eredeti képből image létrehozása 
     $ext = $_FILES['foto']['type'];
-
     switch ($ext) {
         case "image/gif":
             $kep = imagecreatefromgif($path);
@@ -77,9 +80,9 @@ function resize($path, $n_path, $n_height){
             $kep = imagecreatefrompng($path);
             break;
     }
-
+    // A paraméterek szerint méretezi, és az új képfájlba másolja
     imagecopyresampled($ujkep, $kep, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
-
+    // A létrehozott képfájlt a megadott helyre menti. jpeg és png esetében itt adható meg a kép minősége
     switch ($ext) {
         case "image/gif":
             imagegif($ujkep, $n_path);
@@ -93,19 +96,79 @@ function resize($path, $n_path, $n_height){
     }
 }
 
+// Profilkép méretezése és vágása
+function crop_img($path, $n_path, $n_height, $prew_height, $top_pos, $left_pos){
+  /*Paraméterként kapott változók:
+   * $path, $n_path - kép jelenlegi és új elérési útja
+   * $n_height - új kép magassága, vágás és átméretezés után
+   * $prew_height - Az előnézeti képen a csúszkával beállított képmagasság
+   * $top_pos, $left_pos - Az előnézeti képen beállított pozíció, a képkeret felső és bal oldalán
+   *   (ahol a képet vágni kell) */   
+    $size = getimagesize($path);
+    $width = $size[0];
+    $height = $size[1];
+//új (üres) képfájl létrehozása az új képmérettel. Mivel négyzetre vágjuk, a két érték azonos
+$ujkep = imagecreatetruecolor($n_height, $n_height);
+// Az eredeti képből image létrehozása 
+$ext = $_FILES['foto']['type'];
+switch ($ext) {
+    case "image/gif":
+        $kep = imagecreatefromgif($path);
+        break;
+    case "image/jpeg":
+        $kep = imagecreatefromjpeg($path);
+        break;
+    case "image/png":
+        $kep = imagecreatefrompng($path);
+        break;
+}
+// Az előnézeti kép szélességének számítása, ami további számításhoz szükséges
+$prew_width = $prew_height*$width/$height;
+
+/* Mivel a vágás pozíciója az előnézeti kép méretéhez arányos -mert azon lett beállítva-, de a méretezett és 
+ * vágott új képet az eredeti képből hozzuk létre, arányosítani kell a vágás koordinátáit az előnézeti képből 
+ * az eredeti képre. */
+$cut_st_x = $left_pos*$width/$prew_width;
+$cut_st_y = $top_pos*$height/$prew_height;
+$cut_end_xy = $height*$n_height/$prew_height;
+    
+/* Az új image fájlba másolja a paraméterek szerint vágott és kicsinyített képet.
+ * $ujkep - A fentebb létrehozott üres képfájlba másolja a méretezett képet
+ * $kep - A régi képfájl
+ * A 0-ás értékek a kezdő koordináták, ahova az új képfájlba beilleszti a méretezett képet
+ * $cut_st_x, $cut_st_y Az eredeti képre vetített kezdő vágási koordináták
+ * $n_height Az új kép mérete, erre kicsinyíti. Mivel négyzet, ezért azonos a szélesség és a magasság
+ * $cut_end_xy - // Az alsó és jobb oldali vágási koordináták az eredeti képre vetítve. Mivel négyzetre vágjuk, azonos az x és az y
+ * */
+imagecopyresampled($ujkep, $kep, 0, 0, $cut_st_x, $cut_st_y, $n_height, $n_height, $cut_end_xy, $cut_end_xy);
+   
+// A létrehozott képfájlt a megadott helyre menti. jpeg és png esetében itt adható meg a kép minősége
+    switch ($ext) {
+        case "image/gif":
+            imagegif($ujkep, $n_path);
+            break;
+        case "image/jpeg":
+            imagejpeg($ujkep, $n_path, 95);
+            break;
+        case "image/png":
+            imagepng($ujkep, $n_path, 1);
+            break;
+    }
+}
+/************************************************************************************************************/
 //Képarány számítása
 function ratio($path){
     $size = getimagesize($path);
     $width = $size[0];
     $height = $size[1];
-    $per=$width/$height;
-    if($per<=0.8){
+    $per = $width/$height;
+    if($per <= 0.8){
         $rate="portrait";
-    }elseif($per>0.8 && $per<1.2){
+    }elseif($per > 0.8 && $per < 1.2){
         $rate="square";
-    }elseif($per>=1.2 && $per<=1.7){
+    }elseif($per >= 1.2 && $per <= 1.7){
         $rate="landscape";
-    }elseif($per>1.7){
+    }elseif($per > 1.7){
         $rate="wide";
     }
     return $rate;

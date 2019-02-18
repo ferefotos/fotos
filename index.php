@@ -1,23 +1,12 @@
 <?php
-session_start();
-require("connect.php");
+require("config.php");
+require_once("header.php");
 require("upload.php");
-require_once("fejlec.php");
+require("regform.php");
 ?>
-<body>
-    <div class="container">
-        <aside>
-             <?php require("aside.php"); ?>
-        </aside>
-
-        <main>
-            <header>
-                <?php require("header.php"); ?>
-            </header>
-            
 <!-- Galéria ---------------------------------------------------------------->
-            <h2>Legújabb feltöltések</h2>    
-            <div id="gallery">
+    <h2>Legújabb feltöltések</h2>    
+    <div id="gallery">
 <?php 
 /*A bejelentkezett felhasználónak a nem publikus saját képeit is meg kell jeleníteni a galériában*/
 if (isset($_SESSION['userid'])) {
@@ -30,7 +19,7 @@ $like_img_off="heart24c.png";
 $kedvenc_img_on="star24cy.png";
 $kedvenc_img_off="star24c.png";
 
-// A likeolást feldolgozó form
+// A lájkolást feldolgozó form
 echo "<form id=\"foto_like\" method=\"post\"></form>\n";
 
 // A főoldalon a 30 legfrissebb feltöltés jelenik meg
@@ -72,24 +61,13 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
 } else {
     echo "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
 }
+mysqli_close($dbconn);
 ?>
 
             </div>
         </main>
     </div>
     
-<!-- Űrlapok, háttér elsötétítés ----------------------------------------->
-    <div class="form_background" id="elsotetit" onclick="openreg(this)"></div>
-    <div class="form_background" id="loading" ><img src="items/loading.gif"></div>
-<!-- Regisztrációs űrlap ---------------------------------------------------->
-<?php 
-require("regform.php");
-echo $regform;
-?>
-      
- <!-- Képfeltöltés űrlap------------------------------------------------------>
-  <?php if (isset($uploadform)) echo $uploadform; ?>
-
   <script src="script.js"></script>
   
 </body>

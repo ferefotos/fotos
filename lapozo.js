@@ -1,3 +1,4 @@
+// Paraméterek lekérdezése az url-ből
 $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results==null) {
@@ -9,15 +10,16 @@ var katid = $.urlParam('katid');
 var userid = $.urlParam('userid'); 
 var search = $.urlParam('search'); 
 var kedvenc = $.urlParam('kedvenc'); 
+var toplist = $.urlParam('toplist'); 
 
 
-//console.log($.urlParam('katid'));  
+//console.log($.urlParam('toplist'));  
 //console.log(decodeURIComponent($.urlParam('userid'))); 
 
 //Ez szükséges, hogy a galériákban a lájkolásnál a submit-re ne töltsön újra az oldal
+//letiltja az alapértelmezett submit eseményt
 $('#foto_like').on('submit', function (e) {
-    //letiltja az alapértelmezett submit eseményt
-           e.preventDefault();
+    e.preventDefault();
 }); 
 
 $(document).ready(function(){
@@ -26,17 +28,17 @@ $(document).ready(function(){
     var action = 'inactive';
     function load_country_data(limit, start){
         $.ajax({
-            url:"gallery_scroll.php",
+            url:"gallery_list.php",
             method:"POST",
-            data:{limit:limit, start:start, katid:katid, userid:userid, search:search, kedvenc:kedvenc},
+            data:{limit:limit, start:start, katid:katid, userid:userid, search:search, kedvenc:kedvenc, toplist:toplist},
             cache:false,
             success:function(data){
                 $('#gallery').append(data);       
                 if(data == ''){
-                   $('#message').html("<p></p>");
+                   //$('#message').html("<p></p>");
                     action = 'active';
                 }else{
-                    $('#message').html("<p></p>"); 
+                   // $('#message').html("<p></p>"); 
                     action = 'inactive';                          
                 }
             }
@@ -50,10 +52,12 @@ $(document).ready(function(){
     $(window).scroll(function(){
         if($(window).scrollTop() + $(window).height() > $("#gallery").height() && action == 'inactive'){
             action = 'active';
-                start = start + limit;
+            start = start + limit;
+            if(toplist == null || toplist!==null && start<60){       
                 setTimeout(function(){
                     load_country_data(limit, start);
                 }, 200);           
+            }
         }
     });
 });

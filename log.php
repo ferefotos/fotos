@@ -1,6 +1,5 @@
 <?php
-session_start();
-require("connect.php");
+require("config.php");
 
 //Bejelentkezés
 if (isset($_POST['login'])) {
@@ -43,5 +42,5 @@ echo json_encode(
         "error" => isset($hiba) ? $hiba : ""
     )
 );
-
+mysqli_close($dbconn);
 ?>

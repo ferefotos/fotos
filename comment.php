@@ -1,6 +1,5 @@
 <?php 
-session_start();
-require("connect.php");
+require("config.php");
 if(isset($_POST['hozzaszol'])){
     $komment=mysqli_real_escape_string($dbconn, stripslashes(strip_tags(trim($_POST['komment']))));
     $datetime=date("Y-m-d")." ".date("H:i:s");

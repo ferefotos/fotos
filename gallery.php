@@ -1,28 +1,17 @@
 <?php
-session_start();
-require("connect.php");
+require("config.php");
+require_once("header.php");
 require("upload.php");
-require_once("fejlec.php");
-?>
-<body>
-    <div class="container">
-        <aside>
-        <?php require("aside.php"); ?>
-        </aside>
+require("regform.php");
+     
+//*** Galéria  ****//              
 
-        <main>
-            <header>
-                <?php require("header.php"); ?>
-            </header>
-        
-<!-- Galéria ---------------------------------------------------------------->                
-<?php
 //Címsor kategóriára szűrésnél
 if (isset($_GET['katid'])) {
     $sql = "SELECT kategoria FROM kategoria WHERE id={$_GET['katid']}";
     $eredmeny = mysqli_query($dbconn, $sql);
     $sor = mysqli_fetch_assoc($eredmeny);
-        echo "<h2>{$sor['kategoria']}</h2>";
+    echo "<h2>{$sor['kategoria']}</h2>";
 }
 //Címsor keresésnél
 if (isset($_GET['search'])){
@@ -56,32 +45,20 @@ if (isset($_GET['userid'])){
 if(isset($_GET['kedvenc'])){
     echo "<h2>Kedvenc képeim</h2>";
 }
-
-
-// A lájkolást feldolgozó form
-echo "<form id=\"foto_like\" method=\"post\"></form>\n";
-
-echo "<div id=\"gallery\">\n";
-
-?>          
-            </div>
+//címsor TOP60 képekre
+if(isset($_GET['toplist'])){
+    echo "<h2>A legnépszerűbb fotók</h2>";
+}
+mysqli_close($dbconn);
+?>          <!--A lájkolást feldolgozó form-->
+            <form id=foto_like method=post></form>
+            <div id=gallery></div>
             <div id="message"></div>
         </main>
     </div>
-    
-<!-- Űrlapok, háttér elsötétítés ----------------------------------------->
-    <div class="form_background" id="elsotetit" onclick="openreg(this)"></div>
-<!-- Regisztrációs űrlap ---------------------------------------------------->
-<?php 
-require("regform.php");
-echo $regform;
-?>
-      
- <!-- Képfeltöltés űrlap------------------------------------------------------>
-  <?php if (isset($uploadform)) echo $uploadform; ?>
 
   <script src="script.js"></script>
-    <script src="lapozo.js"></script>
+  <script src="lapozo.js"></script>
   
 </body>
 </html>

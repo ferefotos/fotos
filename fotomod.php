@@ -1,14 +1,18 @@
 <?php
 require("config.php");
-require_once("header.php");
-require("upload.php");
-require("regform.php");
+require("header.php");
+require(ROOT_PATH. "/form/uploadform.php");
+require(ROOT_PATH. "/form/regform.php");
+require(ROOT_PATH. "/form/common.php");
 
-//Adatmódosító űrlap a képekhez
+/****************************
+ *   Képadatok módosítása   *
+ ****************************/
+
 $file = $_GET['file'];
-//Az űrlaphoz le kell kérdezni a kategóriákat
+/* Kategóriák lekérdezése, lenyíló lista létrehozása az űrlaphoz. */
 $sql = "SELECT * FROM kategoria";
-if ($eredmeny = mysqli_query($dbconn, $sql)) {
+$eredmeny = mysqli_query($dbconn, $sql);
     $kategoriak = "";
     while ($sor = mysqli_fetch_assoc($eredmeny)) {
         if ($sor['id'] == $_GET['katid']) {
@@ -17,129 +21,115 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
             $kategoriak .= "<option value=\"{$sor['id']}\">{$sor['kategoria']}</option>\n";
         }
     }
-} else {
-    $hiba = "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
-}
 
-//Kép adatok lekérdezése
+// Képadatok lekérdezése
 $sql = "SELECT file, cim, story, blende, zarido, iso, focus, 
                 kamera, obi, date, class, public, userid, nev, pkep
                 FROM foto JOIN user ON userid=artist
                 WHERE file='$file'";
-if ($eredmeny = mysqli_query($dbconn, $sql)) {
-    $sor = mysqli_fetch_assoc($eredmeny);
-    //A formázáshoz az osztály meghatározása
-    if ($sor['class'] == 'portrait' || $sor['class'] == 'square') {
-        $cls = "p-port";
-    } else {
-        $cls = "p-land";
-    }
-    if (!$sor['public']) {
-        $checked = "checked";
-    } else {
-        $checked = "";
-    }
-
-//kép nézet és adatlap összeállítása és megjelenítése   
-$article = "<article class=\"$cls\">\n
-    <div id=\"photoframe\">\n
-        <img src=\"kepek/L/{$sor['file']}\" alt=\"kep\">\n
-        <div id=\"navi\">\n
-            <div id=\"navi-top\">\n
-                <div></div>\n
-                <div></div>\n
-            </div>\n 
-            <div id=\"navi-center\">\n
-                <div id=\"next\"></div>\n
-                <div id=\"prev\"></div>\n
-            </div>\n
-        </div>\n
-    </div>\n
-    <form id=\"dataframe\" method=\"post\">\n
-        <div id=\"photodata\">\n
-            <div id=\"data-header\">\n
-                <div class=\"artist\" id=\"photo_data_artist\">\n
-                    <a href=\"gallery.php?userid={$sor['userid']}\"><img src=\"users/{$sor['pkep']}\" alt=\"profilkep\"></a>\n
-                    <a href=\"gallery.php?userid={$sor['userid']}\"><p>{$sor['nev']}</p></a>\n
-                </div>\n
-            </div>\n
-
-            <div id=\"photodata_mod\">\n
-                <label for=\"cim\"> Kép címe:\n
-                <input type=\"text\" name=\"cim\" id=\"cim_mod\" title=\"A kép címe\" maxlength=\"32\" value=\"{$sor['cim']}\"></label><br>\n 
-                <label for=\"kategoria\">Kategória:</label>\n
-                <select name=\"kategoria\" id=\"kategoria_mod\" title=\"Kategória választás\">\n
-                $kategoriak;
-                </select></p>\n 
-                <label><input type=\"checkbox\" name=\"public\" id=\"public_mod\" value=\"\" $checked> Nem publikus</label>\n
-            </div>\n
-            <div id=\"exif\">\n
-                <div class=\"exif\">\n
-                    <div>\n
-                        <img src=\"items/blende.png\" alt=\"blende\">\n
-                        <p>{$sor['blende']}</p>\n
-                    </div>\n
-                    <div>\n
-                        <img src=\"items/time.png\" alt=\"zarido\">\n
-                        <p>{$sor['zarido']} s</p>\n
-                    </div>\n              
-                </div>\n
-                <div class=\"exif\">\n
-                    <div>\n
-                        <img src=\"items/iso.png\" alt=\"iso\">\n
-                        <p>{$sor['iso']}</p>\n
-                    </div>\n
-                    <div>\n
-                        <img src=\"items/zoom.png\" alt=\"fokusz\">\n
-                        <p>{$sor['focus']} mm</p>\n
-                    </div>\n
-                </div>\n
-                <div class=\"exif\">\n
-                    <div>\n
-                        <img src=\"items/cam.png\" alt=\"kamera\">\n
-                        <p>{$sor['kamera']}</p>\n
-                    </div>\n
-                    <div>\n
-                        <img src=\"items/lens.png\" alt=\"objektiv\">\n
-                        <p>{$sor['obi']}</p>\n
-                    </div>\n
-                </div>\n
-            </div>\n
-            <div id=\"calendar\">\n
-                <img src=\"items/calendar.png\" alt=\"datum\">\n
-                <p>{$sor['date']}</p>\n
-            </div>\n    
-            <div id=\"desc_mod\">\n
-                <label for=\"leiras\">Leírás a képről: </label>\n
-                <textarea name=\"leiras\" id=\"leiras_mod\" cols=\"38\" rows=\"8\" maxlength=\"500\" placeholder=\"Itt írhatsz a kép készítéséről. Maximum 500 karakter!\">{$sor['story']}</textarea>\n
-            </div>\n
-        </div>\n
-        <div id=\"edit-buttons\">\n
-            <input class=\"gomb\" type=\"submit\" name=\"canc\" id=\"canc\" value=\"Mégsem\">\n
-            <input class=\"gomb\" type=\"submit\" name=\"ment\" id=\"ment\" value=\"Mentés\">\n
-        </div>\n
-    </form>\n
-</article>\n";
-    echo $article;
-
+$eredmeny = mysqli_query($dbconn, $sql);
+$sor = mysqli_fetch_assoc($eredmeny);
+//A formázáshoz az osztály meghatározása
+if ($sor['class'] == 'portrait' || $sor['class'] == 'square') {
+    $cls = "p-port";
 } else {
-    echo "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
+    $cls = "p-land";
 }
-
+if (!$sor['public']) {
+    $checked = "checked";
+} else {
+    $checked = "";
+}
+?>
+<article class="<?php echo $cls; ?>">
+    <div id="photoframe">
+        <img src="photos/<?php echo $sor['file']; ?>" alt="kep">
+        <div id="navi">
+            <div id="navi-top">
+                <div></div>
+                <div></div>
+            </div> 
+            <div id="navi-center">
+                <div id="next"></div>
+                <div id="prev"></div>
+            </div>
+        </div>
+    </div>
+    <form id="dataframe" method="post">
+        <div id="photodata">
+            <div id="data-header">
+                <div class="artist" id="photo_data_artist">
+                    <a href="gallery.php?userid=<?php echo $sor['userid']; ?>"><img src="users/<?php echo $sor['pkep']; ?>" alt="profilkep"></a>
+                    <a href="gallery.php?userid=<?php echo $sor['userid']; ?>"><p><?php echo $sor['nev']; ?></p></a>
+                </div>
+            </div>
+            <div id="photodata_mod">
+                <label for="cim"> Kép címe:
+                <input type="text" name="cim" id="cim_mod" title="A kép címe" maxlength="32" value="<?php echo $sor['cim']; ?>"></label><br> 
+                <label for="kategoria">Kategória:</label>
+                <select name="kategoria" id="kategoria_mod" title="Kategória választás">
+                <?php echo $kategoriak; ?>
+                </select></p> 
+                <label><input type="checkbox" name="public" id="public_mod" value="" <?php echo $checked; ?>> Nem publikus</label>
+            </div>
+            <div id="exif">
+                <div class="exif">
+                    <div>
+                        <img src="items/blende.png" alt="blende">
+                        <p><?php echo $sor['blende']; ?></p>
+                    </div>
+                    <div>
+                        <img src="items/time.png" alt="zarido">
+                        <p><?php echo $sor['zarido']; ?> s</p>
+                    </div>              
+                </div>
+                <div class="exif">
+                    <div>
+                        <img src="items/iso.png" alt="iso">
+                        <p><?php echo $sor['iso']; ?></p>
+                    </div>
+                    <div>
+                        <img src="items/zoom.png" alt="fokusz">
+                        <p><?php echo $sor['focus']; ?> mm</p>
+                    </div>
+                </div>
+                <div class="exif">
+                    <div>
+                        <img src="items/cam.png" alt="kamera">
+                        <p><?php echo $sor['kamera']; ?></p>
+                    </div>
+                    <div>
+                        <img src="items/lens.png" alt="objektiv">
+                        <p><?php echo $sor['obi']; ?></p>
+                    </div>
+                </div>
+            </div>
+            <div id="calendar">
+                <img src="items/calendar.png" alt="datum">
+                <p><?php echo $sor['date']; ?></p>
+            </div>    
+            <div id="desc_mod">
+                <label for="leiras">Leírás a képről: </label>
+                <textarea name="leiras" id="leiras_mod" cols="38" rows="8" maxlength="500" placeholder="Itt írhatsz a kép készítéséről. Maximum 500 karakter!"><?php echo $sor['story']; ?></textarea>
+            </div>
+        </div>
+        <div id="edit-buttons">
+            <input class="gomb" type="submit" name="canc" id="canc" value="Mégsem">
+            <input class="gomb" type="submit" name="ment" id="ment" value="Mentés">
+        </div>
+    </form>
+</article>
+<?php
 //űrlap feldolgozás
 if (isset($_POST['ment'])) {
-    function tisztit($dbconn, $text){
-        return mysqli_real_escape_string($dbconn, stripslashes(strip_tags(trim($text))));
-    }
-    $cim = tisztit($dbconn, $_POST['cim']);
-    $leiras = tisztit($dbconn, $_POST['leiras']);
+    $cim = tisztit($_POST['cim']);
+    $leiras = tisztit($_POST['leiras']);
     $kategoria = $_POST['kategoria'];
     if (isset($_POST['public'])) {
         $public = 0;
     } else {
         $public = 1;
     }
-
     $sql = "UPDATE foto SET katid=$kategoria, cim='$cim', 
          story='$leiras', public=$public 
           WHERE file='{$_GET['file']}'";
@@ -160,8 +150,7 @@ mysqli_close($dbconn);
 ?>
         </main>
     </div>
-
-  <script src="script.js"></script>
-
+  <script src="script/ajaxform.js"></script>  
+  <script src="script/script.js"></script>
 </body>
 </html>

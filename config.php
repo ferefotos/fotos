@@ -10,6 +10,6 @@ $dbconn = mysqli_connect(DBHOST, DBUSER, DBPASS, DBNAME) or die('Kapcsolódási 
 mysqli_query($dbconn, "SET NAMES utf8");
 
 define ('ROOT_PATH', realpath(dirname(__FILE__)));
-define('DEFAULT_URL', 'http://iskola/_fotos/');
+//define('DEFAULT_URL', 'http://iskola/_fotos/');
 //define('DEFAULT_URL', 'http://localhost/fotos/');
 ?>

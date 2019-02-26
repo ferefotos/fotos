@@ -6,9 +6,7 @@ $sql="SELECT * FROM kategoria
 $eredmeny=mysqli_query($dbconn, $sql);
 $kategoriak="<li><a href=\"gallery.php?toplist=\">TOP 60 fotó</a></li>\n";
 while($sor = mysqli_fetch_assoc($eredmeny)){
-    $kategoriak .="
-    <li><a href=\"gallery.php?katid={$sor['id']}\">{$sor['kategoria']}</a></li>
-    ";
+    $kategoriak .="<li><a href=\"gallery.php?katid={$sor['id']}\">{$sor['kategoria']}</a></li>";
 }
 ?>
     <div class="logo">
@@ -17,12 +15,14 @@ while($sor = mysqli_fetch_assoc($eredmeny)){
     <nav>
        <form action="gallery.php" method="get" id="searchform">
             <input type="search" name="search" id="kereso" title="keresés">
-            <button type="submit" name="keres" value="">
+            <button type="submit" name="keres">
                 <img src="items/find.png" alt="keresés" title="keresés">
             </button>
        </form>
         <h3>Kategóriák</h3>
-        <ul>
-            <?php echo $kategoriak; ?>
-        </ul>
+        <div>
+            <ul>
+                <?php echo $kategoriak; ?>
+            </ul>
+        </div>
     </nav>

@@ -1,0 +1,277 @@
+/****************************************************************
+ *               Reszponzív megjelenés formázása                *
+ ****************************************************************/
+ @media only screen and (max-width: 1600px){ 
+    /* foto nézet */
+    #commentframe{padding: 0 25px 25px 25px;}
+    #komment_list{margin-right: 40px;}
+}
+@media only screen and (min-width: 620px) and (max-width: 1600px){ 
+    /* foto nézet */
+    article{padding: 25px;}
+    .p-land{flex-flow: column;}
+    .p-land #dataframe{
+        min-height: 250px;
+        margin-top: 25px;
+    }
+    .p-land #data-header{
+        display: flex; 
+        justify-content: space-between;  
+        margin-bottom: 10px;
+    }
+    .p-land #mark{align-self: flex-end;}
+    .p-land #exif{
+        display: flex; 
+        flex-flow: row; 
+        align-items: flex-start;
+    }
+    .p-land .exif{
+        display: flex; 
+        flex-flow: column; 
+        width: 30%; 
+        margin-right: 10px;
+    }
+    #cim_mod{width: 250px;}
+    #kategoria_mod{max-width: 250px;}
+    #desc p{max-width: 650px}
+    #desc_mod{max-width: 650px;}
+}
+@media only screen and (min-width: 620px) and (max-width: 1300px){
+    /* foto nézet */
+    .p-port{flex-flow: column;}
+    .p-port #dataframe{
+        min-height: 250px;
+        margin-top: 25px;
+    }
+    .p-port #data-header{
+        display: flex; 
+        justify-content: space-between;  
+        margin-bottom: 10px;
+    }
+    .p-port #mark{align-self: flex-end;}
+    .p-port #exif{
+        display: flex; 
+        flex-flow: row; 
+        align-items: flex-start;
+    }
+    .p-port .exif{
+        display: flex; 
+        flex-flow: column; 
+        width: 30%; 
+        margin-right: 10px;
+    }
+    #desc p{max-width: 100%}
+}
+@media only screen and (min-width: 1251px){
+    /* képfeltöltés form */
+    .up-wide #up-gombok{flex-flow: column;}
+    .up-wide #up-gombok div:first-child{align-self: flex-end;}
+    .up-wide #up-gombok div:nth-child(2){margin-bottom: 10px;}
+    .up-wide #upform-bottom{justify-content: space-between;}
+}
+@media only screen and (max-width: 1250px){
+    /* képfeltöltés form */
+    .up-wide{left: calc((100% - 550px)/2); top: 100px;}
+    .up-wide #upform-top{flex-flow: column;}
+    .up-wide{padding-right: 0;}
+    .up-wide #foto-data{margin-top: 15px; display: flex; flex-flow: row; max-width: 554px;}
+    .up-wide #foto-data div:first-child{width: 50%; margin-right: 15px;}
+    .up-wide #foto-data div:nth-child(2){width: 50%; margin-right: 15px;}    
+    .up-wide #leiras{width: 99%; height: 95px;}
+    .up-wide #cim{width: 95%;}
+    .up-wide #kategoria{width: 99%;}
+    .up-wide #enter{margin-right: 15px;}
+    .up-wide #upform-bottom{flex-flow: column;}
+    .up-wide #feltolt{margin-right: 20px;}
+    /* Felhasználó fotói -felhasználó lenyíló adatlapja a galériában */
+    #userinfo{flex-flow: column;}
+    #userinfo_cam, #userinfo_rolam{width: auto;}
+    #userinfo_rolam{margin-top: 10px;}
+    /* kép hozzászólás */
+    #commentframe{flex-flow: column;}
+    details{order: 1; margin-bottom: 15px; }
+    #komment_list{order: 2;}
+    #komment_form{margin-bottom: 0; margin-left: 15px; width: auto;}
+}
+@media only screen and (max-width: 1079px){
+    /* galéria */
+    .image{
+        flex: 1 270px;}
+    .portrait{
+        flex: 1 120px;}
+    .square{
+        flex: 1 200px;}
+    .wide{
+        flex: 2 400px;}
+    /* foto nézet */
+    .p-land .exif{width: 25%;}
+    .exif div{width: auto;}    
+    /* regisztrációs űrlap */
+    
+    #reg-hibak div:first-child{width: 80px;}
+    /* képfeltöltő űrlap */
+    .up-landscape{max-width: 455px;} 
+    .up-landscape{left: calc((100% - 490px)/2); top:65px;}
+    .up-landscape #foto-data{width: 100%; margin-top: 15px;} 
+    .up-landscape .foto-exif{max-width: 330px;}   
+    .up-landscape #foto-data #cim{width: 97%;}
+    .up-landscape #foto-data #kategoria{width: 99%;}
+    .up-landscape #foto-data #leiras{width: 97%;}
+    .up-landscape #made-exif input{max-width: 100%;} 
+    .up-landscape #cam-exif input{max-width: 100%;} 
+    .up-landscape #blende, .up-landscape #fokusz{margin-right: 0;}
+}
+@media only screen and (min-width: 511px) and (max-width:1079px){
+    /* képfeltöltő űrlap */
+    .up-landscape #upform-bottom{max-width: 430px;}
+    .up-landscape #up-gombok{flex-flow: column; }
+    .up-landscape #up-gombok div:nth-child(2){display: flex; flex-flow: row; margin-bottom: 10px; align-self: flex-end;}
+}
+@media only screen and (max-width: 900px){
+    #container{padding: 20px;}
+    /* galéria */
+    .image{
+        flex: 1 230px;}
+    .portrait{
+        flex: 1 110px;}
+    .square{
+        flex: 1 180px;}
+    .wide{
+        flex: 2 380px;}
+}
+@media only screen and (min-width: 821px){
+    /* Legördülő menü elrejtése asztali gépen */
+    #catmenu{display:none;}     
+}
+@media only screen and (max-width: 820px){
+    /* aside, header, menük*/
+    aside{display: none;}
+    #top-center{display: block;}
+    .mainmenu a{display: none;}
+    #catmenu-resp{display: block; margin: 0 5px 20px 0;}
+    #usermenu{margin-right: 5px; margin-bottom: 10px;}
+    #usermenu-sub{margin-top: 30px;}
+    .submenu-user{left: -90px;}
+    .logmenu{left: -180px;}
+    #catmenu-sub{top: 40px;}
+    #uploadmenu{  margin: 0 0 5px 0;}
+    #infomenu{display: none;}
+    #infomenu-resp{display: block; margin-bottom: 12px;}
+    /* regisztrációs form */
+    .reg{width: 500px; left: calc((100% - 534px)/2);} 
+    /* képfeltöltő űrlap */
+    .up-wide{left: calc((100% - 585px)/2);}
+    .up-square #foto-data{width: 100%; margin-top: 15px;}
+    .up-square .foto-exif{max-width: 330px;}
+    .up-square #foto-data #cim {width: 97%;}
+    .up-square #foto-data #kategoria {width: 99%;}
+    .up-square #foto-data #leiras {width: 97%;}
+    .up-square #made-exif input{max-width: 100%;} 
+    .up-square #cam-exif input{max-width: 100%;} 
+    .up-square #blende, .up-square #fokusz{margin-right: 0;}
+    .up-square{max-width: 402px;}
+    .up-square{left: calc((100% - 436px)/2); top:65px;}
+    /*#enlarge{display:none;}  */
+}
+@media only screen and (max-height: 800px){ 
+    /* foto nézet */
+    .p-land #photoframe{padding: 0;}
+}
+@media only screen and (max-height: 420px) and (max-width: 820px){ 
+    /* foto nézet */
+    .p-land #photoframe{height: 74vh;}
+}
+@media only screen and (max-width: 619px){
+    /* foto nézet */
+    article{padding: 20px;}
+    .p-land, .p-port{flex-flow: column;}
+    #dataframe{min-width: auto; margin-top: 25px;}
+    .exif div{width: max-content;}
+    #desc p{max-width: 450px;}
+    /* képfeltöltő űrlap */
+    .up-portrait{max-width: 330px; left: calc((100% - 385px)/2); top:65px;}
+    .up-portrait #foto-pre img{max-width: 330px;}   
+    .up-portrait .foto-exif{flex-wrap: nowrap;}
+    .up-portrait #made-exif input{width: 86%;} 
+    .up-portrait #cam-exif input{width: 100%;} 
+    .up-portrait #iso, .up-portrait #fokusz{margin-right: 0;}
+    .up-wide{left: 0; top: 65px;}
+    .up-wide #foto-pre img{max-width: 100%;}
+    .up-wide{padding-right: 15px;}
+    .up-wide #upform-bottom{flex-flow: row; justify-content: flex-start;}
+    .up-wide #up-gombok{flex-flow: column; width: 48%;}
+    .up-wide #up-gombok div:first-child{align-self: flex-start;}
+    .up-wide #up-gombok div:nth-child(2){margin-bottom: 10px;}
+    .up-wide .foto-exif{max-width: 278px;}
+    .up-wide #enter{margin-right: 0;}
+    .p-port #photoframe{height: 100%;}  
+}
+@media only screen and (max-width: 450px) and (max-width:619px){
+    .up-square {left: 0;}
+}
+
+@media only screen and (min-width: 381px) and (max-width:619px){
+    .up-portrait #foto-pre{flex-flow: row;}
+}
+@media only screen and (max-width: 510px){
+    /* regisztrációs form */
+    .reg{left: 0; top:70px; max-width: 90%;}
+    #reg-top, #reg-bottom{flex-flow: column; align-items: flex-start;}
+    #profkep{ margin: 10px 0;}
+    #reg-bottom-right{width:100%; height: auto;}
+    #reg-hibak{margin-bottom: 10px;}
+    #reg-hibak div:first-child{width: 25px;}
+    #hibak{margin-bottom:15px;}
+    #hibak div{width: 130px;}
+    /* képfeltöltő űrlap */
+    .up-landscape{left: 0;}
+    .up-landscape #upform-bottom{flex-flow: column; }
+    .up-landscape #up-gombok{align-items: flex-start;}
+    .up-wide #foto-data{flex-flow: column;}
+    .up-wide #upform-bottom{display: block;}
+    .up-wide #up-gombok{align-items: flex-start;}
+    .up-wide #datum{margin-bottom: 15px;}
+    .up-wide #foto-data div:first-child{width: 100%;}
+    .up-wide #foto-data div:nth-child(2){width: 98%;}    
+    .up-wide #cim{width: 97%;}
+    .up-wide #kategoria{width: 99%;}
+    .up-wide #up-gombok{width: 100%;}
+    .up-wide #up-gombok div:nth-child(2){width: 200px;}
+    #userinfo_cam{flex-flow: column;}
+    #userinfo_cam div{width: auto;}
+    #userinfo_cam div:first-child{margin-bottom: 10px;}
+    details{min-width: 300px}
+}
+@media only screen and (max-width: 470px){
+    /* galéria */
+    .portrait img{
+        height: 100%;
+        width: 100%;}
+    #container{
+        max-width: 320px;
+        padding: 30px;
+    }
+    #gallery{justify-content:center;}
+    .image{max-width: 100%;}   
+}
+@media only screen and (max-width: 380px){
+    .logo{margin-right: 15px;}
+    .logo img{width: 100%;}
+    /* regisztrációs form */
+    #reg-top p{width: fit-content;}
+    #reg-gombok{flex-flow: column; align-items: flex-start;}
+    #reg-gombok label{margin-bottom: 15px;}
+    #cim, #kategoria, #leiras{width: 100%;}
+    #foto-pre div:nth-child(2){flex-wrap: wrap;}
+    /* képfeltöltő űrlap */
+    .upload{left: 0;}
+    .up-landscape .foto-exif{max-width: 200px;}
+    .up-landscape #upform-top{margin-right: 0;}
+    .up-portrait #upform-top{margin-right: 15px;}
+    .up-portrait #up-gombok, .up-square #up-gombok{flex-flow: column; align-items: flex-start;} 
+    .up-portrait #up-gombok div:nth-child(2),
+    .up-square #up-gombok div:nth-child(2){margin-top: 10px; }
+    .up-portrait #talloz, .up-wide #talloz{margin-bottom: 15px;}
+    /* foto nézet */
+    .p-land #photoframe{padding: 0;}
+}

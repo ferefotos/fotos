@@ -1,19 +1,19 @@
 <?php
 require("config.php");
-require_once("header.php");
-require("upload.php");
-require("regform.php");
+require("header.php");
+require(ROOT_PATH. "/form/uploadform.php");
+require(ROOT_PATH. "/form/regform.php");
 ?>
-<!-- Galéria ---------------------------------------------------------------->
-    <h2>Legújabb feltöltések</h2>    
+<!-- Főoldal a legújabb feltöltésekkel ------------------------------------------------------>
+    <h2>A legújabb feltöltések</h2>    
     <div id="gallery">
 <?php 
-/*A bejelentkezett felhasználónak a nem publikus saját képeit is meg kell jeleníteni a galériában*/
+/* A bejelentkezett felhasználónak a nem publikus saját képeit is meg kell jeleníteni a galériában */
 if (isset($_SESSION['userid'])) {
     $term = "OR artist='{$_SESSION['userid']}' AND public=0";
 } else { $term = "";}
 
-//Like és kedvenc gombok képei változókban
+// Like és kedvenc gombok képei változókban
 $like_img_on="heart24cb.png";
 $like_img_off="heart24c.png";
 $kedvenc_img_on="star24cy.png";
@@ -32,13 +32,13 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
     while ($sor = mysqli_fetch_assoc($eredmeny)) {
         $nev = mb_substr($sor['nev'], mb_strpos($sor['nev'], " "));
         $file= $sor['file'];
-        $img_id = strtok($sor['file'], ".");
+        $img_id = strtok($sor['file'], "."); //Egyedi azonosító a fájl nevéből
     //Like és kedvenc lekérdezések
-    include('like_count.php');
+    include(ROOT_PATH. '/react/like_count.php');
 
     echo "<div class=\"image {$sor['class']}\" id=\"{$img_id}\" onmousemove=\"showinfo(this)\">\n
             <a href=\"foto.php?file=$file&katid=&userid=&search=&list=\">\n
-                <img src=\"kepek/$file\" class=\"gallery_foto\" alt=\"foto\"></a>\n
+                <img src=\"photos/thumbs/$file\" class=\"gallery_foto\" alt=\"foto\"></a>\n
             <div class=\"like_stripe\">\n
                 <div class=\"artist\">\n
                 <a href=\"gallery.php?userid={$sor['userid']}\" id=\"artist_link\">\n
@@ -63,12 +63,11 @@ if ($eredmeny = mysqli_query($dbconn, $sql)) {
 }
 mysqli_close($dbconn);
 ?>
-
             </div>
         </main>
     </div>
-    
-  <script src="script.js"></script>
+  <script src="script/ajaxform.js"></script>
+  <script src="script/script.js"></script>
   
 </body>
 </html>

@@ -1,10 +1,12 @@
 <?php
 require("config.php");
 require_once("header.php");
-require("upload.php");
-require("regform.php");
+require(ROOT_PATH. "/form/uploadform.php");
+require(ROOT_PATH. "/form/regform.php");
      
-//*** Galéria  ****//              
+/*******************************
+ *           Galéria           *
+ *******************************/              
 
 //Címsor kategóriára szűrésnél
 if (isset($_GET['katid'])) {
@@ -15,9 +17,13 @@ if (isset($_GET['katid'])) {
 }
 //Címsor keresésnél
 if (isset($_GET['search'])){
-    echo "<h2>Keresés eredménye a(z) {$_GET['search']} kifejezésre:</h2>";
+    if(!empty($_GET['search'])){
+        echo "<h2>Keresés eredménye a(z) {$_GET['search']} kifejezésre:</h2>";
+    }else{
+        echo "<h3>Nem adtál meg kulcszót a kereséshez - eredmény szűrés nélkül:</h3>";
+    }
 }
-// Címsor felhasználóra szűrésnél, és felhasznló adatlap
+// Címsor felhasználóra szűrésnél, és felhasználó adatlap
 if (isset($_GET['userid'])){
     $sql = "SELECT nev, pkep, rolam, cam, lens FROM user WHERE userid='{$_GET['userid']}'";
     $eredmeny = mysqli_query($dbconn, $sql);
@@ -50,15 +56,19 @@ if(isset($_GET['toplist'])){
     echo "<h2>A legnépszerűbb fotók</h2>";
 }
 mysqli_close($dbconn);
-?>          <!--A lájkolást feldolgozó form-->
+?>      <!--A lájkolást feldolgozó form input mezői -a 'like' és 'kedvenc' gombok- minden egyes
+              bélyegképnél találhatóak, egyedi azonosítóval, amely a fájl nevéből származik.-->
             <form id=foto_like method=post></form>
-            <div id=gallery></div>
+        <!--A képgaléria összeállítása a gallery_list.php-ban történik. Végtelen lapozóval 
+             és a lapozo.js tölti be a gellery azonosítójú div-be.-->
+            <div id="gallery"></div>
             <div id="message"></div>
         </main>
     </div>
 
-  <script src="script.js"></script>
-  <script src="lapozo.js"></script>
+  <script src="script/ajaxform.js"></script>
+  <script src="script/script.js"></script>
+  <script src="script/lapozo.js"></script>
   
 </body>
 </html>

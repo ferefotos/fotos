@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Zoom || Fotós közösségi oldal</title>
-    <link rel="stylesheet" href="normalize.css">
-    <link rel="stylesheet" href="gallery.css">
-    <link href="https://fonts.googleapis.com/css?family=Gentium+Book+Basic" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src=script-top.js></script>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+    <script src=script/jquery-3.3.1.min.js></script>
 </head>
 <!--<body oncontextmenu="return false;">-->
 <body>
@@ -24,14 +25,15 @@
         <main>
             <header>
                 <div id="top-left">
-                    <div class="ddmenu" id="catmenu" onmouseover="menuover(this)" onmouseout="menuout()">
+                    <div class="ddmenu" id="catmenu" onmouseover="onmenu(this)" onmouseout="outmenu()">
                         <div class="mainmenu"><a href="#">Kategóriák</a></div>
                         <img id="catmenu-resp" src="items/cat-list.png" alt="">
-                        <ul class="submenu" id="catmenu-sub">
-                            <?php echo $kategoriak; ?>
-                        </ul>
-                    </div>
-
+                                        <ul class="submenu" id="catmenu-sub">
+                                            <?php echo $kategoriak; ?>
+                                        </ul>
+                                   
+                              
+        </div>
                     <div id="infomenu" class="ddmenu"><a href="#">Ismertető</a></div>
                     <div id="infomenu-resp"><img src="items/infomenu.png" alt=""></div>
                 </div>
@@ -46,9 +48,10 @@
                     <div id="uploadmenu">
                     <?php 
                     if (isset($_SESSION['userid'])) {
-                        echo "<form id=\"foto_up_form\" method=\"post\" name=\"foto_up_form\" enctype=\"multipart/form-data\">\n";
-                        echo "<label><img src=\"items/upload.png\" id=\"uplink-log\" alt=\"feltöltés\">\n";
-                        echo "<input type=\"file\" name=\"foto\" id=\"foto_up\" onchange=\"this.form.submit()\"></label></form>\n";
+                        echo "<form id=\"foto_up_form\" method=\"post\" name=\"foto_up_form\" enctype=\"multipart/form-data\">\n
+                                <label><img src=\"items/upload.png\" id=\"uplink-log\" alt=\"feltöltés\">\n
+                                <input type=\"file\" name=\"foto\" id=\"foto_up\" onchange=\"this.form.submit()\"></label>\n
+                              </form>\n";
                     } else {
                         echo "<img src=\"items/upload.png\" id=\"uplink-notlog\" alt=\"feltöltés\">\n";
                     }
@@ -57,7 +60,7 @@
 
                     <div class="hibak" id="alertbox"><h3 id="alert"><?php if (isset($hiba)) echo $hiba; ?></h3></div>
 
-                    <div class="ddmenu" id="usermenu" onmouseover="menuover(this)" onmouseout="menuout()">
+                    <div class="ddmenu" id="usermenu" onmouseover="onmenu(this)" onmouseout="outmenu()">
                         <div class="mainmenu"><a href="#"><?php echo isset($_SESSION['keresztnev']) ? $_SESSION['keresztnev'] : "Bejelentkezés"; ?></a>
                             <img id="menu-pkep" src="<?php echo isset($_SESSION['pkep']) ? "users/" . $_SESSION['pkep'] : "users/avatar.png"; ?>" alt="avatar">
                         </div> 

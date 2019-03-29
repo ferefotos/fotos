@@ -11,28 +11,21 @@ require(ROOT_PATH. "/form/common.php");
    Minden szükséges változót post-tal küld az AJAX. */ 
 
 if(isset($_POST['limit'], $_POST['start'])){
-    /* A bejelentkezett felhasználónak a nem publikus saját képeit is meg kell jeleníteni a galériában.
-       ilyenkor ezt a feltételt hozzá kell adni az sql lekérdezéshez. */
-    if (isset($_SESSION['userid'])) {
-        $term = "OR artist='{$_SESSION['userid']}' AND public=0";
-    } else {$term = "";}
-
 // Az sql lekérdezések elkészítése a szűrési feltételek szerint
     // Kategória szerinti szűrés
-    $katid="";
+    $url_param="";
     if ($_POST['katid'] != null) {
-        $list="katid";
-        $katid=$_POST['katid'];
+        $url_param="katid={$_POST['katid']}&list=katid";
         $sql = "SELECT file, class, nev, pkep, userid FROM foto
                 JOIN user ON userid=artist 
                 WHERE katid= {$_POST['katid']} AND (public=1 $term)
                 ORDER BY file DESC LIMIT ".$_POST['start'] . ", " . $_POST['limit']."";
     }
     // Keresés 
-    $search="";
     if ($_POST['search'] != null){
-        $list="src"; $search=tisztit($_POST['search']);
-        $sql = "SELECT DISTINCT file, class, nev, pkep,userid FROM foto
+        $search=tisztit($_POST['search']);
+        $url_param="search=$search&list=src";
+        $sql = "SELECT DISTINCT file, class, nev, pkep, userid FROM foto
                 JOIN user ON userid=artist
                 JOIN kategoria ON kategoria.id=foto.katid 
                 LEFT JOIN kommentek ON foto.file=kommentek.kep
@@ -47,10 +40,9 @@ if(isset($_POST['limit'], $_POST['start'])){
                 ORDER BY file DESC LIMIT ".$_POST['start'] . ", " . $_POST['limit']."";
     }
     // Felhasználó szerinti szűrés
-    $userid="";
+   // $userid="";
     if ($_POST['userid'] != null){
-        $list="userid";
-        $userid=$_POST['userid'];
+        $url_param="userid={$_POST['userid']}&list=userid";
         $sql = "SELECT file, class, nev, pkep, userid FROM foto
                 JOIN user ON userid=artist 
                 WHERE artist= '{$_POST['userid']}' AND (public=1 $term)
@@ -59,7 +51,7 @@ if(isset($_POST['limit'], $_POST['start'])){
 
     // Kedvenc képek listázása
     if($_POST['kedvenc'] != null){
-        $list="kedvenc";
+        $url_param="list=kedvenc";
         $sql="SELECT file, class, nev, pkep, userid FROM foto
               JOIN kedvencek ON filename=file
               JOIN user ON userid=artist
@@ -69,7 +61,7 @@ if(isset($_POST['limit'], $_POST['start'])){
         
     // TOP60 képek listázása (lájkolás szerint a legnépszerűbbek)
     if($_POST['toplist'] != null){
-        $list="toplist";
+        $url_param="list=toplist";
         $sql = "SELECT file, class, nev, pkep, userid FROM foto
         JOIN user ON userid=artist 
         JOIN kedvelesek ON kedvelesek.foto=foto.file
@@ -78,31 +70,31 @@ if(isset($_POST['limit'], $_POST['start'])){
         ORDER BY count(foto) DESC, file DESC
         LIMIT ".$_POST['start'] . ", " . $_POST['limit']."";
     }
-        
-    //A like és kedvenc gombok képei változókban
-    $like_img_on="heart24cb.png";
-    $like_img_off="heart24c.png";
-    $kedvenc_img_on="star24cy.png";
-    $kedvenc_img_off="star24c.png";
     
     /* Galéria összeállítása **********************************************************************/
 
     /*A bélyegképekről link a foto.php-ra, ahol a képet nagyobb méretben az adatlapjával láthatjuk.
-    * A linken a $_GET szuperglobális változóban átadjuk a fájl nevét, a kép kategória azonosítóját,
+    * A címsorban paraméterként átadjuk a fájl nevét, a kép kategória azonosítóját,
     *  a képhez tartozó userid-t és azt, hogy milyen szűrő volt alkalmazva. 
-    * (pl. kategóriára szűrtünk, vagy felhasználóra, vagy a keresővel szűrtünk.)
-    */
+    * (pl. kategóriára szűrtünk, vagy felhasználóra, vagy a keresővel szűrtünk.)*/
     if ($eredmeny = mysqli_query($dbconn, $sql)) {
         if(mysqli_num_rows($eredmeny)>0){
             while ($sor = mysqli_fetch_assoc($eredmeny)) {
                 $nev = mb_substr($sor['nev'], mb_strpos($sor['nev'], " "));
-                $file= $sor['file'];
+                $file = $sor['file'];
                 $img_id = strtok($file, "."); 
-                //Lájk és kedvenc lekérdezések
-                include(ROOT_PATH.  '/react/like_count.php');
-
+                //Like és kedvenc lekérdezések
+                $db_like=db_like($file);
+                $db_kedvenc=db_kedvenc($file);
+                $like_img ="heart24c.png";
+                $kedvenc_img ="star24c.png";
+                // változik az gomb ikon színe ha a felhasználó jelölte a képet 
+                if(isset($_SESSION['userid'])){
+                    if(kedvelt($file)) $like_img = "heart24cb.png";
+                    if(kedvenc($file)) $kedvenc_img="star24cy.png"; 
+                }
                 echo "<div class=\"image {$sor['class']}\" id=\"{$img_id}\" onmousemove=\"showinfo(this)\">\n
-                        <a href=\"foto.php?file=$file&katid=$katid&userid=$userid&search=$search&list=$list\">\n
+                        <a href=\"foto.php?file=$file&$url_param\">\n
                             <img src=\"photos/thumbs/$file\" class=\"gallery_foto\" alt=\"foto\"></a>\n
                         <div class=\"like_stripe\">\n
                             <div class=\"artist\">\n
@@ -123,7 +115,7 @@ if(isset($_POST['limit'], $_POST['start'])){
                         </div>\n
                     </div>\n";  
             }
-        }else{echo 0;}
+        }else{echo 0;} //Ha nincs eredmény
     } else {
         echo "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
     }

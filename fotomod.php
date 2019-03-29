@@ -3,24 +3,15 @@ require("config.php");
 require("header.php");
 require(ROOT_PATH. "/form/uploadform.php");
 require(ROOT_PATH. "/form/regform.php");
-require(ROOT_PATH. "/form/common.php");
+require_once(ROOT_PATH. "/form/common.php");
 
 /****************************
  *   Képadatok módosítása   *
  ****************************/
 
 $file = $_GET['file'];
-/* Kategóriák lekérdezése, lenyíló lista létrehozása az űrlaphoz. */
-$sql = "SELECT * FROM kategoria";
-$eredmeny = mysqli_query($dbconn, $sql);
-    $kategoriak = "";
-    while ($sor = mysqli_fetch_assoc($eredmeny)) {
-        if ($sor['id'] == $_GET['katid']) {
-            $kategoriak .= "<option selected value=\"{$sor['id']}\">{$sor['kategoria']}</option>\n";
-        } else {
-            $kategoriak .= "<option value=\"{$sor['id']}\">{$sor['kategoria']}</option>\n";
-        }
-    }
+// Kategóriák lekérdezése a select-hez
+$kategoriak = kategoriak();
 
 // Képadatok lekérdezése
 $sql = "SELECT file, cim, story, blende, zarido, iso, focus, 
@@ -29,19 +20,9 @@ $sql = "SELECT file, cim, story, blende, zarido, iso, focus,
                 WHERE file='$file'";
 $eredmeny = mysqli_query($dbconn, $sql);
 $sor = mysqli_fetch_assoc($eredmeny);
-//A formázáshoz az osztály meghatározása
-if ($sor['class'] == 'portrait' || $sor['class'] == 'square') {
-    $cls = "p-port";
-} else {
-    $cls = "p-land";
-}
-if (!$sor['public']) {
-    $checked = "checked";
-} else {
-    $checked = "";
-}
+
 ?>
-<article class="<?php echo $cls; ?>">
+<article class="<?php echo ($sor['class'] == 'portrait' || $sor['class'] == 'square')? "p-port" : "p-land" ?>">
     <div id="photoframe">
         <img src="photos/<?php echo $sor['file']; ?>" alt="kep">
         <div id="navi">
@@ -68,9 +49,15 @@ if (!$sor['public']) {
                 <input type="text" name="cim" id="cim_mod" title="A kép címe" maxlength="32" value="<?php echo $sor['cim']; ?>"></label><br> 
                 <label for="kategoria">Kategória:</label>
                 <select name="kategoria" id="kategoria_mod" title="Kategória választás">
-                <?php echo $kategoriak; ?>
+                <?php while ($kategoria = mysqli_fetch_assoc($kategoriak)): ?>    
+                    <?php if ($kategoria['id'] == $_GET['katid']): ?>
+                    <option selected value="<?php echo $kategoria['id'] ?>"><?php echo $kategoria['kategoria'] ?></option>    
+                    <?php else: ?>
+                    <option value="<?php echo $kategoria['id'] ?>"><?php echo $kategoria['kategoria'] ?></option>    
+                    <?php endif ?>   
+                <?php endwhile ?>
                 </select></p> 
-                <label><input type="checkbox" name="public" id="public_mod" value="" <?php echo $checked; ?>> Nem publikus</label>
+                <label><input type="checkbox" name="public" id="public_mod" value="" <?php if (!$sor['public']) echo "checked" ?>> Nem publikus</label>
             </div>
             <div id="exif">
                 <div class="exif">
@@ -119,8 +106,17 @@ if (!$sor['public']) {
         </div>
     </form>
 </article>
+
 <?php
-//űrlap feldolgozás
+/* url az oldal frissítéséhez. Adatmódosítás után visszairányít a foto.php-ra. 
+    úgy kell paraméterezni, hogy azt a képet töltse be, amit módosítottunk.*/
+    $url="foto.php?file={$sor['file']}"; 
+    if(isset($_GET['katid'])) $url .= "&katid=" . $_GET['katid'];
+    if(isset($_GET['userid'])) $url .= "&userid=" . $_GET['userid'];
+    if(isset($_GET['search'])) $url .= "&search=" . $_GET['search'];
+    $url .="&list=" . $_GET['list'];
+
+//űrlap feldolgozása
 if (isset($_POST['ment'])) {
     $cim = tisztit($_POST['cim']);
     $leiras = tisztit($_POST['leiras']);
@@ -132,25 +128,23 @@ if (isset($_POST['ment'])) {
     }
     $sql = "UPDATE foto SET katid=$kategoria, cim='$cim', 
          story='$leiras', public=$public 
-          WHERE file='{$_GET['file']}'";
+          WHERE file='{$_GET['file']}'";      
     if (mysqli_query($dbconn, $sql)) {
-        $URL="foto.php?file={$sor['file']}&katid={$_GET['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}";
-        echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
-        echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
+        location($url);
     } else {
         echo "MySqli hiba (" . mysqli_errno($dbconn) . "): " . mysqli_error($dbconn) . "\n";
     }   
 }
+//módosítás visszavonása
 if (isset($_POST['canc'])) {
-    $URL="foto.php?file={$sor['file']}&katid={$_GET['katid']}&userid={$_GET['userid']}&search={$_GET['search']}&list={$_GET['list']}";
-    echo "<script type='text/javascript'>document.location.href='{$URL}';</script>";
-    echo '<META HTTP-EQUIV="refresh" content="0;URL=' . $URL . '">';
+    location($url);
 }
+
 mysqli_close($dbconn);
 ?>
         </main>
     </div>
-  <script src="script/ajaxform.js"></script>  
-  <script src="script/script.js"></script>
+  <script src="script/ajaxform.js" type="text/javascript"></script>  
+  <script src="script/script.js" type="text/javascript"></script>
 </body>
 </html>

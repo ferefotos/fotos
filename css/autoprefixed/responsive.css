@@ -9,25 +9,48 @@
 @media only screen and (min-width: 620px) and (max-width: 1600px){ 
     /* foto nézet */
     article{padding: 25px;}
-    .p-land{flex-flow: column;}
+    .p-land{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column;}
     .p-land #dataframe{
         min-height: 250px;
         margin-top: 25px;
     }
     .p-land #data-header{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex; 
-        justify-content: space-between;  
+        -webkit-box-pack: justify; 
+        -webkit-justify-content: space-between; 
+            -ms-flex-pack: justify; 
+                justify-content: space-between;  
         margin-bottom: 10px;
     }
-    .p-land #mark{align-self: flex-end;}
+    .p-land #mark{-webkit-align-self: flex-end;-ms-flex-item-align: end;align-self: flex-end;}
     .p-land #exif{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex; 
-        flex-flow: row; 
-        align-items: flex-start;
+        -webkit-box-orient: horizontal; 
+        -webkit-box-direction: normal; 
+        -webkit-flex-flow: row; 
+            -ms-flex-flow: row; 
+                flex-flow: row; 
+        -webkit-box-align: start; 
+        -webkit-align-items: flex-start; 
+            -ms-flex-align: start; 
+                align-items: flex-start;
     }
     .p-land .exif{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex; 
-        flex-flow: column; 
+        -webkit-box-orient: vertical; 
+        -webkit-box-direction: normal; 
+        -webkit-flex-flow: column; 
+            -ms-flex-flow: column; 
+                flex-flow: column; 
         width: 30%; 
         margin-right: 10px;
     }
@@ -38,25 +61,48 @@
 }
 @media only screen and (min-width: 620px) and (max-width: 1300px){
     /* foto nézet */
-    .p-port{flex-flow: column;}
+    .p-port{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column;}
     .p-port #dataframe{
         min-height: 250px;
         margin-top: 25px;
     }
     .p-port #data-header{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex; 
-        justify-content: space-between;  
+        -webkit-box-pack: justify; 
+        -webkit-justify-content: space-between; 
+            -ms-flex-pack: justify; 
+                justify-content: space-between;  
         margin-bottom: 10px;
     }
-    .p-port #mark{align-self: flex-end;}
+    .p-port #mark{-webkit-align-self: flex-end;-ms-flex-item-align: end;align-self: flex-end;}
     .p-port #exif{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex; 
-        flex-flow: row; 
-        align-items: flex-start;
+        -webkit-box-orient: horizontal; 
+        -webkit-box-direction: normal; 
+        -webkit-flex-flow: row; 
+            -ms-flex-flow: row; 
+                flex-flow: row; 
+        -webkit-box-align: start; 
+        -webkit-align-items: flex-start; 
+            -ms-flex-align: start; 
+                align-items: flex-start;
     }
     .p-port .exif{
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
         display: flex; 
-        flex-flow: column; 
+        -webkit-box-orient: vertical; 
+        -webkit-box-direction: normal; 
+        -webkit-flex-flow: column; 
+            -ms-flex-flow: column; 
+                flex-flow: column; 
         width: 30%; 
         margin-right: 10px;
     }
@@ -64,46 +110,58 @@
 }
 @media only screen and (min-width: 1251px){
     /* képfeltöltés form */
-    .up-wide #up-gombok{flex-flow: column;}
-    .up-wide #up-gombok div:first-child{align-self: flex-end;}
+    .up-wide #up-gombok{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column;}
+    .up-wide #up-gombok div:first-child{-webkit-align-self: flex-end;-ms-flex-item-align: end;align-self: flex-end;}
     .up-wide #up-gombok div:nth-child(2){margin-bottom: 10px;}
-    .up-wide #upform-bottom{justify-content: space-between;}
+    .up-wide #upform-bottom{-webkit-box-pack: justify;-webkit-justify-content: space-between;-ms-flex-pack: justify;justify-content: space-between;}
 }
 @media only screen and (max-width: 1250px){
     /* képfeltöltés form */
     .up-wide{left: calc((100% - 550px)/2); top: 100px;}
-    .up-wide #upform-top{flex-flow: column;}
+    .up-wide #upform-top{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column;}
     .up-wide{padding-right: 0;}
-    .up-wide #foto-data{margin-top: 15px; display: flex; flex-flow: row; max-width: 554px;}
+    .up-wide #foto-data{margin-top: 15px; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-flow: row; -ms-flex-flow: row; flex-flow: row; max-width: 554px;}
     .up-wide #foto-data div:first-child{width: 50%; margin-right: 15px;}
     .up-wide #foto-data div:nth-child(2){width: 50%; margin-right: 15px;}    
     .up-wide #leiras{width: 99%; height: 95px;}
     .up-wide #cim{width: 95%;}
     .up-wide #kategoria{width: 99%;}
     .up-wide #enter{margin-right: 15px;}
-    .up-wide #upform-bottom{flex-flow: column;}
+    .up-wide #upform-bottom{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column;}
     .up-wide #feltolt{margin-right: 20px;}
     /* Felhasználó fotói -felhasználó lenyíló adatlapja a galériában */
-    #userinfo{flex-flow: column;}
+    #userinfo{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column;}
     #userinfo_cam, #userinfo_rolam{width: auto;}
     #userinfo_rolam{margin-top: 10px;}
     /* kép hozzászólás */
-    #commentframe{flex-flow: column;}
-    details{order: 1; margin-bottom: 15px; }
-    #komment_list{order: 2;}
+    #commentframe{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column;}
+    details{-webkit-box-ordinal-group: 2;-webkit-order: 1;-ms-flex-order: 1;order: 1; margin-bottom: 15px; }
+    #komment_list{-webkit-box-ordinal-group: 3;-webkit-order: 2;-ms-flex-order: 2;order: 2;}
     #komment_form{margin-bottom: 0; margin-left: 15px; width: auto;}
     #guide_container aside{display:none;}
 }
 @media only screen and (max-width: 1079px){
     /* galéria */
     .image{
-        flex: 1 270px;}
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 270px;
+            -ms-flex: 1 270px;
+                flex: 1 270px;}
     .portrait{
-        flex: 1 120px;}
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 120px;
+            -ms-flex: 1 120px;
+                flex: 1 120px;}
     .square{
-        flex: 1 200px;}
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 200px;
+            -ms-flex: 1 200px;
+                flex: 1 200px;}
     .wide{
-        flex: 2 400px;}
+        -webkit-box-flex: 2;
+        -webkit-flex: 2 400px;
+            -ms-flex: 2 400px;
+                flex: 2 400px;}
     /* foto nézet */
     .p-land .exif{width: 25%;}
     .exif div{width: auto;}    
@@ -125,20 +183,32 @@
 @media only screen and (min-width: 511px) and (max-width:1079px){
     /* képfeltöltő űrlap */
     .up-landscape #upform-bottom{max-width: 430px;}
-    .up-landscape #up-gombok{flex-flow: column; }
-    .up-landscape #up-gombok div:nth-child(2){display: flex; flex-flow: row; margin-bottom: 10px; align-self: flex-end;}
+    .up-landscape #up-gombok{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column; }
+    .up-landscape #up-gombok div:nth-child(2){display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex; -webkit-box-orient: horizontal; -webkit-box-direction: normal; -webkit-flex-flow: row; -ms-flex-flow: row; flex-flow: row; margin-bottom: 10px; -webkit-align-self: flex-end; -ms-flex-item-align: end; align-self: flex-end;}
 }
 @media only screen and (max-width: 900px){
     #container{padding: 20px;}
     /* galéria */
     .image{
-        flex: 1 230px;}
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 230px;
+            -ms-flex: 1 230px;
+                flex: 1 230px;}
     .portrait{
-        flex: 1 110px;}
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 110px;
+            -ms-flex: 1 110px;
+                flex: 1 110px;}
     .square{
-        flex: 1 180px;}
+        -webkit-box-flex: 1;
+        -webkit-flex: 1 180px;
+            -ms-flex: 1 180px;
+                flex: 1 180px;}
     .wide{
-        flex: 2 380px;}
+        -webkit-box-flex: 2;
+        -webkit-flex: 2 380px;
+            -ms-flex: 2 380px;
+                flex: 2 380px;}
 }
 @media only screen and (min-width: 821px){
     /* Legördülő menü elrejtése asztali gépen */
@@ -185,23 +255,23 @@
 @media only screen and (max-width: 619px){
     /* foto nézet */
     article{padding: 20px;}
-    .p-land, .p-port{flex-flow: column;}
+    .p-land, .p-port{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column;}
     #dataframe{min-width: auto; margin-top: 25px;}
-    .exif div{width: max-content;}
+    .exif div{width: -webkit-max-content;width: -moz-max-content;width: max-content;}
     #desc p{max-width: 450px;}
     /* képfeltöltő űrlap */
     .up-portrait{max-width: 330px; left: calc((100% - 385px)/2); top:65px;}
     .up-portrait #foto-pre img{max-width: 330px;}   
-    .up-portrait .foto-exif{flex-wrap: nowrap;}
+    .up-portrait .foto-exif{-webkit-flex-wrap: nowrap;-ms-flex-wrap: nowrap;flex-wrap: nowrap;}
     .up-portrait #made-exif input{width: 86%;} 
     .up-portrait #cam-exif input{width: 100%;} 
     .up-portrait #iso, .up-portrait #fokusz{margin-right: 0;}
     .up-wide{left: 0; top: 65px;}
     .up-wide #foto-pre img{max-width: 100%;}
     .up-wide{padding-right: 15px;}
-    .up-wide #upform-bottom{flex-flow: row; justify-content: flex-start;}
-    .up-wide #up-gombok{flex-flow: column; width: 48%;}
-    .up-wide #up-gombok div:first-child{align-self: flex-start;}
+    .up-wide #upform-bottom{-webkit-box-orient: horizontal;-webkit-box-direction: normal;-webkit-flex-flow: row;-ms-flex-flow: row;flex-flow: row; -webkit-box-pack: start; -webkit-justify-content: flex-start; -ms-flex-pack: start; justify-content: flex-start;}
+    .up-wide #up-gombok{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column; width: 48%;}
+    .up-wide #up-gombok div:first-child{-webkit-align-self: flex-start;-ms-flex-item-align: start;align-self: flex-start;}
     .up-wide #up-gombok div:nth-child(2){margin-bottom: 10px;}
     .up-wide .foto-exif{max-width: 278px;}
     .up-wide #enter{margin-right: 0;}
@@ -214,12 +284,12 @@
     .up-square {left: 0;}
 }
 @media only screen and (min-width: 381px) and (max-width:619px){
-    .up-portrait #foto-pre{flex-flow: row;}
+    .up-portrait #foto-pre{-webkit-box-orient: horizontal;-webkit-box-direction: normal;-webkit-flex-flow: row;-ms-flex-flow: row;flex-flow: row;}
 }
 @media only screen and (max-width: 510px){
     /* regisztrációs form */
     .reg{left: 0; top:70px; max-width: 90%;}
-    #reg-top, #reg-bottom{flex-flow: column; align-items: flex-start;}
+    #reg-top, #reg-bottom{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column; -webkit-box-align: start; -webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start;}
     #profkep{ margin: 10px 0;}
     #reg-bottom-right{width:100%; height: auto;}
     #reg-hibak{margin-bottom: 10px;}
@@ -228,11 +298,11 @@
     #hibak div{width: 130px;}
     /* képfeltöltő űrlap */
     .up-landscape{left: 0;}
-    .up-landscape #upform-bottom{flex-flow: column; }
-    .up-landscape #up-gombok{align-items: flex-start;}
-    .up-wide #foto-data{flex-flow: column;}
+    .up-landscape #upform-bottom{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column; }
+    .up-landscape #up-gombok{-webkit-box-align: start;-webkit-align-items: flex-start;-ms-flex-align: start;align-items: flex-start;}
+    .up-wide #foto-data{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column;}
     .up-wide #upform-bottom{display: block;}
-    .up-wide #up-gombok{align-items: flex-start;}
+    .up-wide #up-gombok{-webkit-box-align: start;-webkit-align-items: flex-start;-ms-flex-align: start;align-items: flex-start;}
     .up-wide #datum{margin-bottom: 15px;}
     .up-wide #foto-data div:first-child{width: 100%;}
     .up-wide #foto-data div:nth-child(2){width: 98%;}    
@@ -240,7 +310,7 @@
     .up-wide #kategoria{width: 99%;}
     .up-wide #up-gombok{width: 100%;}
     .up-wide #up-gombok div:nth-child(2){width: 200px;}
-    #userinfo_cam{flex-flow: column;}
+    #userinfo_cam{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column;}
     #userinfo_cam div{width: auto;}
     #userinfo_cam div:first-child{margin-bottom: 10px;}
     details{min-width: 300px}
@@ -260,24 +330,24 @@
         max-width: 320px;
         padding: 30px;
     }
-    #gallery{justify-content:center;}
+    #gallery{-webkit-box-pack:center;-webkit-justify-content:center;-ms-flex-pack:center;justify-content:center;}
     .image{max-width: 100%;}  
 }
 @media only screen and (max-width: 380px){
     .logo{margin-right: 15px;}
     .logo img{width: 100%;}
     /* regisztrációs form */
-    #reg-top p{width: fit-content;}
-    #reg-gombok{flex-flow: column; align-items: flex-start;}
+    #reg-top p{width: -webkit-fit-content;width: -moz-fit-content;width: fit-content;}
+    #reg-gombok{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column; -webkit-box-align: start; -webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start;}
     #reg-gombok label{margin-bottom: 15px;}
     #cim, #kategoria, #leiras{width: 100%;}
-    #foto-pre div:nth-child(2){flex-wrap: wrap;}
+    #foto-pre div:nth-child(2){-webkit-flex-wrap: wrap;-ms-flex-wrap: wrap;flex-wrap: wrap;}
     /* képfeltöltő űrlap */
     .upload{left: 0;}
     .up-landscape .foto-exif{max-width: 200px;}
     .up-landscape #upform-top{margin-right: 0;}
     .up-portrait #upform-top{margin-right: 15px;}
-    .up-portrait #up-gombok, .up-square #up-gombok{flex-flow: column; align-items: flex-start;} 
+    .up-portrait #up-gombok, .up-square #up-gombok{-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-flow: column;-ms-flex-flow: column;flex-flow: column; -webkit-box-align: start; -webkit-align-items: flex-start; -ms-flex-align: start; align-items: flex-start;} 
     .up-portrait #up-gombok div:nth-child(2),
     .up-square #up-gombok div:nth-child(2){margin-top: 10px; }
     .up-portrait #talloz, .up-wide #talloz{margin-bottom: 15px;}

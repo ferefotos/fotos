@@ -64,9 +64,10 @@ header, .logo{
 .submenu li{  
     padding: 5px 0;
     margin: 0;
-    font-size: 1.0em; 
+    font-size: 1.0em;
+    cursor: pointer; 
 }  
-.submenu a:hover{  
+.submenu a:hover, .submenu li:hover{  
     color: #fff;
     font-size: 1.05em;
 }
@@ -190,13 +191,12 @@ button[name="keres"]{
 #gallery{
     display: flex;
     flex-wrap: wrap;
-    align-items: stretch;
     justify-content: flex-start;
     background-color: #333333;
     margin: 0 10px;
     padding: 10px;
     border-radius: 8px;
-    /*max-width: fit-content;*/
+    /*width: fit-content;*/
 }
 .image{
     margin: 3px;
@@ -328,7 +328,7 @@ button[name="keres"]{
     font-size: 0.7em;
     border-radius: 3px;
     display:none;
-    width: 120px;
+    width: 90px;
 }
 .like_box{position: relative;}
 .portrait .artist span{display: none;}
@@ -410,8 +410,7 @@ article{
 #photo{
     animation: photoload 0.7s 1 ease-in-out;
 }
-@keyframes photoload {
-    
+@keyframes photoload {   
         from{
             transform: scale(0,0);
         }
@@ -434,7 +433,7 @@ article{
     align-items: center;
 }
 #nagykep{max-height: 95%; max-width: 92%;}
-#big{display:flex;}
+#large{display:flex;}
 #close, #enlarge, #close_div{cursor: pointer;}
 #enlarge{
     width: 37px; 
@@ -598,7 +597,6 @@ summary:focus::-webkit-details-marker {color: #0077ff;}
 }
 #like_alert, #kedvenc_alert{
     left: 20px; 
-    width: 85px;
     background-color: rgba(173, 173, 173, 0.3);
     color: #0061cf;
 }
@@ -897,4 +895,23 @@ select{
 #loading{
     justify-content: center;
     align-items: center;
+}
+
+/* Ismertető */
+#guide_container{
+    display: flex;
+    
+}
+#guide{
+    margin: 20px;
+    max-width: 1300px;
+    text-align: justify;
+}
+#guide p{
+    text-indent: 12px;
+}
+.guide_right_ul {margin-left: 320px;}
+.guide_foto{
+    float: left;
+    margin: 5px 20px 5px 5px;
 }

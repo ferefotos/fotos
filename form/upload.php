@@ -1,7 +1,6 @@
 <?php
 require("../config.php");
 require("uploadform.php");
-require("common.php");
 /********************************************************
  *           Képfeltöltő űrlap feldolgozása             *
  ********************************************************/
@@ -16,26 +15,27 @@ if (isset($_POST['feltolt'])) {
     $cam = tisztit($_POST['cam']);
     $obi = tisztit($_POST['obi']);
     $datum = $_POST['datum'];
-    if (isset($_POST['public'])) {
+    if (isset($_POST['public']))
         $public = 0;
-    } else {
+    else 
         $public = 1;
-    }
-    $class = ratio("../photos/" . $_POST['file']);
+    
+    // kép oldalarány szerinti osztálybesorolása a formázáshoz
+    $class = getClass("../photos/" . $_POST['file']);
     // Egyedi fájlnév létrehozása: időbélyeg + random szám
     $newfilename = substr_replace($_POST['file'], date('U') . rand(100,999), 0, -4);
-    if ($kategoria == "") {
+    if (empty($kategoria)) {
         $hiba = "Válassz kategóriát!";
     } else {
        //sql kérés összeállítása 
        $fields="INSERT INTO foto (file, artist, katid, cim, story, blende, zarido, ";
        $values="VALUES ('$newfilename', '{$_SESSION['userid']}', $kategoria, '$cim', '$leiras', '$blende', '$zar',";
        //Az integer tipusú mezőket csak akkor adjuk hozzá, ha nem üresek
-       if($iso != ""){
+       if(!empty($iso)){
             $fields .= "iso, ";
             $values .= $iso.", ";
        }     
-       if($fokusz != ""){
+       if(!empty($fokusz)){
             $fields .= "focus, ";
             $values .= $fokusz.", ";
        } 

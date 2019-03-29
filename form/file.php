@@ -57,26 +57,19 @@ function resize($path, $n_path, $n_height){
     $size = getimagesize($path);
     $width = $size[0];
     $height = $size[1];
-    // Az új kép szélességének számítása a magasságból
-    $n_width = round($n_height * $width / $height);
 
-    /* A tényleges új képméretek számítása. Ha kisebb képet töltenek fel, akkor ne nagyítsa fel,
-     * csak a nagyobb képet kicsinyítse a megadott méretre. A kép tájolása (álló v. fekvő) számol. */
-    if($height>=$width && $height<$n_height){
-        $n_height=$height;
-        $n_width = round($n_height * $width / $height);
-    }
-    if($height<=$width && $width<$n_width){
-        $n_width=$width;
-        $n_height = round($n_width * $height / $width);
-    }
+    // Ha kisebb képet töltenek fel, mint amire méretezni kellene
+   if($height < $n_height)
+      return;
+
+    // Az új kép szélességének számítása a magasságból
+    $n_width = round($n_height * $width / $height);      
 
     // új (üres) képfájl létrehozása az új képmérettel.
     $ujkep = imagecreatetruecolor($n_width, $n_height);
 
     // Az eredeti képből image létrehozása 
-    $ext = $_FILES['foto']['type'];
-    switch ($ext) {
+    switch ($_FILES['foto']['type']) {
         case "image/gif":
             $kep = imagecreatefromgif($path);
             break;
@@ -91,7 +84,7 @@ function resize($path, $n_path, $n_height){
     imagecopyresampled($ujkep, $kep, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
 
     // A létrehozott képfájlt a megadott helyre menti. jpeg és png esetében itt adható meg a kép minősége
-    switch ($ext) {
+    switch ($_FILES['foto']['type']) {
         case "image/gif":
             imagegif($ujkep, $n_path);
             break;
@@ -104,7 +97,7 @@ function resize($path, $n_path, $n_height){
     }
 }
 
-/* Profilkép méretezése és vágása ***************************************************************************/
+/* Profilkép méretre vágása ***************************************************************************/
 function crop_img($path, $n_path, $n_height, $prew_height, $top_pos, $left_pos){
   /*Paraméterként kapott változók:
    * $path, $n_path - kép jelenlegi és új elérési útja
@@ -133,7 +126,7 @@ switch ($ext) {
 // Az előnézeti kép szélességének számítása, ami további számításhoz szükséges
 $prew_width = $prew_height*$width/$height;
 
-/* Mivel a vágás pozíciója az előnézeti kép méretéhez arányos -mert azon lett beállítva-, de a méretezett és 
+/* Mivel a vágás pozíciója az előnézeti kép méretéhez arányos -mert azon lett beállítva-, de a méretre
  * vágott új képet az eredeti képből hozzuk létre, arányosítani kell a vágás koordinátáit az előnézeti képből 
  * az eredeti képre. */
 $cut_st_x = $left_pos*$width/$prew_width;
@@ -164,7 +157,7 @@ imagecopyresampled($ujkep, $kep, 0, 0, $cut_st_x, $cut_st_y, $n_height, $n_heigh
     }
 }
 /* Kép oldalarány számítása ******************************************************************************/
-function ratio($path){
+function getClass($path){
     $size = getimagesize($path);
     $width = $size[0];
     $height = $size[1];

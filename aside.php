@@ -5,8 +5,8 @@ $sql="SELECT * FROM kategoria
       GROUP BY katid ORDER BY kategoria";
 $eredmeny=mysqli_query($dbconn, $sql);
 $kategoriak="<li><a href=\"gallery.php?toplist=\">TOP 60 fotó</a></li>\n";
-while($sor = mysqli_fetch_assoc($eredmeny)){
-    $kategoriak .="<li><a href=\"gallery.php?katid={$sor['id']}\">{$sor['kategoria']}</a></li>";
+while($kategoria = mysqli_fetch_assoc($eredmeny)){
+    $kategoriak .="<li><a href=\"gallery.php?katid={$kategoria['id']}\">{$kategoria['kategoria']}</a></li>";
 }
 ?>
     <div class="logo">
